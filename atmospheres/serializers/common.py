@@ -5,4 +5,4 @@ from ..models import Atmosphere
 class AtmosSerializer(ModelSerializer):
     class Meta:
         model = Atmosphere
-        fields = ('name','tags')
+        fields = '__all__'

@@ -39,3 +39,20 @@ class AtmosListView(APIView):
         atmos.is_valid(raise_exception=True)
         atmos.save()
         return Response(atmos.data, status.HTTP_201_CREATED)
+    
+class AtmosSingleView(APIView):
+    
+    @exceptions
+    def put(self,request,pk):
+        atmos = Atmosphere.objects.get(pk=pk)
+        serialized_atmos = TagsPopulatedSerializer( atmos, request.data, partial=True)
+        serialized_atmos.is_valid(raise_exception=True)
+        serialized_atmos.save()
+        return Response(serialized_atmos.data)
+    
+    @exceptions
+    def delete(self,request,pk):
+        atmos = Atmosphere.objects.get(pk=pk)
+        atmos.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+

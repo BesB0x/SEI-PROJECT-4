@@ -1,4 +1,4 @@
-from .serializers.common import UserSerializer
+from .serializers.common import UserSerializer, UserLibrarySerializer
 from .serializers.populated import PopulatedUserSerializer
 from django.conf import settings
 
@@ -44,5 +44,27 @@ class UsersListView(APIView):
     @exceptions
     def get(self,request):
         users = User.objects.all()
-        serialized_users =  PopulatedUserSerializer(users, many=True)
+        serialized_users =  UserSerializer(users, many=True)
         return Response(serialized_users.data)
+    
+
+# for adding in items to user_library
+
+class UsersSingleView(APIView):
+    # @exceptions
+    def put(self,request,pk):
+        user = User.objects.get(pk=pk)
+        for atmos in request.data['user_library'] :
+            atmos_is_in_library = user.objects.filter(user_library=atmos)
+
+            if atmos_is_in_library:
+                user.user_library.pop(atmos)
+                print('yay')
+            else:
+                # user.user_library.append(atmos)
+                print('aw')
+
+        # serialized_user_library = UserLibrarySerializer(user, request.data, partial=True )
+        # serialized_user_library.is_valid(raise_exception=True)
+        # serialized_user_library.save()
+        return Response('watever')
