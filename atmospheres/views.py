@@ -11,7 +11,8 @@ from tags.models import Tag
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.exceptions import PermissionDenied
 # Create your views here.
 
 class AtmosListView(APIView):
@@ -41,10 +42,13 @@ class AtmosListView(APIView):
         return Response(atmos.data, status.HTTP_201_CREATED)
     
 class AtmosSingleView(APIView):
+    permission_classes = (IsAuthenticated,)
     
     @exceptions
     def put(self,request,pk):
         atmos = Atmosphere.objects.get(pk=pk)
+        if atmos.owner != request.user and not request.user.is_staff:
+            raise PermissionDenied()
         serialized_atmos = TagsPopulatedSerializer( atmos, request.data, partial=True)
         serialized_atmos.is_valid(raise_exception=True)
         serialized_atmos.save()
@@ -53,6 +57,8 @@ class AtmosSingleView(APIView):
     @exceptions
     def delete(self,request,pk):
         atmos = Atmosphere.objects.get(pk=pk)
+        if atmos.owner != request.user and not request.user.is_staff:
+            raise PermissionDenied()
         atmos.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
