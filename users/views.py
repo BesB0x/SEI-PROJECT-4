@@ -1,4 +1,5 @@
 from .serializers.common import UserSerializer
+from .serializers.populated import PopulatedUserSerializer
 from django.conf import settings
 
 from django.contrib.auth import get_user_model
@@ -38,3 +39,10 @@ class LoginView(APIView):
       dt = datetime.now() + timedelta(days=7)
       token = jwt.encode({'sub': user_to_login.id, 'exp': int(dt.strftime('%s'))}, settings.SECRET_KEY, algorithm='HS256')
       return Response({ 'message': f'heya {username}', 'token': {token}})
+    
+class UsersListView(APIView):
+    @exceptions
+    def get(self,request):
+        users = User.objects.all()
+        serialized_users =  PopulatedUserSerializer(users, many=True)
+        return Response(serialized_users.data)
