@@ -1,4 +1,4 @@
-from .serializers.common import UserSerializer, UserLibrarySerializer
+from .serializers.common import UserSerializer, UserLibrarySerializer, RegisterSerializer
 from .serializers.populated import PopulatedUserSerializer
 from django.conf import settings
 
@@ -21,7 +21,7 @@ class RegisterView(APIView):
     @exceptions
     def post(self,request):
         # serialize data
-        user_to_add = UserSerializer(data=request.data)
+        user_to_add = RegisterSerializer(data=request.data)
         user_to_add.is_valid(raise_exception=True)
         user_to_add.save()
         return Response( user_to_add.data, status.HTTP_201_CREATED)

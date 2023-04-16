@@ -31,5 +31,5 @@ def exceptions(func):
         except Exception as e :
             print(e.__class__.__name__)
             print(e)
-        return Response(e.__dict__ if e.__dict__ else { 'detail': str(e) }, status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(e.__dict__ if e.__dict__ else { 'detail': str(e) }, status.HTTP_500_INTERNAL_SERVER_ERROR)
     return wrapper

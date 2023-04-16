@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model, password_validation, hashers
 User = get_user_model()
 
 
-class UserSerializer(serializers.ModelSerializer):
+class RegisterSerializer(serializers.ModelSerializer):
     
     password = serializers.CharField(write_only=True)
     password_confirmation = serializers.CharField(write_only=True)
@@ -32,7 +32,12 @@ class UserSerializer(serializers.ModelSerializer):
       return data
     
     class Meta:
-        fields = ('id', 'username', 'email', 'password', 'password_confirmation','user_library')
+        fields = ('id', 'username', 'email', 'password', 'password_confirmation')
+        model = User
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('id', 'username', 'email', 'user_library')
         model = User
 
 
@@ -44,4 +49,4 @@ class UserLibrarySerializer(serializers.ModelSerializer):
 class Put_In_LibrarySerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('id',)
-        model= User
+        model = User
