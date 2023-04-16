@@ -7,6 +7,7 @@ import Register from './components/auth/Register'
 import Login from './components/auth/Login'
 import AtmosForm from './components/main/AtmosForm'
 import PageNavBar from './components/common/PageNavBar'
+import PageNotFound from './components/common/PageNotFound'
 
 const App = () => {
 
@@ -33,6 +34,7 @@ const App = () => {
         <Route path='/register' element={<Register />} />
         <Route path = '/login' element={<Login />}/>
         <Route path= '/atmos' element={<AtmosForm />} />
+        <Route path='*' element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
   )
