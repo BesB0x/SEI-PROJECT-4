@@ -25,7 +25,8 @@ export const removeToken = () => {
 }
 
 export const getToken = () => {
-  localStorage.getItem(tokenName)
+  return localStorage.getItem(tokenName)
+  
 }
 
 export const authenticated = axios.create()

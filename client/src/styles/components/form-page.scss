@@ -2,7 +2,8 @@
 .form-page{
   @extend %flex-center;
   flex-direction: column;
-  max-width: 50vw;
+  width: 100vw;
+  height: 100vh;
   margin: 0 auto;
   h1 {
     display: block;
