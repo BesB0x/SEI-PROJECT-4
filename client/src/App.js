@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Register from './components/auth/Register'
 import Login from './components/auth/Login'
 import AtmosForm from './components/main/AtmosForm'
+import PageNavBar from './components/common/PageNavBar'
 
 const App = () => {
 
@@ -27,6 +28,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      <PageNavBar />
       <Routes>
         <Route path='/register' element={<Register />} />
         <Route path = '/login' element={<Login />}/>
