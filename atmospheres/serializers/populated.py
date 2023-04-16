@@ -1,8 +1,7 @@
-from rest_framework.serializers import ModelSerializer
 from ..models import Atmosphere
 
 from .common import AtmosSerializer
-from users.serializers.common import UserSerializer
+from users.serializers.common import UserSerializer, Put_In_LibrarySerializer
 from tags.serializers.common import TagSerializer 
 
 from tags.models import Tag
@@ -21,3 +20,4 @@ class TagsPopulatedSerializer(AtmosSerializer):
 class PopulatedAtmosSerializer(AtmosSerializer):
     tags = TagSerializer(many=True)
     owner = UserSerializer()
+    put_in_library = Put_In_LibrarySerializer(many=True)

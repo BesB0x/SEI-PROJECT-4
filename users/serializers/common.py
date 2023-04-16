@@ -40,3 +40,8 @@ class UserLibrarySerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('user_library',)
         model = User
+
+class Put_In_LibrarySerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('id',)
+        model= User

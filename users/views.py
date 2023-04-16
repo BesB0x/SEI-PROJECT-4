@@ -44,27 +44,25 @@ class UsersListView(APIView):
     @exceptions
     def get(self,request):
         users = User.objects.all()
-        serialized_users =  UserSerializer(users, many=True)
+        serialized_users =  PopulatedUserSerializer(users, many=True)
         return Response(serialized_users.data)
     
 
-# for adding in items to user_library
+# USER_LIBRARY
 
 class UsersSingleView(APIView):
     # @exceptions
     def put(self,request,pk):
         user = User.objects.get(pk=pk)
-        for atmos in request.data['user_library'] :
-            atmos_is_in_library = user.objects.filter(user_library=atmos)
-
-            if atmos_is_in_library:
-                user.user_library.pop(atmos)
-                print('yay')
+        serialized_user = UserSerializer(user)
+        user_library = serialized_user.data['user_library']
+        for atmos in request.data['user_library']:
+            if atmos in user_library:
+                user_library.remove(atmos)
             else:
-                # user.user_library.append(atmos)
-                print('aw')
-
-        # serialized_user_library = UserLibrarySerializer(user, request.data, partial=True )
-        # serialized_user_library.is_valid(raise_exception=True)
-        # serialized_user_library.save()
-        return Response('watever')
+                user_library.append(atmos)
+        print(user_library)
+        serialized_user_library = UserLibrarySerializer(user, { 'user_library' : user_library }, partial=True )
+        serialized_user_library.is_valid(raise_exception=True)
+        serialized_user_library.save()
+        return Response(serialized_user.data)
