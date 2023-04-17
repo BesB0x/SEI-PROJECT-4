@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from .serializers.common import TagSerializer
+from .serializers.populated import PopulatedTagSerializer
 from .models import Tag
 
 from rest_framework.views import APIView
@@ -18,7 +19,7 @@ class TagListView(APIView):
     @exceptions
     def get(self,request):
         tags = Tag.objects.all()
-        serialized_tags = TagSerializer(tags, many=True)
+        serialized_tags = PopulatedTagSerializer(tags, many=True)
         return Response(serialized_tags.data)
     
     @exceptions

@@ -4,14 +4,16 @@ import axios from 'axios'
 import { isAuthenticated } from '../../helpers/auth'
 
 import Error from '../common/Error'
+import { indexOf } from 'lodash'
 
 
 const Library = () => {
 
   const [atmos, setAtmos] = useState([])
+  const [ displayedAtmos,setDisplayedAtmos ] = useState([])
   const [tags, setTags] = useState([])
+  const [searchTags, setSearchTags] = useState([])
   const [atmosError, setAtmosError] = useState('')
-  const [ value,setValue ] = useState('')
 
   useEffect(() => {
     const getAtmos = async () => {
@@ -32,35 +34,38 @@ const Library = () => {
         console.log(error)
       }
     }
-
-    
     getAtmos()
     getTags()
   }, [])
 
+
+
   const sortAtmos = (e) => {
     if (e === 'Most Recent') {
-      const timeModified = atmos.map( atmo => {
+      const timeModified = atmos.map(atmo => {
         return { ...atmo, date_created: atmo.date_created.replace('T', ('_')).replace('Z', ('')) }
-      } )
-      const dateSorted = timeModified.sort( (a,b) => b.date_created.localeCompare(a.date_created))
-      console.log('date sorted ->', dateSorted)
+      })
+      const dateSorted = timeModified.sort((a, b) => b.date_created.localeCompare(a.date_created))
       setAtmos(dateSorted)
     } else if (e === 'Most Popular') {
-      const popSorted = atmos.sort( (a,b)=> b.put_in_library.length - a.put_in_library.length  )
-      console.log('pop sorted->' , popSorted)
+      const popSorted = [...atmos.sort((a, b) => b.put_in_library.length - a.put_in_library.length)]
       setAtmos(popSorted)
     }
 
   }
 
-  useEffect(() => {
-    atmos
-  }, [setAtmos])
+  const filteredAtmos = () => {
 
-  
-  console.log('current state ->', atmos)
-  // console.log(tags)
+    const filtered = searchTags.map(tag => tag.atmospheres)
+    // setDisplayedAtmos(filtered)
+    console.log('filtered ->', searchTags)
+  }
+  filteredAtmos()
+
+
+  // console.log('current state ->', atmos)
+  console.log(tags)
+  // console.log(searchTags)
   return (
     <>
       <h1> Library</h1>
@@ -69,10 +74,16 @@ const Library = () => {
         <option > Most Popular</option>
       </select>
       {tags.map(tag => {
-        const handleAddTag = () => {
-          console.log('added')
+        const handleAddTag = (e) => {
+          
+          if ( searchTags.includes(tags.find(tag => tag.tag === e))){
+            searchTags.splice(indexOf(e),1)
+          } else {
+            setSearchTags([ ...searchTags, tags.find(tag => tag.tag === e) ])
+          }
+
         }
-        return (<div onClick={handleAddTag} key={tag.id}> {tag.tag} </div>)
+        return (<button onClick={(e) => handleAddTag(e.target.name)} name={tag.tag} key={tag.id}> {tag.tag} </button>)
       })}
       <section className='atmos-wrapper'>
         {atmos.map(atmo => {
@@ -88,7 +99,7 @@ const Library = () => {
             </div>
           )
         })}
-        { atmosError && <Error error={atmosError} /> }
+        {atmosError && <Error error={atmosError} />}
       </section>
     </>
   )
