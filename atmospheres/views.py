@@ -4,7 +4,7 @@ from lib.exceptions import exceptions
 
 from tags.serializers.common import TagSerializer
 from .serializers.common import AtmosSerializer
-from .serializers.populated import PopulatedAtmosSerializer, TagsPopulatedSerializer
+from .serializers.populated import PopulatedAtmosSerializer, TagsPopulatedSerializer, PopulatedNoTags
 from .models import Atmosphere
 from tags.models import Tag
 

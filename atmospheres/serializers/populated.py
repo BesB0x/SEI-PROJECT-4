@@ -22,3 +22,7 @@ class PopulatedAtmosSerializer(AtmosSerializer):
     owner = OwnerSerializer()
     put_in_library = Put_In_LibrarySerializer(many=True)
 
+class PopulatedNoTags(AtmosSerializer):
+    owner = OwnerSerializer()
+    put_in_library = Put_In_LibrarySerializer(many=True)
+

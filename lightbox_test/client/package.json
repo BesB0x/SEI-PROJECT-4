@@ -4,13 +4,9 @@
   "private": true,
   "dependencies": {
     "axios": "^0.25.0",
-    "bootstrap": "^5.2.3",
-    "buffer": "^6.0.3",
-    "cloudinary": "^1.36.1",
     "eslint-plugin-react": "^7.32.2",
     "fslightbox-react": "^1.7.2",
     "react": "^18.2.0",
-    "react-bootstrap": "^2.7.4",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
     "react-scripts": "^5.0.1",
@@ -38,5 +34,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://127.0.0.1:8000"
+  "proxy": "http://localhost:4000"
 }

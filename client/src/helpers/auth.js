@@ -42,15 +42,6 @@ export const loggedInUser = () => {
   return payload.sub 
 }
 
-// For adding to user_library
-// export const includesUserId = (array) => {
-//   const payload = getPayload()
-//   if (!payload) return
-//   if (array) {
-//     return array.include(payload.sub)
-//   }
-// }
-
 // For Edit and Delete in User Dashboard
 export const userIsOwner = (atmos) => {
   const payload = getPayload()

@@ -48,20 +48,39 @@ class UsersListView(APIView):
         return Response(serialized_users.data)
     
 
-# USER_LIBRARY
-
 class UsersSingleView(APIView):
-    # @exceptions
+    
+    def get_user(pk):
+        return User.objects.get(pk=pk)
+
+    # Get single user
+    @exceptions
+    def get(self,request,pk):
+        user = User.objects.get(pk=pk)
+        serialized_user = PopulatedUserSerializer(user)
+        return Response( serialized_user.data )
+    
+    @exceptions 
+    def put(self,request,pk):
+        user = User.objects.get(pk=pk)
+        serialized_user = PopulatedUserSerializer( user, request.data, partial=True)
+        serialized_user.is_valid(raise_exception=True)
+        serialized_user.save()
+        return Response( serialized_user.data)
+        
+class UserLibraryView(APIView):
+    # USER_LIBRARY
+    @exceptions
     def put(self,request,pk):
         user = User.objects.get(pk=pk)
         serialized_user = UserSerializer(user)
         user_library = serialized_user.data['user_library']
+        print('data->',request.data)
         for atmos in request.data['user_library']:
             if atmos in user_library:
                 user_library.remove(atmos)
             else:
                 user_library.append(atmos)
-        print(user_library)
         serialized_user_library = UserLibrarySerializer(user, { 'user_library' : user_library }, partial=True )
         serialized_user_library.is_valid(raise_exception=True)
         serialized_user_library.save()

@@ -31,6 +31,7 @@ const Login = () => {
       navigate('/')
     } catch (error) {
       setLoginError(error.message)
+      console.log(error)
     }
   }
 
