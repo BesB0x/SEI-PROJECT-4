@@ -6,3 +6,8 @@ class TagSerializer(ModelSerializer):
     class Meta :
         model = Tag
         fields = ('tag','atmospheres')
+
+class PostTagSerializer(ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ('tag',)

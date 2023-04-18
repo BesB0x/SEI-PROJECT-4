@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from .serializers.common import TagSerializer
+from .serializers.common import PostTagSerializer
 from .serializers.populated import PopulatedTagSerializer
 from .models import Tag
 
@@ -24,8 +24,9 @@ class TagListView(APIView):
     
     @exceptions
     def post(self,request):
+        print(request.data)
         tag = Tag.objects.all()
-        serialized_tag = TagSerializer( data = request.data)
+        serialized_tag = PostTagSerializer( data = request.data)
         serialized_tag.is_valid(raise_exception=True)
         serialized_tag.save()
         return Response(serialized_tag.data, status.HTTP_201_CREATED)

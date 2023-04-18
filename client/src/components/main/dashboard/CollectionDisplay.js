@@ -1,7 +1,36 @@
-import { userIsOwner } from '../../../helpers/auth'
 import { useEffect, useState } from 'react'
+import ReactModal from 'react-modal'
+import { useNavigate } from 'react-router'
 
-const CollectionDisplay = ({ getUser, authenticated, loggedInUser, user }) => {
+import { userIsOwner } from '../../../helpers/auth'
+import AtmosEdit from './AtmosEdit'
+
+const CollectionDisplay = ({ handleCloudinary, userId, getUser, authenticated, loggedInUser, user }) => {
+
+  
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [ atmosToDaw, setAtmosToDaw ] = useState([])
+
+  const navigate = useNavigate()
+  
+  const sendToDaw = (atmos) => {
+    setAtmosToDaw(atmos)
+    console.log(atmos)
+    navigate('/daw')
+  }
+  const ModalContent = () => {
+    return (
+      <AtmosEdit userId={userId} handleCloudinary={handleCloudinary} getUser={getUser}/>
+    )
+  }
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+  }
 
   const handleEdit = () => {
     console.log('edit')
@@ -21,23 +50,29 @@ const CollectionDisplay = ({ getUser, authenticated, loggedInUser, user }) => {
 
   return (
     <section className="user-collection">
-      {user ?
+      {user &&
         user.user_library.map(atmo => {
           return (
             <div key={atmo.id}>
               {atmo.name}
-              <button> To DAW</button>
+              <button onClick={() => sendToDaw(atmo)}> To DAW</button>
               <button onClick={() => handleDeleteFromLibrary(atmo)}> Remove From Library</button>
               {userIsOwner &&
                 <>
-                  <button>Edit</button>
+                  <button onClick={handleOpenModal}>Edit</button>
+                  <ReactModal
+                    isOpen={isModalOpen}
+                    onRequestClose={handleCloseModal}
+                    contentLabel="Example Modal"
+                  >
+                    <ModalContent />
+                    <button onClick={handleCloseModal}>Save</button>
+                  </ReactModal>
                 </>
               }
             </div>
           )
         })
-        :
-        <h3> No Atmos!</h3>
       }
     </section>
 

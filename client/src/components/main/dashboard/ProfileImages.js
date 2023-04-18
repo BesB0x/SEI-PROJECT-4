@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const ProfileImages = ({ handleCloudinary, user, setUserError, userId, getUser, authenticated }) => {
 
-  const cloudName = 'detjuq0lu'
+
   const profilePicPreset = 'vi1ub8go'
   const coverPhotoPreset = 'zayy9z7x'
   

@@ -50,3 +50,4 @@ export const userIsOwner = (atmos) => {
     return payload.sub === atmos.owner_id
   }
 }
+

@@ -1,21 +1,26 @@
 import axios from 'axios'
-import CollectionDisplay from './CollectionDisplay'
-import { authenticated,loggedInUser } from '../../../helpers/auth'
 
-import { useCallback,useEffect,useState } from 'react'
+import ReactModal from 'react-modal'
+
+import CollectionDisplay from './CollectionDisplay'
+import { authenticated, loggedInUser } from '../../../helpers/auth'
 import ProfileImages from './ProfileImages'
+import AtmosNew from './AtmosNew'
+
+import { useCallback, useEffect, useState } from 'react'
+
 
 
 const Collection = () => {
 
-  const [ user,setUser ] = useState([])
-  const [ userError,setUserError ] = useState('')
+  const [user, setUser] = useState(false)
+  const [userError, setUserError] = useState('')
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const userId = loggedInUser()
 
-  const cloudName = 'detjuq0lu'
 
-  const getUser = useCallback( async () => {
+  const getUser = useCallback(async () => {
     try {
       const { data } = await authenticated.get(`api/users/${userId}/`)
       setUser({ ...data })
@@ -29,9 +34,25 @@ const Collection = () => {
     getUser()
   }, [])
 
-  console.log('dashboard', typeof user)
+  // Modal Form  
 
-  const handleCloudinary = async (e, uploadPreset, keyName ) => {
+  const ModalContent = () => {
+    return (
+      <AtmosNew userId={userId} handleCloudinary={handleCloudinary} getUser={getUser}/>
+    )
+  }
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleCloudinary = async (e, uploadPreset, keyName) => {
+    e.preventDefault()
+    const cloudName = 'detjuq0lu'
     const image = e.target.files[0]
     const formData = new FormData()
     formData.append('file', image)
@@ -50,23 +71,34 @@ const Collection = () => {
 
   return (
     <main className="collection-db">
+      {/* {user ? */}
       <div className="user-dashboard">
-        <section className="dashboard-top" style= {{ backgroundImage: `url(${user.cover_photo})` }}  >
-          
-          <ProfileImages handleCloudinary={handleCloudinary} user={user} setUserError={setUserError} userId={userId} getUser={getUser} authenticated={authenticated}/>
+        <section className="dashboard-top" style={{ backgroundImage: `url(${user.cover_photo})` }}  >
+          <ProfileImages handleCloudinary={handleCloudinary} user={user} setUserError={setUserError} userId={userId} getUser={getUser} authenticated={authenticated} />
           <div className='username'>
             <h2> Name</h2>
             <p> {user.username}</p>
             {/* <button> Edit Profile</button> */}
           </div>
           <div className='create-atmo-button'>
-            <button> Create New Atmosphere</button>
+            <div>
+              <button onClick={handleOpenModal}>Create New Atmosphere</button>
+              <ReactModal
+                isOpen={isModalOpen}
+                onRequestClose={handleCloseModal}
+                contentLabel="Example Modal"
+              >
+                <ModalContent />
+                <button onClick={handleCloseModal}>Close Modal</button>
+              </ReactModal>
+            </div>
           </div>
-          
         </section>
-
-        <CollectionDisplay getUser={getUser}authenticated={authenticated} loggedInUser={loggedInUser} user={user}/>
+        <CollectionDisplay userId={userId} handleCloudinary={handleCloudinary} getUser={getUser} authenticated={authenticated} loggedInUser={loggedInUser} user={user} />
       </div>
+      {/* :
+        <h2> Loading</h2> */}
+      {/* } */}
     </main>
 
   )
