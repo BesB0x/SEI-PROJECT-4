@@ -26,7 +26,6 @@ const Login = () => {
     e.preventDefault()
     try {
       const { data } = await axios.post('/api/users/login/', formFields)
-      console.log(data)
       localStorage.setItem('ATMOS-USER-TOKEN', data.token)
       navigate('/')
     } catch (error) {

@@ -1,15 +1,11 @@
 import { authenticated } from '../../../helpers/auth'
 
-import Container from 'react-bootstrap/Container'
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
-
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AtmosForm from './AtmosForm'
 
 
-const AtmosEdit = ({ userId,handleCloudinary,getUser }) => {
+const AtmosEdit = ({ openEdit, atmo,userId, handleCloseModal, handleCloudinary,getUser }) => {
 
   const [formFields, setFormFields] = useState({
     name: '',
@@ -19,13 +15,12 @@ const AtmosEdit = ({ userId,handleCloudinary,getUser }) => {
   })
   const [tags, setTags] = useState([])
   const [userTag, setUserTag] = useState('')
+  const [ atmos,setAtmos ] = useState([])
   const [atmosError, setAtmosError] = useState('')
 
-  const navigate = useNavigate()
+  const navigate = useNavigate() 
 
-  const audioPreset = 'gee4hwat'
-  const picturePreset = 'fzakjvwm'
-
+  console.log('atmo->',formFields)
   useEffect(() => {
     const getTags = async () => {
       try {
@@ -37,40 +32,15 @@ const AtmosEdit = ({ userId,handleCloudinary,getUser }) => {
       }
     }
     getTags()
+    setAtmos(atmo)
+    setFormFields(atmo)
   }, [])
 
-  const handleChange = (e) => {
-    setFormFields({ ...formFields, [e.target.name]: e.target.value })
-    setAtmosError('')
-  }
 
-  const handleTagChange = (e) => {
-    setUserTag(e.target.value)
-  }
-
-  const submitTag = async (e) => {
-    e.preventDefault()
-    try {
-      console.log(userTag)
-      setFormFields({ ...formFields, tags: [...formFields.tags, userTag] })
-      await authenticated.post('api/tags/', { tag: userTag })
-      const { data } = await authenticated.get('api/tags/')
-      setTags(data)
-      setUserTag('')
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  const handleAddTag = (e) => {
-    e.preventDefault()
-    console.log(e.target.name)
-    // formFields.tags.append(e.target.name)
-    setFormFields({ ...formFields, tags: [...formFields.tags, e.target.name] })
-  }
-  console.log(formFields)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    handleCloseModal()
     try {
       const { data } = await authenticated.post('/api/atmospheres/', formFields)
       await authenticated.put(`/api/users/${userId}/user_library`, formFields)
@@ -81,47 +51,38 @@ const AtmosEdit = ({ userId,handleCloudinary,getUser }) => {
       setAtmosError(error.message)
     }
   }
+
+  const handleDelete = async (e) => {
+    try {
+      e.preventDefault()
+      handleCloseModal()
+      console.log('delete')
+      await authenticated.delete(`api/atmospheres/${atmo.id}/`)
+      getUser()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <AtmosForm 
+      title={'Edit Atmosphere'}
       setFormFields={setFormFields}
       formFields={formFields}
       setUserTag={setUserTag}
       handleSubmit={handleSubmit}
-      submitTag={submitTag}
       tags={tags}
+      handleCloudinary={handleCloudinary}
+      atmosError={atmosError}
+      setAtmosError={setAtmosError}
+      userTag={userTag}
+      authenticated={authenticated}
+      setTags={setTags}
+      openEdit={openEdit}
+      handleDelete={handleDelete}
+      
     />
   )
-  // return (
-  //   <main className='form-page'>
-  //     <Container >
-  //       <Row>
-  //         <Col as='form' xs='10' md='6' lg='4' onSubmit={handleSubmit}>
-  //           <h1> Create An Atmosphere </h1>
-  //           {/* name */}
-  //           <label htmlFor='name'>Name</label>
-  //           <input placeholder='name' type='text' name='name' onChange={handleChange} value={formFields.name} />
-  //           {/* Tags */}
-  //           <label htmlFor='tags'>Tags</label>
-  //           <input type='tags' name='tags' onChange={handleTagChange} />
-  //           <button onClick={submitTag} > Add Tag</button>
-  //           {tags && tags.map((tag, i) => {
-  //             return (
-  //               <button className='tag-button' key={i} onClick={handleAddTag} name={tag.tag}> {tag.tag} </button>
-  //             )
-  //           })}
-  //           {/* Audio */}
-  //           <label htmlFor='audio'>Audio</label>
-  //           <input type='file' onChange={(e) => handleCloudinary(e, audioPreset, 'audio')} />
-  //           {/* Picture */}
-  //           <label htmlFor='passwordConfirmation'>Picture</label>
-  //           <input type='file' onChange={(e) => handleCloudinary(e, picturePreset, 'picture')} />
-  //           <button>Create</button>
-  //           {atmosError && <h6 className='error-message'> {atmosError} </h6>}
-  //         </Col>
-  //       </Row>
-  //     </Container>
-  //   </main>
-  // )
 }
 
 export default AtmosEdit

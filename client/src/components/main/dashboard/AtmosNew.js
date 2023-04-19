@@ -1,14 +1,12 @@
 import { authenticated } from '../../../helpers/auth'
 
-import Container from 'react-bootstrap/Container'
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
-
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import AtmosForm from './AtmosForm'
 
-const AtmosNew = ({ userId,handleCloudinary,getUser }) => {
+
+const AtmosNew = ({ userId, handleCloseModal, handleCloudinary, getUser }) => {
 
   const [formFields, setFormFields] = useState({
     name: '',
@@ -29,7 +27,6 @@ const AtmosNew = ({ userId,handleCloudinary,getUser }) => {
     const getTags = async () => {
       try {
         const { data } = await authenticated.get('/api/tags/')
-        // console.log(data)
         setTags(data)
       } catch (error) {
         console.log(error)
@@ -38,14 +35,6 @@ const AtmosNew = ({ userId,handleCloudinary,getUser }) => {
     getTags()
   }, [])
 
-  const handleChange = (e) => {
-    setFormFields({ ...formFields, [e.target.name]: e.target.value })
-    setAtmosError('')
-  }
-
-  const handleTagChange = (e) => {
-    setUserTag(e.target.value)
-  }
 
   const submitTag = async (e) => {
     e.preventDefault()
@@ -60,16 +49,12 @@ const AtmosNew = ({ userId,handleCloudinary,getUser }) => {
       console.log(error)
     }
   }
-  const handleAddTag = (e) => {
-    e.preventDefault()
-    console.log(e.target.name)
-    // formFields.tags.append(e.target.name)
-    setFormFields({ ...formFields, tags: [...formFields.tags, e.target.name] })
-  }
+
   console.log(formFields)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    handleCloseModal()
     try {
       const { data } = await authenticated.post('/api/atmospheres/', formFields)
       await authenticated.put(`/api/users/${userId}/user_library`, formFields)
@@ -82,35 +67,21 @@ const AtmosNew = ({ userId,handleCloudinary,getUser }) => {
   }
 
   return (
-    <main className='form-page'>
-      <Container >
-        <Row>
-          <Col as='form' xs='10' md='6' lg='4' onSubmit={handleSubmit}>
-            <h1> Create An Atmosphere </h1>
-            {/* name */}
-            <label htmlFor='name'>Name</label>
-            <input placeholder='name' type='text' name='name' onChange={handleChange} value={formFields.name} />
-            {/* Tags */}
-            <label htmlFor='tags'>Tags</label>
-            <input type='tags' name='tags' onChange={handleTagChange} />
-            <button onClick={submitTag} > Add Tag</button>
-            {tags && tags.map((tag, i) => {
-              return (
-                <button className='tag-button' key={i} onClick={handleAddTag} name={tag.tag}> {tag.tag} </button>
-              )
-            })}
-            {/* Audio */}
-            <label htmlFor='audio'>Audio</label>
-            <input type='file' onChange={(e) => handleCloudinary(e, audioPreset, 'audio')} />
-            {/* Picture */}
-            <label htmlFor='passwordConfirmation'>Picture</label>
-            <input type='file' onChange={(e) => handleCloudinary(e, picturePreset, 'picture')} />
-            <button>Create</button>
-            {atmosError && <h6 className='error-message'> {atmosError} </h6>}
-          </Col>
-        </Row>
-      </Container>
-    </main>
+    <AtmosForm
+      title={'Create New Atmosphere'}
+      setFormFields={setFormFields}
+      formFields={formFields}
+      setUserTag={setUserTag}
+      handleSubmit={handleSubmit}
+      submitTag={submitTag}
+      tags={tags}
+      handleCloudinary={handleCloudinary}
+      atmosError={atmosError}
+      setAtmosError={setAtmosError}
+      userTag={userTag}
+      authenticated={authenticated}
+      setTags={setTags}
+    />
   )
 }
 

@@ -13,7 +13,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 const Collection = () => {
 
-  const [user, setUser] = useState(false)
+  const [user, setUser] = useState('')
   const [userError, setUserError] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -38,7 +38,7 @@ const Collection = () => {
 
   const ModalContent = () => {
     return (
-      <AtmosNew userId={userId} handleCloudinary={handleCloudinary} getUser={getUser}/>
+      <AtmosNew handleCloseModal={handleCloseModal} userId={userId} handleCloudinary={handleCloudinary} getUser={getUser}/>
     )
   }
 
@@ -89,7 +89,6 @@ const Collection = () => {
                 contentLabel="Example Modal"
               >
                 <ModalContent />
-                <button onClick={handleCloseModal}>Close Modal</button>
               </ReactModal>
             </div>
           </div>

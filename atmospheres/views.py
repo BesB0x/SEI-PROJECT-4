@@ -43,6 +43,12 @@ class AtmosListView(APIView):
     
 class AtmosSingleView(APIView):
     permission_classes = (IsAuthenticated,)
+
+    @exceptions
+    def get(self,request,pk):
+        atmos = Atmosphere.objects.get(pk=pk)
+        serialized_atmos = TagsPopulatedSerializer( atmos)
+        return Response(serialized_atmos.data)
     
     @exceptions
     def put(self,request,pk):

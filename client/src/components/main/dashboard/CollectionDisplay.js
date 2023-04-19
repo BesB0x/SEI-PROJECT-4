@@ -9,6 +9,7 @@ const CollectionDisplay = ({ handleCloudinary, userId, getUser, authenticated, l
 
   
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [ openEdit,setOpenEdit ] = useState(false)
   const [ atmosToDaw, setAtmosToDaw ] = useState([])
 
   const navigate = useNavigate()
@@ -18,22 +19,20 @@ const CollectionDisplay = ({ handleCloudinary, userId, getUser, authenticated, l
     console.log(atmos)
     navigate('/daw')
   }
-  const ModalContent = () => {
+  const ModalContent = ({ atmo }) => {
     return (
-      <AtmosEdit userId={userId} handleCloudinary={handleCloudinary} getUser={getUser}/>
+      <AtmosEdit openEdit={openEdit} handleCloseModal={handleCloseModal} atmo={atmo} userId={userId} handleCloudinary={handleCloudinary} getUser={getUser}/>
     )
   }
 
-  const handleOpenModal = () => {
+  const handleOpenEditModal = () => {
+    setOpenEdit(true)
     setIsModalOpen(true)
   }
 
   const handleCloseModal = () => {
+    setOpenEdit(false)
     setIsModalOpen(false)
-  }
-
-  const handleEdit = () => {
-    console.log('edit')
   }
 
   const handleDeleteFromLibrary = async (atmos) => {
@@ -47,25 +46,25 @@ const CollectionDisplay = ({ handleCloudinary, userId, getUser, authenticated, l
   }
   console.log('collection', user)
 
-
   return (
     <section className="user-collection">
       {user &&
         user.user_library.map(atmo => {
+          console.log(userIsOwner(atmo))
           return (
             <div key={atmo.id}>
               {atmo.name}
               <button onClick={() => sendToDaw(atmo)}> To DAW</button>
               <button onClick={() => handleDeleteFromLibrary(atmo)}> Remove From Library</button>
-              {userIsOwner &&
+              {userIsOwner(atmo) &&
                 <>
-                  <button onClick={handleOpenModal}>Edit</button>
+                  <button onClick={() => handleOpenEditModal(atmo)}>Edit</button>
                   <ReactModal
                     isOpen={isModalOpen}
                     onRequestClose={handleCloseModal}
                     contentLabel="Example Modal"
                   >
-                    <ModalContent />
+                    <ModalContent atmo={atmo}/>
                     <button onClick={handleCloseModal}>Save</button>
                   </ReactModal>
                 </>

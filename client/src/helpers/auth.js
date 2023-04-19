@@ -47,7 +47,7 @@ export const userIsOwner = (atmos) => {
   const payload = getPayload()
   if (!payload) return
   if (atmos) {
-    return payload.sub === atmos.owner_id
+    return payload.sub === atmos.owner.id
   }
 }
 

@@ -36,7 +36,7 @@ const App = () => {
         <Route path='/register' element={<Register />} />
         <Route path = '/login' element={<Login />}/>
         <Route path= '/atmos' element={<AtmosNew />} />
-        <Route path= '/library' element={<Library />} />
+        <Route path= '/' element={<Library />} />
         <Route path= '/collection' element={<Collection />} />
         <Route path='*' element={<PageNotFound />} />
       </Routes>

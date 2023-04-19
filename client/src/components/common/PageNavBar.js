@@ -9,7 +9,6 @@ const PageNavBar = () => {
 
   const handleLogout = () => {
     removeToken()
-    navigate('/')
   }
 
   return (
@@ -20,7 +19,7 @@ const PageNavBar = () => {
           <Nav>
             {isAuthenticated() ?
               <>
-                <Nav.Link to='/logout' as={Link} onClick={handleLogout}>Logout</Nav.Link>
+                <Nav.Link to='/' as={Link} onClick={handleLogout}>Logout</Nav.Link>
                 <Nav.Link to='/collection' as={Link}>Your Collection</Nav.Link>
               </>
               :
@@ -29,7 +28,7 @@ const PageNavBar = () => {
                 <Nav.Link to='/register' as={Link}>Register</Nav.Link>
               </>
             }
-            <Nav.Link to='/library' as={Link}>Library</Nav.Link>
+            <Nav.Link to='/' as={Link}>Library</Nav.Link>
             <Nav.Link to='/daw' as={Link}>DAW</Nav.Link>
           </Nav>
         </Navbar.Collapse>

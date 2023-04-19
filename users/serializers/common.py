@@ -53,5 +53,5 @@ class Put_In_LibrarySerializer(serializers.ModelSerializer):
 
 class OwnerSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ( 'username',)
+        fields = ( 'username','id')
         model = User
