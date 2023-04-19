@@ -2,7 +2,11 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-const AtmosForm = ({ handleDelete, openEdit, title, setFormFields, formFields, setUserTag, handleSubmit, tags, handleCloudinary, atmosError, setAtmosError,userTag,authenticated,setTags }) => {
+import axios from 'axios'
+
+import { loggedInUser } from '../../../helpers/auth'
+
+const AtmosForm = ({ getUser, handleDelete, openEdit, title, setFormFields, formFields, setUserTag, handleSubmit, tags, atmosError, setAtmosError,userTag,authenticated,setTags }) => {
 
   const audioPreset = 'gee4hwat'
   const picturePreset = 'fzakjvwm'
@@ -20,14 +24,14 @@ const AtmosForm = ({ handleDelete, openEdit, title, setFormFields, formFields, s
   const handleAddTag = (e) => {
     e.preventDefault()
     console.log(e.target.name)
-    setFormFields({ ...formFields, tags: [...formFields.tags, e.target.name] })
+    setFormFields({ ...formFields, tags: [ ...formFields.tags, { tag: e.target.name }] })
   }
 
   const submitTag = async (e) => {
     e.preventDefault()
     try {
       console.log(userTag)
-      setFormFields({ ...formFields, tags: [...formFields.tags, userTag] })
+      setFormFields({ ...formFields, tags: [...formFields.tags, { tag: userTag }] })
       await authenticated.post('api/tags/', { tag: userTag })
       const { data } = await authenticated.get('api/tags/')
       setTags(data)
@@ -37,9 +41,24 @@ const AtmosForm = ({ handleDelete, openEdit, title, setFormFields, formFields, s
     }
   }
   
+  const handleCloudinary = async (e, uploadPreset, keyName) => {
+    e.preventDefault()
+    const cloudName = 'detjuq0lu'
+    const image = e.target.files[0]
+    const formData = new FormData()
+    formData.append('file', image)
+    formData.append('upload_preset', uploadPreset)
 
-  
+    try {
+      const { data } = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, formData)
+      console.log(data)
+      setFormFields({ ...formFields, [keyName]: data.secure_url })
 
+    } catch (err) {
+      console.log(err)
+
+    }
+  }
 
 
   return (

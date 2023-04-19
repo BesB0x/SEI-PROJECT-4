@@ -6,3 +6,8 @@ class AtmosSerializer(ModelSerializer):
     class Meta:
         model = Atmosphere
         fields = '__all__'
+
+class EditedAtmosSerializer(ModelSerializer):
+    class Meta:
+        model= Atmosphere
+        fields= ('name','picture','audio','tags')

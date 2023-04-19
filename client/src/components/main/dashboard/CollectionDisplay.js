@@ -7,13 +7,13 @@ import AtmosEdit from './AtmosEdit'
 
 const CollectionDisplay = ({ handleCloudinary, userId, getUser, authenticated, loggedInUser, user }) => {
 
-  
+
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [ openEdit,setOpenEdit ] = useState(false)
-  const [ atmosToDaw, setAtmosToDaw ] = useState([])
+  const [openEdit, setOpenEdit] = useState(false)
+  const [atmosToDaw, setAtmosToDaw] = useState([])
 
   const navigate = useNavigate()
-  
+
   const sendToDaw = (atmos) => {
     setAtmosToDaw(atmos)
     console.log(atmos)
@@ -21,7 +21,7 @@ const CollectionDisplay = ({ handleCloudinary, userId, getUser, authenticated, l
   }
   const ModalContent = ({ atmo }) => {
     return (
-      <AtmosEdit openEdit={openEdit} handleCloseModal={handleCloseModal} atmo={atmo} userId={userId} handleCloudinary={handleCloudinary} getUser={getUser}/>
+      <AtmosEdit openEdit={openEdit} handleCloseModal={handleCloseModal} atmo={atmo} userId={userId} handleCloudinary={handleCloudinary} getUser={getUser} />
     )
   }
 
@@ -44,7 +44,7 @@ const CollectionDisplay = ({ handleCloudinary, userId, getUser, authenticated, l
       console.log(error)
     }
   }
-  console.log('collection', user)
+  console.log('collection', user.user_library)
 
   return (
     <section className="user-collection">
@@ -52,23 +52,29 @@ const CollectionDisplay = ({ handleCloudinary, userId, getUser, authenticated, l
         user.user_library.map(atmo => {
           console.log(userIsOwner(atmo))
           return (
-            <div key={atmo.id}>
-              {atmo.name}
-              <button onClick={() => sendToDaw(atmo)}> To DAW</button>
-              <button onClick={() => handleDeleteFromLibrary(atmo)}> Remove From Library</button>
-              {userIsOwner(atmo) &&
-                <>
-                  <button onClick={() => handleOpenEditModal(atmo)}>Edit</button>
-                  <ReactModal
-                    isOpen={isModalOpen}
-                    onRequestClose={handleCloseModal}
-                    contentLabel="Example Modal"
-                  >
-                    <ModalContent atmo={atmo}/>
-                    <button onClick={handleCloseModal}>Save</button>
-                  </ReactModal>
-                </>
-              }
+            <div key={atmo.id} className='atmo-tile' >
+              {/* < img src={atmo.picture} alt='atmosphere picture'/> */}
+              <div style={{ backgroundImage: `url(${atmo.picture})` }}>
+                <button onClick={() => sendToDaw(atmo)}> To DAW</button>
+                <button onClick={() => handleDeleteFromLibrary(atmo)}> Remove From Library</button>
+                {userIsOwner(atmo) &&
+                  <>
+                    <button onClick={() => handleOpenEditModal(atmo)}>Edit</button>
+                    <ReactModal
+                      isOpen={isModalOpen}
+                      onRequestClose={handleCloseModal}
+                      contentLabel="Example Modal"
+                    >
+                      <ModalContent atmo={atmo} />
+                      <button onClick={handleCloseModal}>Save</button>
+                    </ReactModal>
+                  </>
+                }
+
+              </div>
+              <p>
+                {atmo.name} 
+              </p>
             </div>
           )
         })

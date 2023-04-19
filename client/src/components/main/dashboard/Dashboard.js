@@ -61,10 +61,10 @@ const Collection = () => {
     try {
       const { data } = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData)
       console.log(data)
-      const res = await axios.post(process.env.REACT_APP_CLOUDINARY_URL, data)
+      // const res = await axios.post(process.env.REACT_APP_CLOUDINARY_URL, data)
       // setFormData({ ...formData, picture: res.data.url })
-      // await authenticated.put(`/api/users/${userId}/`, { [keyName]: data.secure_url })
-      // getUser()
+      await authenticated.put(`/api/users/${userId}/`, { [keyName]: data.secure_url })
+      getUser()
     } catch (err) {
       console.log(err)
       setUserError(err.message)
@@ -72,14 +72,15 @@ const Collection = () => {
   }
 
   return (
-    <main className="collection-db">
+    <main className="collection" style={{ backgroundImage: `url(${user.cover_photo})` }}>
       {/* {user ? */}
       <div className="user-dashboard">
-        <section className="dashboard-top" style={{ backgroundImage: `url(${user.cover_photo})` }}  >
-          <ProfileImages handleCloudinary={handleCloudinary} user={user} setUserError={setUserError} userId={userId} getUser={getUser} authenticated={authenticated} />
+        <section className="dashboard-top"   >
+          <div className='profile-pic-box'> 
+            <ProfileImages handleCloudinary={handleCloudinary} user={user} setUserError={setUserError} userId={userId} getUser={getUser} authenticated={authenticated} />
+          </div>
           <div className='username'>
-            <h2> Name</h2>
-            <p> {user.username}</p>
+            <h3> {user.username}</h3>
             {/* <button> Edit Profile</button> */}
           </div>
           <div className='create-atmo-button'>

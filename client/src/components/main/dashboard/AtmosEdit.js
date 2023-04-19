@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import AtmosForm from './AtmosForm'
 
 
-const AtmosEdit = ({ openEdit, atmo,userId, handleCloseModal, handleCloudinary,getUser }) => {
+const AtmosEdit = ({ userId, openEdit, atmo, handleCloseModal, handleCloudinary,getUser }) => {
 
   const [formFields, setFormFields] = useState({
     name: '',
@@ -37,15 +37,13 @@ const AtmosEdit = ({ openEdit, atmo,userId, handleCloseModal, handleCloudinary,g
   }, [])
 
 
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     handleCloseModal()
     try {
-      await authenticated.post('/api/atmospheres/', formFields)
-      await authenticated.put(`/api/users/${userId}/user_library`, formFields)
+      await authenticated.put(`/api/atmospheres/${atmo.id}/`, formFields)
+      navigate('/collection')
       getUser()
-      navigate('/dashboard')
     } catch (error) {
       console.log(error)
       setAtmosError(error.message)
@@ -80,6 +78,7 @@ const AtmosEdit = ({ openEdit, atmo,userId, handleCloseModal, handleCloudinary,g
       setTags={setTags}
       openEdit={openEdit}
       handleDelete={handleDelete}
+      getUser={getUser}
       
     />
   )
