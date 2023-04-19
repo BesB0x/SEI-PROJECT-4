@@ -1,11 +1,9 @@
 import { Nav, Navbar } from 'react-bootstrap'
 import Container from 'react-bootstrap/Container'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { isAuthenticated, removeToken } from '../../helpers/auth'
 
 const PageNavBar = () => {
-
-  const navigate = useNavigate()
 
   const handleLogout = () => {
     removeToken()

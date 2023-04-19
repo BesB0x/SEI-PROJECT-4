@@ -42,7 +42,7 @@ const AtmosEdit = ({ openEdit, atmo,userId, handleCloseModal, handleCloudinary,g
     e.preventDefault()
     handleCloseModal()
     try {
-      const { data } = await authenticated.post('/api/atmospheres/', formFields)
+      await authenticated.post('/api/atmospheres/', formFields)
       await authenticated.put(`/api/users/${userId}/user_library`, formFields)
       getUser()
       navigate('/dashboard')

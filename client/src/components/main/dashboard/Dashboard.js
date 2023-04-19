@@ -61,8 +61,10 @@ const Collection = () => {
     try {
       const { data } = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData)
       console.log(data)
-      await authenticated.put(`/api/users/${userId}/`, { [keyName]: data.secure_url })
-      getUser()
+      const res = await axios.post(process.env.REACT_APP_CLOUDINARY_URL, data)
+      // setFormData({ ...formData, picture: res.data.url })
+      // await authenticated.put(`/api/users/${userId}/`, { [keyName]: data.secure_url })
+      // getUser()
     } catch (err) {
       console.log(err)
       setUserError(err.message)

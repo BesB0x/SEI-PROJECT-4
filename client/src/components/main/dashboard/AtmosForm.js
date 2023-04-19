@@ -36,6 +36,7 @@ const AtmosForm = ({ handleDelete, openEdit, title, setFormFields, formFields, s
       console.log(error)
     }
   }
+  
 
   
 
@@ -62,14 +63,10 @@ const AtmosForm = ({ handleDelete, openEdit, title, setFormFields, formFields, s
             <div>
               {/* Audio */}
               <label htmlFor='audio'>Audio</label>
-              <input type='file' onChange={(e) => {
-                e.preventDefault(), handleCloudinary(e, audioPreset, 'audio')
-              }} />
+              <input type='file' onChange={(e) => handleCloudinary(e, audioPreset, 'audio')} />
               {/* Picture */}
               <label htmlFor='passwordConfirmation'>Picture</label>
-              <input type='file' onChange={(e) => {
-                e.preventDefault(), handleCloudinary(e, picturePreset, 'picture')
-              }} />
+              <input type='file' onChange={(e) => handleCloudinary(e, picturePreset, 'picture')} />
             </div>
             <div>
               { openEdit && <button onClick={handleDelete}> Delete </button>}

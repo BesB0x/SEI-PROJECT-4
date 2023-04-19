@@ -1,26 +1,34 @@
 import React, { useState } from 'react'
 import FsLightbox from 'fslightbox-react'
 
-function ViewAtmos() {
-  // To open the lightbox change the value of the "toggler" prop.
+
+function ViewAtmos({ atmos }) {
+
   const [toggler, setToggler] = useState(false)
 
+
+  const audio = new Audio(atmos.audio)
+
   const playAudio = () => {
-    console.log('play')
+    audio.play()
+
   }
 
   const stopAudio = () => {
-    console.log('stop')
+    audio.currentTime = 0
+    audio.pause()
   }
   return (
     <>
       <button onClick={() => setToggler(!toggler)}>
-        Toggle Lightbox
+        View
       </button>
       <FsLightbox
         toggler={toggler}
         sources={[
-          'https://i.imgur.com/fsyrScY.jpg'
+          atmos.picture
+          // 'https://res.cloudinary.com/detjuq0lu/image/upload/v1681894761/ATMOS%20-%20PROFILE%20PIC/hnh8opf581ughzf0gfgo.jpg',
+          // 'https://i.imgur.com/fsyrScY.jpg'
         ]}
         onOpen={playAudio}
         onClose={stopAudio}

@@ -1,32 +1,31 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import axios from 'axios'
 
 import { isAuthenticated } from '../../../helpers/auth'
 
-import { indexOf } from 'lodash'
 import LibraryDisplay from './LibraryDisplay'
 
 
 const Library = () => {
 
-  const [ atmos, setAtmos ] = useState([])
   const [ displayedAtmos, setDisplayedAtmos ] = useState([])
   const [ tags, setTags ] = useState([])
   // const [ filtered, setFiltered ] = useState([])
   const [ searchTags, setSearchTags ] = useState([])
   const [ atmosError, setAtmosError ] = useState('')
 
-  useEffect(() => {
-    const getAtmos = async () => {
-      try {
-        const { data } = await axios.get('/api/atmospheres')
-        setAtmos(data)
+  const getAtmos = useCallback(async () => {
+    try {
+      const { data } = await axios.get('/api/atmospheres')
+      setDisplayedAtmos(data)
 
-      } catch (error) {
-        console.log(error)
-        setAtmosError(error)
-      }
+    } catch (error) {
+      console.log(error)
+      setAtmosError(error)
     }
+  })
+
+  useEffect(() => {
     const getTags = async () => {
       try {
         const { data } = await axios.get('/api/tags/')
@@ -61,30 +60,26 @@ const Library = () => {
     setDisplayedAtmos(filtered.flat())
   }, [searchTags])
   
-  // console.log('current state ->', atmos)
-  // console.log(tags)
-  console.log('search tags ->', searchTags)
-  // console.log( 'opened up', displayedAtmos.map(atmos => atmos))
-  console.log('displayed atmos', displayedAtmos.flat())
+
   return (
     <>
       <h1> Library</h1>
       <select onChange={(e) => sortAtmos(e.target.value)}>
+        <option > Filter</option>
         <option > Most Recent</option>
         <option > Most Popular</option>
       </select>
       {tags.map(tag => {
         const handleAddTag = (e) => {
-          if (searchTags.includes(tags.find(tag => tag.tag === e))) {
-            setSearchTags(searchTags.filter( atmos => atmos.tag !== e))
-            // console.log(searchTags.filter( atmos => atmos.tag !== e))
-          } else {
+          if (!searchTags.includes(tags.find(tag => tag.tag === e)) || searchTags.includes('Filter')) {
             setSearchTags([...searchTags, tags.find(tag => tag.tag === e)])
+          } else {
+            setSearchTags(searchTags.filter( atmos => atmos.tag !== e))
           }
         }
         return (<button onClick={(e) => handleAddTag(e.target.name)} name={tag.tag} key={tag.id}> {tag.tag} </button>)
       })}
-      < LibraryDisplay displayedAtmos={displayedAtmos} atmosError={atmosError} setDisplayedAtmos={setDisplayedAtmos}/>
+      < LibraryDisplay getAtmos={getAtmos} displayedAtmos={displayedAtmos} atmosError={atmosError} setDisplayedAtmos={setDisplayedAtmos}/>
     </>
   )
 }

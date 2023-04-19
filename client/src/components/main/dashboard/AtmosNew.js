@@ -56,7 +56,7 @@ const AtmosNew = ({ userId, handleCloseModal, handleCloudinary, getUser }) => {
     e.preventDefault()
     handleCloseModal()
     try {
-      const { data } = await authenticated.post('/api/atmospheres/', formFields)
+      await authenticated.post('/api/atmospheres/', formFields)
       await authenticated.put(`/api/users/${userId}/user_library`, formFields)
       getUser()
       navigate('/dashboard')
