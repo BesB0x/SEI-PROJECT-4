@@ -8,11 +8,11 @@ import LibraryDisplay from './LibraryDisplay'
 
 const Library = () => {
 
-  const [ displayedAtmos, setDisplayedAtmos ] = useState([])
-  const [ tags, setTags ] = useState([])
+  const [displayedAtmos, setDisplayedAtmos] = useState([])
+  const [tags, setTags] = useState([])
   // const [ filtered, setFiltered ] = useState([])
-  const [ searchTags, setSearchTags ] = useState([])
-  const [ atmosError, setAtmosError ] = useState('')
+  const [searchTags, setSearchTags] = useState([])
+  const [atmosError, setAtmosError] = useState('')
 
   const getAtmos = useCallback(async () => {
     try {
@@ -59,32 +59,32 @@ const Library = () => {
     const filtered = searchTags.map(tag => tag.atmospheres).filter(atmos => atmos.length > 0)
     setDisplayedAtmos(filtered.flat())
   }, [searchTags])
-  
+
 
   return (
     <main className='library
     '>
       <h1> Library</h1>
-      <div className='search-options'> 
-        <select onChange={(e) => sortAtmos(e.target.value)}>
-          <option > Filter</option>
-          <option > Most Recent</option>
-          <option > Most Popular</option>
-        </select>
-        <div className='tags'>
-          {tags.map(tag => {
-            const handleAddTag = (e) => {
-              if (!searchTags.includes(tags.find(tag => tag.tag === e)) || searchTags.includes('Filter')) {
-                setSearchTags([...searchTags, tags.find(tag => tag.tag === e)])
-              } else {
-                setSearchTags(searchTags.filter( atmos => atmos.tag !== e))
-              }
+      <div className='tags'>
+        {/* <div className='filters'>
+          <select onChange={(e) => sortAtmos(e.target.value)}>
+            <option > Filter</option>
+            <option > Most Recent</option>
+            <option > Most Popular</option>
+          </select>
+        </div> */}
+        {tags.map(tag => {
+          const handleAddTag = (e) => {
+            if (!searchTags.includes(tags.find(tag => tag.tag === e)) || searchTags.includes('Filter')) {
+              setSearchTags([...searchTags, tags.find(tag => tag.tag === e)])
+            } else {
+              setSearchTags(searchTags.filter(atmos => atmos.tag !== e))
             }
-            return (<button onClick={(e) => handleAddTag(e.target.name)} name={tag.tag} key={tag.id}> {tag.tag} </button>)
-          })}
-        </div>
+          }
+          return (<button onClick={(e) => handleAddTag(e.target.name)} name={tag.tag} key={tag.id}> {tag.tag} </button>)
+        })}
       </div>
-      < LibraryDisplay getAtmos={getAtmos} displayedAtmos={displayedAtmos} atmosError={atmosError} setDisplayedAtmos={setDisplayedAtmos}/>
+      < LibraryDisplay getAtmos={getAtmos} displayedAtmos={displayedAtmos} atmosError={atmosError} setDisplayedAtmos={setDisplayedAtmos} />
     </main>
   )
 }

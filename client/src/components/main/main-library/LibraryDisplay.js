@@ -1,8 +1,9 @@
-import ViewAtmos from '../../common/ViewAtmos'
+// import ViewAtmos from '../../common/ViewAtmos'
+import ViewAtmos from './ViewAtmos'
 import Error from '../../common/Error'
 import { authenticated, loggedInUser } from '../../../helpers/auth'
 
-const LibraryDisplay = ({ getAtmos, displayedAtmos, atmosError }) => {
+const LibraryDisplay = ({ getAtmos, displayedAtmos, atmosError, setDisplayedAtmos }) => {
 
   const addToLibrary = async (atmos) => {
     const data = { user_library: [atmos.id] }
@@ -14,18 +15,38 @@ const LibraryDisplay = ({ getAtmos, displayedAtmos, atmosError }) => {
     }
   }
 
+  const sortAtmos = (e) => {
+    const openedUp = displayedAtmos.flat()
+    if (e === 'Most Recent') {
+      const timeModified = openedUp.map(atmo => {
+        return { ...atmo, date_created: atmo.date_created.replace('T', ('_')).replace('Z', ('')) }
+      })
+      const dateSorted = timeModified.sort((a, b) => b.date_created.localeCompare(a.date_created))
+      setDisplayedAtmos(dateSorted)
+    } else if (e === 'Most Popular') {
+      const popSorted = [...openedUp.sort((a, b) => b.put_in_library.length - a.put_in_library.length)]
+      setDisplayedAtmos(popSorted)
+    }
+  }
+
   return (
     <>
-
       <section className='tile-display'>
+        <div className='filters'>
+          <select onChange={(e) => sortAtmos(e.target.value)}>
+            <option > Filter</option>
+            <option > Most Recent</option>
+            <option > Most Popular</option>
+          </select>
+        </div>
         {displayedAtmos.map(atmos => {
           return (
             <div key={atmos.id} className='atmo-tile'>
               <div className='tile-picture' style={{ backgroundImage: `url(${atmos.picture})` }}>
-
-                <div className='add-button' onClick={() => addToLibrary(atmos)}></div>
-                < ViewAtmos atmos={atmos} />
-
+                <div className='library-buttons'>
+                  <div className='add-button' onClick={() => addToLibrary(atmos)}></div>
+                  < ViewAtmos atmos={atmos} />
+                </div>
               </div>
               <p> name: {atmos.name} </p>
               <div className='info-block'>

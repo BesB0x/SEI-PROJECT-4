@@ -2,33 +2,46 @@
 .library{
   display: flex;
   flex-direction: column;
+  @extend %flex-center;
   h1 {
-    margin: 0 auto;
+    margin: 50px;
     padding: 50px;
   }
-  
-  .search-options{
-    display: flex;
-    align-items: center;
-    margin: 0 auto;
-    
-    max-height: 30px;
-    
     .tags{
+      @extend %flex-center;
+      flex-wrap: wrap;
+      margin-bottom: 50px;
+      max-height: 30px;
+      width: 55%;
       button{
-        padding: 5px;
-        margin: 10px;
+        padding: 4px;
+        margin: 1%;
       }
     }
-  }
-  
-  .tile-display{
+
+    
+    .tile-display{
+
+    .library-buttons{
+      max-height: 25% ;
+    }
+    .filters{
+      width: 100%;
+      display: flex;
+      margin: 40px 0 0 6%;
+      // background-color: ;
+    }
+    margin: 50px;
     background-color: $bg ;
+    
     .add-button {
-      @include hover-effect-tile( '../assets/add.png', '../assets/add.png')
+      @include hover-effect-tile( '../assets/addbw-nobg.png', '../assets/add-nobg.png')
+    }
+    .play-button{
+      @include hover-effect-tile( '../assets/play-bw.png', '../assets/play-cl.png')
     }
     .atmo-tile {
-      margin-bottom: 40px;
+      margin: 40px 0 ;
       p {
         margin: 0;
         font-size: 10px;
@@ -46,3 +59,4 @@
   }
   
 }
+

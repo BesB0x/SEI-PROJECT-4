@@ -1,5 +1,5 @@
 .collection {
-  // height: 100vw;
+  height: 1080px;
   width: 100vw;
   @extend %flex-center;
 
@@ -10,7 +10,7 @@
     background-size: cover;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
     width: 80vw;
-    height: 90%;
+    height: 80%;
     margin-top: 100px;
 
     .dashboard-top {
@@ -70,21 +70,33 @@
   justify-content: space-evenly;
   width: 85%;
   height: 50%;
-  margin: 10px auto;
-  height: 50%;
+  margin: 0 auto;
+
 
   .atmo-tile {
+    .library-buttons{
+      background-image: linear-gradient(to bottom, #6b6a6a47, #60606037 50%),linear-gradient(to right, #53525264, #ffffff00 50%) ;
+      display: inline;
+      min-height: 30%;
+      width: 20%;
+      div{
+        margin: 5px;
+        min-width: 80%;
+        min-height: 50%;
+      }
+    }
     height: 30vh;
     width: 30%;
     margin: 10px ;
-    // padding: 10px;
+    padding: 10px;
     .tile-picture{
       background-repeat: no-repeat;
       background-position:center;
       background-size:cover;
       display: flex;
+      justify-content: space-between;
       flex-direction: column;
-      justify-content: flex-end;
+      // justify-content: flex-end;
       width: 100%;
       height: 90%;
     }
@@ -95,13 +107,22 @@
 }
 
 .edit-button{
-  @include hover-effect-tile( '../assets/editbw-bg.png', '../assets/editcl-bg.png')
+  @include hover-effect-tile( '../assets/edit-bw.png', '../assets/edit-cl.png')
 }
 
 .remove-button{
-  @include hover-effect-tile( '../assets/rmvbw-bg.png', '../assets/rmvcl-bg.png')
+  @include hover-effect-tile( '../assets/remv-bw.png', '../assets/rmv-cl.png')
 }
 
 .play-button{
-  @include hover-effect-tile( '../assets/playbw-bg.png', '../assets/playcl-bg.png')
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+}
+
+
+.below-pic{
+  display: flex;
+  justify-content: space-between;
+
 }

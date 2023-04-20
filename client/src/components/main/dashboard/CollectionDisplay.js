@@ -54,14 +54,14 @@ const CollectionDisplay = ({ handleCloudinary, userId, getUser, authenticated, l
           console.log(userIsOwner(atmo))
           return (
             <div key={atmo.id} className='atmo-tile' >
-              {/* < img src={atmo.picture} alt='atmosphere picture'/> */}
               <div className='tile-picture' style={{ backgroundImage: `url(${atmo.picture})` }}>
-                <button className='daw-button' onClick={() => sendToDaw(atmo)}> To DAW</button>
-                <div className='remove-button'onClick={() => handleDeleteFromLibrary(atmo)}></div>
+                <div className='library-buttons'>
+                  <div className='remove-button' onClick={() => handleDeleteFromLibrary(atmo)}></div>
+                  <div className='edit-button' onClick={() => handleOpenEditModal(atmo)}></div>
+                </div>
                 < ViewAtmos atmos={atmo} />
                 {userIsOwner(atmo) &&
                   <>
-                    <div className='edit-button' onClick={() => handleOpenEditModal(atmo)}></div>
                     <ReactModal
                       isOpen={isModalOpen}
                       onRequestClose={handleCloseModal}
@@ -72,11 +72,12 @@ const CollectionDisplay = ({ handleCloudinary, userId, getUser, authenticated, l
                     </ReactModal>
                   </>
                 }
-
               </div>
-              <p>
-                {atmo.name} 
-              </p>
+              <div className='below-pic'>
+                <p>
+                  {atmo.name}
+                </p>
+              </div>
             </div>
           )
         })
