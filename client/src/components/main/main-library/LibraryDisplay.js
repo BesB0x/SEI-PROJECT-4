@@ -1,4 +1,4 @@
-import ViewAtmos from './ViewAtmos'
+import ViewAtmos from '../../common/ViewAtmos'
 import Error from '../../common/Error'
 import { authenticated, loggedInUser } from '../../../helpers/auth'
 
@@ -13,20 +13,25 @@ const LibraryDisplay = ({ getAtmos, displayedAtmos, atmosError }) => {
       console.log(error)
     }
   }
-  
+
   return (
     <>
-      <section className='atmos-wrapper'>
+
+      <section className='tile-display'>
         {displayedAtmos.map(atmos => {
           return (
-            <div key={atmos.id} className='atmos-tile'>
-              <div>
-                <button className='add-button' onClick={() => addToLibrary(atmos)}> Add to Collection</button>
-                < ViewAtmos atmos={atmos}/>
+            <div key={atmos.id} className='atmo-tile'>
+              <div className='tile-picture' style={{ backgroundImage: `url(${atmos.picture})` }}>
+
+                <div className='add-button' onClick={() => addToLibrary(atmos)}></div>
+                < ViewAtmos atmos={atmos} />
+
               </div>
               <p> name: {atmos.name} </p>
-              <p> Creator: {atmos.owner.username}</p>
-              <p> added to {atmos.put_in_library.length} {atmos.put_in_library.length === 1 ? 'collection' : 'collections'} </p>
+              <div className='info-block'>
+                <p> creator: {atmos.owner.username}</p>
+                <p className='added-to'> added to {atmos.put_in_library.length} {atmos.put_in_library.length === 1 ? 'collection' : 'collections'} </p>
+              </div>
               {/* <p> Tags: {atmos.tags.length} </p> */}
             </div>
           )

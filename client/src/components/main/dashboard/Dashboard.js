@@ -3,12 +3,12 @@ import axios from 'axios'
 import ReactModal from 'react-modal'
 
 import CollectionDisplay from './CollectionDisplay'
-import { authenticated, loggedInUser } from '../../../helpers/auth'
+import { authenticated, loggedInUser, removeToken } from '../../../helpers/auth'
 import ProfileImages from './ProfileImages'
 import AtmosNew from './AtmosNew'
 
 import { useCallback, useEffect, useState } from 'react'
-
+import { useNavigate } from 'react-router-dom'
 
 
 const Collection = () => {
@@ -18,6 +18,7 @@ const Collection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const userId = loggedInUser()
+  const navigate = useNavigate()
 
 
   const getUser = useCallback(async () => {
@@ -71,6 +72,11 @@ const Collection = () => {
     }
   }
 
+  const handleLogout = () => {
+    removeToken()
+    navigate('/')
+  }
+
   return (
     <main className="collection" style={{ backgroundImage: `url(${user.cover_photo})` }}>
       {/* {user ? */}
@@ -81,6 +87,7 @@ const Collection = () => {
           </div>
           <div className='username'>
             <h3> {user.username}</h3>
+            <div onClick={handleLogout}> Logout </div>
             {/* <button> Edit Profile</button> */}
           </div>
           <div className='create-atmo-button'>

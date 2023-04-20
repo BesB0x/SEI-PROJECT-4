@@ -3,5 +3,8 @@
 }
 
 @import './variables.scss';
+@import './mixins.scss';
 @import './components/form-page.scss';
-@import './components/dashboard.scss'
+@import './components/nav-bar.scss';
+@import './components/dashboard.scss';
+@import './components/library.scss'

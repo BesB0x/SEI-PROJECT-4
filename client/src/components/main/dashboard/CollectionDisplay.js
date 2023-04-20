@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import ReactModal from 'react-modal'
 import { useNavigate } from 'react-router'
 
 import { userIsOwner } from '../../../helpers/auth'
 import AtmosEdit from './AtmosEdit'
+import ViewAtmos from '../../common/ViewAtmos'
 
 const CollectionDisplay = ({ handleCloudinary, userId, getUser, authenticated, loggedInUser, user }) => {
 
@@ -47,19 +48,20 @@ const CollectionDisplay = ({ handleCloudinary, userId, getUser, authenticated, l
   console.log('collection', user.user_library)
 
   return (
-    <section className="user-collection">
+    <section className="tile-display">
       {user &&
         user.user_library.map(atmo => {
           console.log(userIsOwner(atmo))
           return (
             <div key={atmo.id} className='atmo-tile' >
               {/* < img src={atmo.picture} alt='atmosphere picture'/> */}
-              <div style={{ backgroundImage: `url(${atmo.picture})` }}>
-                <button onClick={() => sendToDaw(atmo)}> To DAW</button>
-                <button onClick={() => handleDeleteFromLibrary(atmo)}> Remove From Library</button>
+              <div className='tile-picture' style={{ backgroundImage: `url(${atmo.picture})` }}>
+                <button className='daw-button' onClick={() => sendToDaw(atmo)}> To DAW</button>
+                <div className='remove-button'onClick={() => handleDeleteFromLibrary(atmo)}></div>
+                < ViewAtmos atmos={atmo} />
                 {userIsOwner(atmo) &&
                   <>
-                    <button onClick={() => handleOpenEditModal(atmo)}>Edit</button>
+                    <div className='edit-button' onClick={() => handleOpenEditModal(atmo)}></div>
                     <ReactModal
                       isOpen={isModalOpen}
                       onRequestClose={handleCloseModal}

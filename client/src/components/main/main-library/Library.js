@@ -62,25 +62,30 @@ const Library = () => {
   
 
   return (
-    <>
+    <main className='library
+    '>
       <h1> Library</h1>
-      <select onChange={(e) => sortAtmos(e.target.value)}>
-        <option > Filter</option>
-        <option > Most Recent</option>
-        <option > Most Popular</option>
-      </select>
-      {tags.map(tag => {
-        const handleAddTag = (e) => {
-          if (!searchTags.includes(tags.find(tag => tag.tag === e)) || searchTags.includes('Filter')) {
-            setSearchTags([...searchTags, tags.find(tag => tag.tag === e)])
-          } else {
-            setSearchTags(searchTags.filter( atmos => atmos.tag !== e))
-          }
-        }
-        return (<button onClick={(e) => handleAddTag(e.target.name)} name={tag.tag} key={tag.id}> {tag.tag} </button>)
-      })}
+      <div className='search-options'> 
+        <select onChange={(e) => sortAtmos(e.target.value)}>
+          <option > Filter</option>
+          <option > Most Recent</option>
+          <option > Most Popular</option>
+        </select>
+        <div className='tags'>
+          {tags.map(tag => {
+            const handleAddTag = (e) => {
+              if (!searchTags.includes(tags.find(tag => tag.tag === e)) || searchTags.includes('Filter')) {
+                setSearchTags([...searchTags, tags.find(tag => tag.tag === e)])
+              } else {
+                setSearchTags(searchTags.filter( atmos => atmos.tag !== e))
+              }
+            }
+            return (<button onClick={(e) => handleAddTag(e.target.name)} name={tag.tag} key={tag.id}> {tag.tag} </button>)
+          })}
+        </div>
+      </div>
       < LibraryDisplay getAtmos={getAtmos} displayedAtmos={displayedAtmos} atmosError={atmosError} setDisplayedAtmos={setDisplayedAtmos}/>
-    </>
+    </main>
   )
 }
 

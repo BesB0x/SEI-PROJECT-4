@@ -20,9 +20,8 @@ function ViewAtmos({ atmos }) {
   }
   return (
     <>
-      <button onClick={() => setToggler(!toggler)}>
-        View
-      </button>
+      <div className='play-button' onClick={() => setToggler(!toggler)}>
+      </div>
       <FsLightbox
         toggler={toggler}
         sources={[

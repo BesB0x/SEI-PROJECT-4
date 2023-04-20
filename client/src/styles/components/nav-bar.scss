@@ -1,0 +1,8 @@
+.collection-icon {
+  @include hover-effect-navbar( '../assets/cltn-bw.png','../assets/cltn-cl.png' ) ;
+}
+
+.navbar-brand {
+  @include hover-effect-navbar( '../assets/logo-bw.png','../assets/logo-cl.png' ) ;
+}
+

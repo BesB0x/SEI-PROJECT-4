@@ -3,22 +3,25 @@ import Container from 'react-bootstrap/Container'
 import { Link } from 'react-router-dom'
 import { isAuthenticated, removeToken } from '../../helpers/auth'
 
-const PageNavBar = () => {
+import logo from '../../assets/logo-bw.png'
+import collection from '../../assets/cltn-bw.png'
 
-  const handleLogout = () => {
-    removeToken()
-  }
+const PageNavBar = () => {
 
   return (
     <Navbar expand='md' className='navbar-light bg-light'>
       <Container>
-        <Navbar.Brand to='/' as={Link}> ª–ª</Navbar.Brand>
+        <Navbar.Brand to='/' as={Link}>
+          <Link to="/" >
+          </Link>
+        </Navbar.Brand>
         <Navbar.Collapse>
           <Nav>
             {isAuthenticated() ?
               <>
-                <Nav.Link to='/' as={Link} onClick={handleLogout}>Logout</Nav.Link>
-                <Nav.Link to='/collection' as={Link}>Your Collection</Nav.Link>
+                {/* <Nav.Link to='/' as={Link} onClick={handleLogout}>Logout</Nav.Link> */}
+                <Nav.Link to='/collection' as={Link} className='collection-icon'>
+                </Nav.Link>
               </>
               :
               <>
@@ -26,7 +29,6 @@ const PageNavBar = () => {
                 <Nav.Link to='/register' as={Link}>Register</Nav.Link>
               </>
             }
-            <Nav.Link to='/' as={Link}>Library</Nav.Link>
             <Nav.Link to='/daw' as={Link}>DAW</Nav.Link>
           </Nav>
         </Navbar.Collapse>
