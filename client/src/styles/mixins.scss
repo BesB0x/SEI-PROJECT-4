@@ -2,8 +2,9 @@
   background-image: url($bg);
   background-size: cover;
   background-repeat: no-repeat;
-  min-width: 40px;
-  min-height: 40px;
+  background-size: 100%;
+  min-width: 50px;
+  min-height: 50px;
   z-index: 1;
   &:hover{
     background-image: url($hover-bg);
@@ -16,8 +17,9 @@
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  background-size: 50%;
   cursor: pointer;
-  height: 15%;
+  height: 50%;
   &:hover{
     background-image: url($hover-bg);
     transition: 0.1s ease-in-out;

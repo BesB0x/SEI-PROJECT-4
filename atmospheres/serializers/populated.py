@@ -10,13 +10,13 @@ from tags.models import Tag
 class TagsPopulatedSerializer(AtmosSerializer):
     tags = PostTagSerializer(many=True)
 
-    def create(self, validated_data):
-        tag_data = validated_data.pop('tags')
-        atmosphere = Atmosphere.objects.create(**validated_data)
-        for tag in tag_data:
-            tag_obj, _ = Tag.objects.get_or_create(tag=tag['tag'])
-            atmosphere.tags.add(tag_obj)
-        return atmosphere
+    # def create(self, validated_data):
+    #     tag_data = validated_data.pop('tags')
+    #     atmosphere = Atmosphere.objects.create(**validated_data)
+    #     for tag in tag_data:
+    #         tag_obj, _ = Tag.objects.get_or_create(tag=tag['tag'])
+    #         atmosphere.tags.add(tag_obj)
+    #     return atmosphere
 
 
 class PutAtmosSerializer(EditedAtmosSerializer):

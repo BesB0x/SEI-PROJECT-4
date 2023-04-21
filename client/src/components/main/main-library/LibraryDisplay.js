@@ -2,18 +2,22 @@
 import ViewAtmos from './ViewAtmos'
 import Error from '../../common/Error'
 import { authenticated, loggedInUser } from '../../../helpers/auth'
+import { useEffect } from 'react'
 
-const LibraryDisplay = ({ getAtmos, displayedAtmos, atmosError, setDisplayedAtmos }) => {
+const LibraryDisplay = ({ getUser,user,getAtmos, displayedAtmos, atmosError, setDisplayedAtmos }) => {
 
   const addToLibrary = async (atmos) => {
     const data = { user_library: [atmos.id] }
     try {
       await authenticated.put(`/api/users/${loggedInUser()}/user_library/`, data)
       getAtmos()
+      getUser()
     } catch (error) {
       console.log(error)
     }
   }
+
+
 
   const sortAtmos = (e) => {
     const openedUp = displayedAtmos.flat()
@@ -44,9 +48,12 @@ const LibraryDisplay = ({ getAtmos, displayedAtmos, atmosError, setDisplayedAtmo
             <div key={atmos.id} className='atmo-tile'>
               <div className='tile-picture' style={{ backgroundImage: `url(${atmos.picture})` }}>
                 <div className='library-buttons'>
-                  <div className='add-button' onClick={() => addToLibrary(atmos)}></div>
-                  < ViewAtmos atmos={atmos} />
+                  <div className= { user.user_library.find( userAtmo => userAtmo.id === atmos.id) ? 
+                    'tick'
+                    : 
+                    'add-button'} onClick={() => addToLibrary(atmos)}></div>
                 </div>
+                < ViewAtmos atmos={atmos} />
               </div>
               <p> name: {atmos.name} </p>
               <div className='info-block'>

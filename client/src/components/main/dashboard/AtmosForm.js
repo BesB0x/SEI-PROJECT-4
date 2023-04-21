@@ -4,13 +4,17 @@ import Col from 'react-bootstrap/Col'
 
 import axios from 'axios'
 
-import { loggedInUser } from '../../../helpers/auth'
+import TagsOnForm from './TagsOnForm'
 
-const AtmosForm = ({ getUser, handleDelete, openEdit, title, setFormFields, formFields, setUserTag, handleSubmit, tags, atmosError, setAtmosError,userTag,authenticated,setTags }) => {
+import { useState } from 'react'
+
+
+const AtmosForm = ({ getUser, handleCloseModal, handleDelete, openEdit, title, setFormFields, formFields, setUserTag, handleSubmit, tags, atmosError, setAtmosError, userTag, authenticated, setTags }) => {
 
   const audioPreset = 'gee4hwat'
   const picturePreset = 'fzakjvwm'
 
+  const [ tagError,setTagError ] = useState('')
 
   const handleChange = (e) => {
     setFormFields({ ...formFields, [e.target.name]: e.target.value })
@@ -19,28 +23,33 @@ const AtmosForm = ({ getUser, handleDelete, openEdit, title, setFormFields, form
 
   const handleTagChange = (e) => {
     setUserTag(e.target.value)
+    setTagError('')
+  }
+
+  
+  const submitTag = async (e) => {
+    e.preventDefault()
+    try {
+      await authenticated.post('/api/tags/', { tag: userTag })
+      const { data } = await authenticated.get('/api/tags/')
+      setFormFields({ ...formFields, tags: [...formFields.tags, { tag: userTag }] })
+      setTags(data)
+      setUserTag('')
+    } catch (error) {
+      console.log(error.response.data.detail)
+      setTagError(error.response.data.detail.tag)
+    }
   }
 
   const handleAddTag = (e) => {
     e.preventDefault()
-    console.log(e.target.name)
-    setFormFields({ ...formFields, tags: [ ...formFields.tags, { tag: e.target.name }] })
-  }
-
-  const submitTag = async (e) => {
-    e.preventDefault()
-    try {
-      console.log(userTag)
-      setFormFields({ ...formFields, tags: [...formFields.tags, { tag: userTag }] })
-      await authenticated.post('api/tags/', { tag: userTag })
-      const { data } = await authenticated.get('api/tags/')
-      setTags(data)
-      setUserTag('')
-    } catch (error) {
-      console.log(error)
+    if (!formFields.tags.some(t => t.tag === e.target.name)) {
+      setFormFields({ ...formFields, tags: [...formFields.tags, { tag: e.target.name }] })
+    } else {
+      setFormFields({ ...formFields, tags: formFields.tags.filter(t => t.tag !== e.target.name) })
     }
   }
-  
+
   const handleCloudinary = async (e, uploadPreset, keyName) => {
     e.preventDefault()
     const cloudName = 'detjuq0lu'
@@ -56,11 +65,9 @@ const AtmosForm = ({ getUser, handleDelete, openEdit, title, setFormFields, form
 
     } catch (err) {
       console.log(err)
-
+      setAtmosError(err.response.data)
     }
   }
-
-
   return (
     <main className='form-page'>
       <Container >
@@ -69,16 +76,22 @@ const AtmosForm = ({ getUser, handleDelete, openEdit, title, setFormFields, form
             <h1> {title} </h1>
             {/* name */}
             <label htmlFor='name'>Name</label>
-            <input placeholder='name' type='text' name='name' onChange={handleChange} value={formFields.name} />
+            <input className='name-input' placeholder='name' type='text' name='name' onChange={handleChange} value={formFields.name} />
             {/* Tags */}
             <label htmlFor='tags'>Tags</label>
-            <input type='tags' name='tags' onChange={handleTagChange} />
-            <button onClick={submitTag} > Add Tag</button>
-            {tags && tags.map((tag, i) => {
-              return (
-                <button className='tag-button' key={i} onClick={handleAddTag} name={tag.tag}> {tag.tag} </button>
-              )
-            })}
+            <div className='add-a-tag'>
+              <input placeholder='add a tag' type='tags' name='tags' value={userTag} onChange={handleTagChange} />
+              <button className='form-button' onClick={submitTag} > Add</button>
+              { tagError && <p> {tagError} </p>}
+              <p> or </p>
+            </div>
+            <div className='tags-display'>
+              {tags && tags.map((tag, i) => {
+                return (
+                  <TagsOnForm userTag={userTag} formFields={formFields} key={i} i={i} tag={tag} handleAddTag={handleAddTag} />
+                )
+              })}
+            </div>
             <div>
               {/* Audio */}
               <label htmlFor='audio'>Audio</label>
@@ -87,9 +100,10 @@ const AtmosForm = ({ getUser, handleDelete, openEdit, title, setFormFields, form
               <label htmlFor='passwordConfirmation'>Picture</label>
               <input type='file' onChange={(e) => handleCloudinary(e, picturePreset, 'picture')} />
             </div>
-            <div>
-              { openEdit && <button onClick={handleDelete}> Delete </button>}
-              <button type='submit'>Create</button>
+            <div className='bottom-form-buttons'>
+              {openEdit && <button className='form-button' onClick={handleDelete}> Delete </button>}
+              <button className='form-button' type='submit'>Create</button>
+              <button className='form-button' onClick={(e) => handleCloseModal(e)}>Cancel</button>
             </div>
             {atmosError && <h6 className='error-message'> {atmosError} </h6>}
           </Col>

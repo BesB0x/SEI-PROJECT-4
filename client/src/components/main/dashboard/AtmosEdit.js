@@ -20,12 +20,11 @@ const AtmosEdit = ({ userId, openEdit, atmo, handleCloseModal, handleCloudinary,
 
   const navigate = useNavigate() 
 
-  console.log('atmo->',formFields)
+
   useEffect(() => {
     const getTags = async () => {
       try {
         const { data } = await authenticated.get('/api/tags/')
-        // console.log(data)
         setTags(data)
       } catch (error) {
         console.log(error)
@@ -39,14 +38,13 @@ const AtmosEdit = ({ userId, openEdit, atmo, handleCloseModal, handleCloudinary,
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    handleCloseModal()
     try {
       await authenticated.put(`/api/atmospheres/${atmo.id}/`, formFields)
-      navigate('/collection')
       getUser()
+      handleCloseModal()
     } catch (error) {
-      console.log(error)
-      setAtmosError(error.message)
+      console.log(error.response.data.detail)
+      setAtmosError(error.response.data.detail.tags.tag)
     }
   }
 
@@ -59,10 +57,12 @@ const AtmosEdit = ({ userId, openEdit, atmo, handleCloseModal, handleCloudinary,
       getUser()
     } catch (error) {
       console.log(error)
+      setAtmosError(error.response.data.detail.tag)
     }
   }
-
+  console.log(atmos)
   return (
+
     <AtmosForm 
       title={'Edit Atmosphere'}
       setFormFields={setFormFields}
@@ -79,7 +79,7 @@ const AtmosEdit = ({ userId, openEdit, atmo, handleCloseModal, handleCloudinary,
       openEdit={openEdit}
       handleDelete={handleDelete}
       getUser={getUser}
-      
+      handleCloseModal={handleCloseModal}
     />
   )
 }

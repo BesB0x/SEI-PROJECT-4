@@ -18,7 +18,6 @@ const AtmosNew = ({ userId, handleCloseModal, handleCloudinary, getUser }) => {
   const [userTag, setUserTag] = useState('')
   const [atmosError, setAtmosError] = useState('')
 
-  const navigate = useNavigate()
 
   const audioPreset = 'gee4hwat'
   const picturePreset = 'fzakjvwm'
@@ -39,15 +38,13 @@ const AtmosNew = ({ userId, handleCloseModal, handleCloudinary, getUser }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    handleCloseModal()
     try {
       await authenticated.post('/api/atmospheres/', formFields)
-      // await authenticated.put(`/api/users/${userId}/user_library/`, formFields)
       getUser()
-      navigate('/collection')
+      handleCloseModal()
     } catch (error) {
-      console.log(error)
-      setAtmosError(error.message)
+      console.log('error->',error.response.data.detail)
+      // setAtmosError(error.response.data.detail.tags.tag[0])
     }
   }
 
@@ -65,6 +62,7 @@ const AtmosNew = ({ userId, handleCloseModal, handleCloudinary, getUser }) => {
       userTag={userTag}
       authenticated={authenticated}
       setTags={setTags}
+      handleCloseModal={handleCloseModal}
     />
   )
 }

@@ -34,19 +34,12 @@ class AtmosListView(APIView):
     def post(self, request):
         # add atmo to database
         request.data['owner'] = request.user.id
-        # print(request.data.get('owner'))
-        # print(request.data['tags'])
-        for tag in request.data['tags']:
-            tag_is_in_list = Tag.objects.filter(tag=tag['tag'])
-            if not tag_is_in_list:
-                tag_is_in_list = PostTagSerializer(data=tag)
-                tag_is_in_list.is_valid(raise_exception=True)
-                tag_is_in_list.save()
-                print(tag['tag'])
+        print(request.data)
+        
         atmos = TagsPopulatedSerializer(data=request.data)
         atmos.is_valid(raise_exception=True)
         atmos.save()
-        # add atmo to user library
+        # # add atmo to user library
         user = User.objects.get(pk=request.user.id)
         serialized_user = UserSerializer(user)
         user_library = serialized_user.data['user_library']

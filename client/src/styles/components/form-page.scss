@@ -1,31 +1,93 @@
-
-.form-page{
+.form-page {
   @extend %flex-center;
   flex-direction: column;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
+
   h1 {
     display: block;
+    margin: 0 auto;
   }
+
   .container {
-    border: 1px solid black ;
+    border: 1px solid black;
     padding: 20px;
-    form {
+    background-color: aliceblue;
+
+    .row {
       display: flex;
-      flex-direction: column;
-      border-radius: 8px;
-      padding: 20px;
-      label{
-        font-size: 20px;
-        padding: 10px 0 5px 0 ;
-        display: block;
-      }
-      input{
-        margin-bottom: 10px;
-        display: block;
+      justify-content: center;
+
+      form {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        border-radius: 8px;
+        padding: 20px;
+
+        p {
+          margin-top: 10px;
+        }
+
+        .name-input {
+          margin: 0 auto;
+          // text-align: center;
+          width: 55%;
+        }
+
+        .form-button {
+          @extend %form-button;
+          width: 20%;
+          background-color: rgba(136, 150, 171, 0.769);
+        }
+
+        .add-a-tag{
+          @extend %flex-center;
+          flex-direction: column;
+          div {
+            margin-top: 0;
+          }
+          // margin: 0 auto;
+        }
+
+        .tags-display {
+          margin: 10px 10px 10px 0;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+
+          // justify-content: space-evenly;
+          div {
+            @extend %form-button;
+          }
+        }
+
+        label {
+          font-size: 20px;
+          padding: 10px 0 5px 0;
+          display: block;
+          margin: 0 auto;
+        }
+
+        input {
+          margin-bottom: 10px;
+          display: block;
+        }
+
+        .bottom-form-buttons {
+          @extend %flex-center;
+        }
       }
     }
   }
 
-} 
+}
+
+.tag-green {
+  background-color: rgba(46, 155, 46, 0.725);
+}
+
+.tag-red {
+  background-color: rgba(48, 197, 180, 0.568);
+}

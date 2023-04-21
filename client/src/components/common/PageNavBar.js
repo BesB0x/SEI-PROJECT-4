@@ -29,7 +29,6 @@ const PageNavBar = () => {
                 <Nav.Link to='/register' as={Link}>Register</Nav.Link>
               </>
             }
-            <Nav.Link to='/daw' as={Link}>DAW</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

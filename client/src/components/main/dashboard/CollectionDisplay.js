@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router'
 import { userIsOwner } from '../../../helpers/auth'
 import AtmosEdit from './AtmosEdit'
 import ViewAtmos from '../../common/ViewAtmos'
+import ModalEditComponent from './ModalEditComponent'
 
-const CollectionDisplay = ({ handleCloudinary, userId, getUser, authenticated, loggedInUser, user }) => {
+const CollectionDisplay = ({ customStyles, handleCloudinary, userId, getUser, authenticated, loggedInUser, user }) => {
 
 
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -20,21 +21,6 @@ const CollectionDisplay = ({ handleCloudinary, userId, getUser, authenticated, l
     console.log(atmos)
     navigate('/daw')
   }
-  const ModalContent = ({ atmo }) => {
-    return (
-      <AtmosEdit openEdit={openEdit} handleCloseModal={handleCloseModal} atmo={atmo} userId={userId} handleCloudinary={handleCloudinary} getUser={getUser} />
-    )
-  }
-
-  const handleOpenEditModal = () => {
-    setOpenEdit(true)
-    setIsModalOpen(true)
-  }
-
-  const handleCloseModal = () => {
-    setOpenEdit(false)
-    setIsModalOpen(false)
-  }
 
   const handleDeleteFromLibrary = async (atmos) => {
     const data = { user_library: [atmos.id] }
@@ -45,33 +31,21 @@ const CollectionDisplay = ({ handleCloudinary, userId, getUser, authenticated, l
       console.log(error)
     }
   }
-  console.log('collection', user.user_library)
 
   return (
     <section className="tile-display">
       {user &&
         user.user_library.map(atmo => {
-          console.log(userIsOwner(atmo))
           return (
             <div key={atmo.id} className='atmo-tile' >
               <div className='tile-picture' style={{ backgroundImage: `url(${atmo.picture})` }}>
                 <div className='library-buttons'>
-                  <div className='remove-button' onClick={() => handleDeleteFromLibrary(atmo)}></div>
-                  <div className='edit-button' onClick={() => handleOpenEditModal(atmo)}></div>
+                  { !userIsOwner(atmo) && <div className='remove-button' onClick={() => handleDeleteFromLibrary(atmo)}></div>}
+                  {userIsOwner(atmo) &&
+                    <ModalEditComponent isModelOpen={isModalOpen} customStyles={customStyles} atmo={atmo} userId={userId} handleCloudinary={handleCloudinary} getUser={getUser}/>
+                  }
                 </div>
                 < ViewAtmos atmos={atmo} />
-                {userIsOwner(atmo) &&
-                  <>
-                    <ReactModal
-                      isOpen={isModalOpen}
-                      onRequestClose={handleCloseModal}
-                      contentLabel="Example Modal"
-                    >
-                      <ModalContent atmo={atmo} />
-                      <button onClick={handleCloseModal}>Save</button>
-                    </ReactModal>
-                  </>
-                }
               </div>
               <div className='below-pic'>
                 <p>

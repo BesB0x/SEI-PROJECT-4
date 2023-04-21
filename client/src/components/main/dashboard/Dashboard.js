@@ -11,9 +11,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 
-const Collection = () => {
+const Collection = ({ getUser,user }) => {
 
-  const [user, setUser] = useState('')
   const [userError, setUserError] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -21,21 +20,23 @@ const Collection = () => {
   const navigate = useNavigate()
 
 
-  const getUser = useCallback(async () => {
-    try {
-      const { data } = await authenticated.get(`api/users/${userId}/`)
-      setUser({ ...data })
-    } catch (error) {
-      console.log(error)
-      setUserError(error.message)
-    }
-  })
-
   useEffect(() => {
     getUser()
   }, [])
 
   // Modal Form  
+
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      width: '50%',
+      transform: 'translate(-50%, -50%) scale(0.75)',
+    },
+  }
 
   const ModalContent = () => {
     return (
@@ -47,10 +48,12 @@ const Collection = () => {
     setIsModalOpen(true)
   }
 
-  const handleCloseModal = () => {
+  const handleCloseModal = (e) => {
+    e.preventDefault()
     setIsModalOpen(false)
   }
 
+  // Uploading media
   const handleCloudinary = async (e, uploadPreset, keyName) => {
     e.preventDefault()
     const cloudName = 'detjuq0lu'
@@ -62,8 +65,6 @@ const Collection = () => {
     try {
       const { data } = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData)
       console.log(data)
-      // const res = await axios.post(process.env.REACT_APP_CLOUDINARY_URL, data)
-      // setFormData({ ...formData, picture: res.data.url })
       await authenticated.put(`/api/users/${userId}/`, { [keyName]: data.secure_url })
       getUser()
     } catch (err) {
@@ -79,7 +80,6 @@ const Collection = () => {
 
   return (
     <main className="collection" style={{ backgroundImage: `url(${user.cover_photo})` }}>
-      {/* {user ? */}
       <div className="user-dashboard">
         <section className="dashboard-top"   >
           <div className='profile-pic-box'> 
@@ -87,8 +87,7 @@ const Collection = () => {
           </div>
           <div className='username'>
             <h3> {user.username}</h3>
-            <div onClick={handleLogout}> Logout </div>
-            {/* <button> Edit Profile</button> */}
+            <div className='logout-button' onClick={handleLogout}> Logout </div>
           </div>
           <div className='create-atmo-button'>
             <div>
@@ -96,18 +95,16 @@ const Collection = () => {
               <ReactModal
                 isOpen={isModalOpen}
                 onRequestClose={handleCloseModal}
-                contentLabel="Example Modal"
+                contentLabel="New Atmosphere Modal"
+                style={customStyles}
               >
                 <ModalContent />
               </ReactModal>
             </div>
           </div>
         </section>
-        <CollectionDisplay userId={userId} handleCloudinary={handleCloudinary} getUser={getUser} authenticated={authenticated} loggedInUser={loggedInUser} user={user} />
+        <CollectionDisplay  customStyles={customStyles }userId={userId} handleCloudinary={handleCloudinary} getUser={getUser} authenticated={authenticated} loggedInUser={loggedInUser} user={user} />
       </div>
-      {/* :
-        <h2> Loading</h2> */}
-      {/* } */}
     </main>
 
   )
