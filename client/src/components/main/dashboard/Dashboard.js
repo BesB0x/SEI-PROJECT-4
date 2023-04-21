@@ -3,7 +3,7 @@ import axios from 'axios'
 import ReactModal from 'react-modal'
 
 import CollectionDisplay from './CollectionDisplay'
-import { authenticated, loggedInUser, removeToken } from '../../../helpers/auth'
+import { authenticated, loggedInUser, removeToken, isAuthenticated } from '../../../helpers/auth'
 import ProfileImages from './ProfileImages'
 import AtmosNew from './AtmosNew'
 
@@ -21,6 +21,7 @@ const Collection = ({ getUser,user }) => {
 
 
   useEffect(() => {
+    !isAuthenticated() && navigate('/')
     getUser()
   }, [])
 

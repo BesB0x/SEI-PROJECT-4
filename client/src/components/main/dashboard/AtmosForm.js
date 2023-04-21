@@ -7,6 +7,7 @@ import axios from 'axios'
 import TagsOnForm from './TagsOnForm'
 
 import { useState } from 'react'
+import Spinner from '../../common/Spinner'
 
 
 const AtmosForm = ({ getUser, handleCloseModal, handleDelete, openEdit, title, setFormFields, formFields, setUserTag, handleSubmit, tags, atmosError, setAtmosError, userTag, authenticated, setTags }) => {
@@ -14,7 +15,7 @@ const AtmosForm = ({ getUser, handleCloseModal, handleDelete, openEdit, title, s
   const audioPreset = 'gee4hwat'
   const picturePreset = 'fzakjvwm'
 
-  const [ tagError,setTagError ] = useState('')
+  const [tagError, setTagError] = useState('')
 
   const handleChange = (e) => {
     setFormFields({ ...formFields, [e.target.name]: e.target.value })
@@ -26,13 +27,15 @@ const AtmosForm = ({ getUser, handleCloseModal, handleDelete, openEdit, title, s
     setTagError('')
   }
 
-  
+  console.log(formFields)
+
+
   const submitTag = async (e) => {
     e.preventDefault()
     try {
-      await authenticated.post('/api/tags/', { tag: userTag })
+      const response = await authenticated.post('/api/tags/', { tag: userTag })
       const { data } = await authenticated.get('/api/tags/')
-      setFormFields({ ...formFields, tags: [...formFields.tags, { tag: userTag }] })
+      setFormFields({ ...formFields, tags: [...formFields.tags, response.data] })
       setTags(data)
       setUserTag('')
     } catch (error) {
@@ -44,7 +47,7 @@ const AtmosForm = ({ getUser, handleCloseModal, handleDelete, openEdit, title, s
   const handleAddTag = (e) => {
     e.preventDefault()
     if (!formFields.tags.some(t => t.tag === e.target.name)) {
-      setFormFields({ ...formFields, tags: [...formFields.tags, { tag: e.target.name }] })
+      setFormFields({ ...formFields, tags: [...formFields.tags, { tag: e.target.name, id: e.target.id }] })
     } else {
       setFormFields({ ...formFields, tags: formFields.tags.filter(t => t.tag !== e.target.name) })
     }
@@ -68,6 +71,17 @@ const AtmosForm = ({ getUser, handleCloseModal, handleDelete, openEdit, title, s
       setAtmosError(err.response.data)
     }
   }
+  const spinner = () => {
+    formFields.audio ?
+      <Spinner />
+      :
+      <Spinner />
+
+  }
+  const execute = (e, uploadPreset, keyName) => {
+    handleCloudinary(e, uploadPreset, keyName)
+    spinner()
+  }
   return (
     <main className='form-page'>
       <Container >
@@ -82,7 +96,7 @@ const AtmosForm = ({ getUser, handleCloseModal, handleDelete, openEdit, title, s
             <div className='add-a-tag'>
               <input placeholder='add a tag' type='tags' name='tags' value={userTag} onChange={handleTagChange} />
               <button className='form-button' onClick={submitTag} > Add</button>
-              { tagError && <p> {tagError} </p>}
+              {tagError && <p> {tagError} </p>}
               <p> or </p>
             </div>
             <div className='tags-display'>
@@ -95,14 +109,16 @@ const AtmosForm = ({ getUser, handleCloseModal, handleDelete, openEdit, title, s
             <div>
               {/* Audio */}
               <label htmlFor='audio'>Audio</label>
-              <input type='file' onChange={(e) => handleCloudinary(e, audioPreset, 'audio')} />
+              <input type='file' onChange={(e) => execute(e, audioPreset, 'audio')} />
+
               {/* Picture */}
               <label htmlFor='passwordConfirmation'>Picture</label>
-              <input type='file' onChange={(e) => handleCloudinary(e, picturePreset, 'picture')} />
+              <input type='file' onChange={(e) => execute(e, picturePreset, 'picture')} />
+
             </div>
             <div className='bottom-form-buttons'>
               {openEdit && <button className='form-button' onClick={handleDelete}> Delete </button>}
-              <button className='form-button' type='submit'>Create</button>
+              <button disabled={formFields.audio && formFields.picture ? false : true} className='form-button' type='submit'>Create</button>
               <button className='form-button' onClick={(e) => handleCloseModal(e)}>Cancel</button>
             </div>
             {atmosError && <h6 className='error-message'> {atmosError} </h6>}

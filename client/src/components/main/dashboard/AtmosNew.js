@@ -26,6 +26,7 @@ const AtmosNew = ({ userId, handleCloseModal, handleCloudinary, getUser }) => {
     const getTags = async () => {
       try {
         const { data } = await authenticated.get('/api/tags/')
+        console.log('data ->', data)
         setTags(data)
       } catch (error) {
         console.log(error)
@@ -39,7 +40,9 @@ const AtmosNew = ({ userId, handleCloseModal, handleCloudinary, getUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await authenticated.post('/api/atmospheres/', formFields)
+      console.log(formFields.tags)
+      const formatted = { ...formFields, tags: formFields.tags.map( tag => tag.id ) } 
+      await authenticated.post('/api/atmospheres/', formatted)
       getUser()
       handleCloseModal()
     } catch (error) {

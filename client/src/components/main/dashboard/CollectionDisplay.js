@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import ReactModal from 'react-modal'
 import { useNavigate } from 'react-router'
+// import { useHistory } from 'react-router-dom'
 
 import { userIsOwner } from '../../../helpers/auth'
 import AtmosEdit from './AtmosEdit'
@@ -11,14 +11,15 @@ const CollectionDisplay = ({ customStyles, handleCloudinary, userId, getUser, au
 
 
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [openEdit, setOpenEdit] = useState(false)
   const [atmosToDaw, setAtmosToDaw] = useState([])
 
   const navigate = useNavigate()
+  // const history = useHistory()
 
   const sendToDaw = (atmos) => {
-    setAtmosToDaw(atmos)
-    console.log(atmos)
+    localStorage.setItem('DAW-ITEM', JSON.stringify(atmos))
+    // history.push(atmos)
+    // console.log(history)
     navigate('/daw')
   }
 
@@ -44,6 +45,7 @@ const CollectionDisplay = ({ customStyles, handleCloudinary, userId, getUser, au
                   {userIsOwner(atmo) &&
                     <ModalEditComponent isModelOpen={isModalOpen} customStyles={customStyles} atmo={atmo} userId={userId} handleCloudinary={handleCloudinary} getUser={getUser}/>
                   }
+                  <button onClick={() => sendToDaw(atmo)}> DAW </button>
                 </div>
                 < ViewAtmos atmos={atmo} />
               </div>

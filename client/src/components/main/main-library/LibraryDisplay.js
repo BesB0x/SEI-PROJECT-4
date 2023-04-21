@@ -4,7 +4,7 @@ import Error from '../../common/Error'
 import { authenticated, loggedInUser } from '../../../helpers/auth'
 import { useEffect } from 'react'
 
-const LibraryDisplay = ({ getUser,user,getAtmos, displayedAtmos, atmosError, setDisplayedAtmos }) => {
+const LibraryDisplay = ({ getUser, user, getAtmos, displayedAtmos, atmosError, setDisplayedAtmos }) => {
 
   const addToLibrary = async (atmos) => {
     const data = { user_library: [atmos.id] }
@@ -48,10 +48,12 @@ const LibraryDisplay = ({ getUser,user,getAtmos, displayedAtmos, atmosError, set
             <div key={atmos.id} className='atmo-tile'>
               <div className='tile-picture' style={{ backgroundImage: `url(${atmos.picture})` }}>
                 <div className='library-buttons'>
-                  <div className= { user.user_library.find( userAtmo => userAtmo.id === atmos.id) ? 
-                    'tick'
-                    : 
-                    'add-button'} onClick={() => addToLibrary(atmos)}></div>
+                  {user &&
+                    <div className={user.user_library.find(userAtmo => userAtmo.id === atmos.id) ?
+                      'tick'
+                      :
+                      'add-button'} onClick={() => addToLibrary(atmos)}></div>
+                  }
                 </div>
                 < ViewAtmos atmos={atmos} />
               </div>

@@ -7,6 +7,7 @@ import Login from './components/auth/Login'
 import Library from './components/main/main-library/Library'
 import AtmosNew from './components/main/dashboard/AtmosNew'
 import Collection from './components/main/dashboard/Dashboard'
+import Daw from './components/main/daw/Daw'
 import PageNavBar from './components/common/PageNavBar'
 import PageNotFound from './components/common/PageNotFound'
 import { loggedInUser,authenticated } from './helpers/auth'
@@ -37,6 +38,7 @@ const App = () => {
         <Route path= '/atmos' element={<AtmosNew />} />
         <Route path= '/' element={<Library user={user} getUser={getUser} />} />
         <Route path= '/collection' element={<Collection user={user} getUser={getUser}/>} />
+        <Route path='/daw' element={<Daw />} />
         <Route path='*' element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>

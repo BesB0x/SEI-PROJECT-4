@@ -35,8 +35,7 @@ class AtmosListView(APIView):
         # add atmo to database
         request.data['owner'] = request.user.id
         print(request.data)
-        
-        atmos = TagsPopulatedSerializer(data=request.data)
+        atmos = AtmosSerializer(data=request.data)
         atmos.is_valid(raise_exception=True)
         atmos.save()
         # # add atmo to user library

@@ -29,8 +29,8 @@ const Login = () => {
       localStorage.setItem('ATMOS-USER-TOKEN', data.token)
       navigate('/')
     } catch (error) {
-      setLoginError(error.message)
-      console.log(error)
+      setLoginError(error.response.data.detail)
+      console.log(error.response)
     }
   }
 

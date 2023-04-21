@@ -1,0 +1,18 @@
+
+.daw-picture {
+  background-position:initial;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  .controls {
+    background-color: rgba(151, 149, 149, 0.831);
+    width: 80%;
+    height: 20%;
+    margin-bottom: 5%;
+  }
+  
+}
