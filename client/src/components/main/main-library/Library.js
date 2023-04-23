@@ -8,7 +8,6 @@ import LibraryTags from './LibraryTags'
 const Library = ({ getUser, user }) => {
 
   const [displayedAtmos, setDisplayedAtmos] = useState([])
-  const [isMounted, setIsMounted] = useState(false)
   const [tags, setTags] = useState([])
   const [searchTags, setSearchTags] = useState([])
   const [atmosError, setAtmosError] = useState('')
@@ -23,13 +22,10 @@ const Library = ({ getUser, user }) => {
           if ( atmos.tags.map( tags => searchTags.map( search => search.tag === tags.tag ? true : false)).flat().includes(true)) {
             return (
               atmos
-              // filtered
             )
           }
-
         } )
         setDisplayedAtmos(filteredList.filter( atmos => Boolean(atmos) === true ))
-
       }
     } catch (error) {
       console.log(error)
