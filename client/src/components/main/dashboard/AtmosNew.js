@@ -26,7 +26,7 @@ const AtmosNew = ({ userId, handleCloseModal, handleCloudinary, getUser }) => {
     const getTags = async () => {
       try {
         const { data } = await authenticated.get('/api/tags/')
-        console.log('data ->', data)
+        // console.log('data ->', data)
         setTags(data)
       } catch (error) {
         console.log(error)
