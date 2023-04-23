@@ -27,7 +27,7 @@
       width: 100%;
       display: flex;
     }
-    .harmonizer,.delay {
+    .reverb,.delay,.filter {
       width: 100%;
     }
   }
@@ -35,7 +35,7 @@
 }
 .slider {
   height: 5px;
-  width: 30%;
+  width: 50%;
   background-color: #ddd;
   display: flex;
   align-items: center;

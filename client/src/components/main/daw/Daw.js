@@ -13,12 +13,21 @@ const Daw = () => {
 
   // Delay State
   const [initialDelay, setInitialDelay] = useState(null)
+  const [delayDos, setDelayDos] = useState(null)
+  const [delayTres, setDelayTres] = useState(null)
   const [leftDelay, setLeftDelay] = useState(null)
   const [rightDelay, setRightDelay] = useState(null)
   const [delayLFO, setDelayLFO] = useState(null)
   const [feedback, setFeedback] = useState('')
 
+  // Filter State
+  const [filter, setFilter] = useState(null)
+  const [ cutoff, setCutoff] = useState(20000)
 
+  // Reverb state
+  const [reverb, setReverb] = useState(null)
+  const [dryWet, setDryWet] = useState(0)
+  const [roomSize, setRoomSize] = useState(1)
 
   // CHECKS
   const [isPlaying, setIsPlaying] = useState(false)
@@ -32,48 +41,54 @@ const Daw = () => {
 
 
   useEffect(() => {
+    const reverb = new Tone.Reverb({ wet: 0, decay: 10 }).toDestination()
+    // ! Lowpass Filter
+    const lowpass = new Tone.Filter({
+      type: 'lowpass',
+      frequency: 100, // set initial frequency to maximum
+      rolloff: -12,// 12dB/octave rolloff
+    }).toDestination()
+
 
     const gain = new Tone.Gain({
       gain: 6,
-    }).toDestination()
+    }).chain(lowpass)
 
     const delayGain = new Tone.Gain({
       gain: 0,
-    }).toDestination()
+    }).chain(reverb, lowpass)
 
-    // ! Reverb
 
-    const reverb = new Tone.Reverb().toDestination()
 
-    // ! Delay
+    // ! Effect Chain
 
     const delay = (channel) => {
 
       const firstDelay = new Tone.FeedbackDelay({
-        feedback: 0.1,
-        delayTime: 0.1,
-        maxDelayTime: 10 ,
+        feedback: 0,
+        delayTime: 1,
+        maxDelay: 100,
       }
       )
       setInitialDelay(firstDelay)
 
       const secondDelay = new Tone.FeedbackDelay({
         feedback: 0.1,
-        delayTime: 0.3,
-        maxDelayTime: 10 ,
+        delayTime: 1,
+        maxDelay: 100,
       }
       )
+      setDelayDos(secondDelay)
       const thirdDelay = new Tone.FeedbackDelay({
         feedback: 0.1,
-        delayTime: 0.3,
-        maxDelayTime: 10 ,
+        delayTime: 1,
+        maxDelay: 100,
       }
       )
+      setDelayTres(thirdDelay)
 
       // PATCH BAY
       channel.connect(firstDelay)
-
-
       firstDelay.connect(secondDelay)
       firstDelay.connect(thirdDelay)
 
@@ -88,12 +103,13 @@ const Daw = () => {
         min: -1, // set the minimum value for the modulation
         max: 1, // set the maximum value for the modulation
       }).start()
+      console.log('lfo', lfo.frequency.value)
       setDelayLFO(lfo)
 
       if (count < 4) {
 
         let leftBranch = secondDelay
-        let roomSize = 0
+        let roomSize = 0.2
         const reverb = new Tone.Freeverb({
           roomSize: roomSize,
           wet: 0.3,
@@ -110,12 +126,12 @@ const Daw = () => {
           const additionalDelay = new Tone.PingPongDelay({
             feedback: 0.1,
             delayTime: 0.8,
-            maxDelayTime: 10 ,
+            maxDelay: 100,
           })
           setLeftDelay(additionalDelay)
           count++
-          leftBranch.chain(additionalDelay, pan, delayGain)
-          // lfo.connect(pan.positionX)
+          leftBranch.chain(additionalDelay, pan, reverb, delayGain)
+          lfo.connect(pan.positionX)
           leftBranch = additionalDelay // update the reference to the latest delay node
         }
 
@@ -131,19 +147,16 @@ const Daw = () => {
           const additionalDelay = new Tone.PingPongDelay({
             feedback: 0.1,
             delayTime: 0.8,
-            maxDelayTime: 10 ,
+            maxDelay: 100,
           })
           setRightDelay(additionalDelay)
-          console.log(additionalDelay.delayTime.value)
           count++
           rightBranch.chain(additionalDelay, pan, reverb, delayGain)
+          lfo.connect(pan.positionX)
           rightBranch = additionalDelay // update the reference to the latest delay node
         }
       }
     }
-
-
-
 
 
     const player = new Tone.Player({
@@ -161,15 +174,16 @@ const Daw = () => {
       },
     })
 
-    // ! PATCH BAY
 
-    player.connect(gain)
+
+    player.chain(gain, reverb)
     delay(player)
-    // harmPitch.connect(gain)
 
     setGain(gain)
     setDelayGain(delayGain)
     setPlayer(player)
+    setFilter(lowpass)
+    setReverb(reverb)
 
 
   }, [atmosphere.audio])
@@ -216,7 +230,7 @@ const Daw = () => {
   }
   const handleMovement = (newValue) => {
     setMovemement(newValue)
-    delayLFO.frequency.value = movement
+    delayLFO.frequency.value = newValue
   }
 
   const handleFeedback = (newValue) => {
@@ -224,31 +238,57 @@ const Daw = () => {
     initialDelay.feedback.value = feedback
     rightDelay.feedback.value = feedback
     leftDelay.feedback.value = feedback
-    initialDelay.maxDelayTime = feedback
-    rightDelay.maxDelayTime = feedback
-    leftDelay.maxDelayTime = feedback
   }
 
-  const harmonyOne = () => {
+  const rhythmOne = () => {
     console.log(leftDelay.delayTime.value, rightDelay.delayTime.value)
-    leftDelay.delayTime.value = 0.2
-    rightDelay.delayTime.value = 0.8
+    leftDelay.delayTime.value = 0.66666
+    rightDelay.delayTime.value = 0.3333
   }
 
-  const harmonyTwo = () => {
-    console.log(leftDelay.delayTime.value, rightDelay.delayTime.value)
-    leftDelay.delayTime.value = 0.8
-    rightDelay.delayTime.value = 0.2
+  const rhythmTwo = () => {
+    leftDelay.delayTime.value = 1
+    rightDelay.delayTime.value = 0.75
   }
 
-  const harmonyThree = () => {
-    console.log(leftDelay.delayTime.value, rightDelay.delayTime.value)
-    leftDelay.delayTime.setValueAtTime = (2.5, Tone.now())
-    rightDelay.delayTime.value = (1, Tone.now())
+  const rhythmThree = () => {
+    leftDelay.delayTime.setValueAtTime = 0.9
+    rightDelay.delayTime.value = 0.1
   }
 
-  //  Harmonizer Sliders
+  const rhythmFour = () => {
+    leftDelay.delayTime.setValueAtTime = 0.9
+    rightDelay.delayTime.value = 0.1
+  }
 
+  const rhythmFive = () => {
+    leftDelay.delayTime.setValueAtTime = 0.9
+    rightDelay.delayTime.value = 0.1
+  }
+
+  const rhythmSix = () => {
+    leftDelay.delayTime.setValueAtTime = 0.9
+    rightDelay.delayTime.value = 0.1
+  }
+
+  //  Reverb Sliders
+  const handleDryWet = (newValue) => {
+    console.log(reverb.wet.value)
+    setDryWet(newValue)
+    reverb.wet.value = dryWet
+  }
+
+  const handleRoomSize = (newValue) => {
+    setRoomSize(newValue)
+    reverb.decay = roomSize
+  }
+
+  // Filter Sliders
+
+  const handleFilter = (newValue) => {
+    setCutoff(newValue)
+    filter.frequency.value = cutoff
+  }
 
 
 
@@ -256,6 +296,8 @@ const Daw = () => {
     <main>
       <div className="daw-picture" style={{ backgroundImage: `url(${atmosphere.picture})` }}>
         <section className="controls">
+
+          {/* Play Stop Volume  */}
           <div className='volume-play-stop'>
             <button className='daw-play-button' onClick={handlePlay} disabled={isPlaying || !isLoaded}></button>
             <button className='stop-button' onClick={handleStop} disabled={!isPlaying}></button>
@@ -267,12 +309,16 @@ const Daw = () => {
               trackClassName="example-track"
               value={volume}
               onChange={handleVolume}
-              max={5}
+              max={2}
               step={0.1}
               min={0}
             />
           </div>
+          {/* Effects */}
+
           <div className='effects'>
+
+            {/* DELAY */}
             <div className='delay'>
               <label id="slider-label">Delay</label>
               <ReactSlider
@@ -283,8 +329,8 @@ const Daw = () => {
                 value={delayWet}
                 onChange={handleDelayWet}
                 min={0}
-                max={5}
-                step={0.1}
+                max={1}
+                step={0.01}
               />
               <label id="slider-label">Movement</label>
               <ReactSlider
@@ -294,13 +340,16 @@ const Daw = () => {
                 trackClassName="example-track"
                 value={movement}
                 onChange={handleMovement}
-                max={50}
+                max={1}
                 min={0}
-                step={0.1}
+                step={0.01}
               />
-              <button onClick={harmonyOne}> 1 </button>
-              <button onClick={harmonyTwo}> 2 </button>
-              <button onClick={harmonyThree}> 3 </button>
+              <button onClick={rhythmOne}> 1 </button>
+              <button onClick={rhythmTwo}> 2 </button>
+              <button onClick={rhythmThree}> 3 </button>
+              <button onClick={rhythmFour}> 4 </button>
+              <button onClick={rhythmFive}> 5 </button>
+              <button onClick={rhythmSix}> 6 </button>
               <label id="slider-label">Intensity</label>
               <ReactSlider
                 ariaLabelledby="slider-label"
@@ -313,7 +362,47 @@ const Daw = () => {
                 min={0}
                 step={0.01}
               />
-
+            </div>
+            {/* REVERB */}
+            <div className='reverb'>
+              <label id="slider-label">Amount</label>
+              <ReactSlider
+                ariaLabelledby="slider-label"
+                className="slider"
+                thumbClassName="thumb"
+                trackClassName="example-track"
+                value={dryWet}
+                onChange={handleDryWet}
+                max={1}
+                min={0}
+                step={0.01}
+              />
+              <label id="slider-label">Size</label>
+              <ReactSlider
+                ariaLabelledby="slider-label"
+                className="slider"
+                thumbClassName="thumb"
+                trackClassName="example-track"
+                value={roomSize}
+                onChange={handleRoomSize}
+                max={100}
+                min={1}
+                step={1}
+              />
+            </div>
+            {/* Filters */}
+            <div className='filter'>
+              <ReactSlider
+                ariaLabelledby="slider-label"
+                className="slider"
+                thumbClassName="thumb"
+                trackClassName="example-track"
+                value={cutoff}
+                onChange={handleFilter}
+                max={20000}
+                min={0}
+                step={1}
+              />
             </div>
           </div>
         </section>
