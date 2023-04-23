@@ -5,10 +5,10 @@ import LibraryDisplay from './LibraryDisplay'
 import LibraryTags from './LibraryTags'
 
 
-const Library = ( { getUser,user }) => {
+const Library = ({ getUser, user }) => {
 
   const [displayedAtmos, setDisplayedAtmos] = useState([])
-  const [ isMounted,setIsMounted ] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
   const [tags, setTags] = useState([])
   const [searchTags, setSearchTags] = useState([])
   const [atmosError, setAtmosError] = useState('')
@@ -16,14 +16,27 @@ const Library = ( { getUser,user }) => {
   const getAtmos = useCallback(async () => {
     try {
       const { data } = await axios.get('/api/atmospheres')
-      if (!isMounted) {
+      if (searchTags.length === 0 ) {
         setDisplayedAtmos(data)
+      } else {
+        const filteredList = data.map( atmos => {
+          if ( atmos.tags.map( tags => searchTags.map( search => search.tag === tags.tag ? true : false)).flat().includes(true)) {
+            return (
+              atmos
+              // filtered
+            )
+          }
+
+        } )
+        setDisplayedAtmos(filteredList.filter( atmos => Boolean(atmos) === true ))
+
       }
     } catch (error) {
       console.log(error)
       setAtmosError(error)
     }
   })
+
 
   useEffect(() => {
     const getTags = async () => {
@@ -37,7 +50,6 @@ const Library = ( { getUser,user }) => {
     getAtmos()
     getTags()
     getUser()
-    setIsMounted(true)
   }, [])
 
 
@@ -53,10 +65,10 @@ const Library = ( { getUser,user }) => {
       return false
     })
   }
-  
+
   useEffect(() => {
-    const filtered = searchTags.map(tag => tag.atmospheres  ).filter(atmos => atmos.length > 0)
-    setDisplayedAtmos(removeDuplicates( filtered.flat(), 'id' ))
+    const filtered = searchTags.map(tag => tag.atmospheres).filter(atmos => atmos.length > 0)
+    setDisplayedAtmos(removeDuplicates(filtered.flat(), 'id'))
   }, [searchTags])
 
 
