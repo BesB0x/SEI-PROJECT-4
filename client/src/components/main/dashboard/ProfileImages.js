@@ -13,11 +13,11 @@ const ProfileImages = ({ handleCloudinary, user }) => {
       </div>
       <div className="picture-buttons">
         <div>
-          <label> Set Profile Pic</label>
+          <label> Profile Picture:</label>
           <input type='file' onChange={(e) => handleCloudinary(e, profilePicPreset, 'profile_image')} />
         </div>
         <div>
-          <label> Set Cover Photo </label>
+          <label> Cover Photo: </label>
           <input type='file' onChange={(e) => handleCloudinary(e, coverPhotoPreset, 'cover_photo')} />
         </div>
       </div>

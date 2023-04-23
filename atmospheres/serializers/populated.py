@@ -20,19 +20,19 @@ class TagsPopulatedSerializer(AtmosSerializer):
 
 
 class PutAtmosSerializer(EditedAtmosSerializer):
-    tags = PostTagSerializer(many=True)
+    tags = TagSerializer(many=True)
 
-    def update(self, instance, validated_data):
-        tag_data = validated_data.pop('tags')
-        instance.name = validated_data.get('name', instance.name)
-        instance.picture = validated_data.get('picture', instance.picture)
-        instance.audio = validated_data.get('audio', instance.audio)
-        instance.tags.clear()
-        for tag in tag_data:
-            tag_obj, _ = Tag.objects.get_or_create(tag=tag['tag'])
-            instance.tags.add(tag_obj)
-        instance.save()
-        return instance
+    # def update(self, instance, validated_data):
+    #     tag_data = validated_data.pop('tags')
+    #     instance.name = validated_data.get('name', instance.name)
+    #     instance.picture = validated_data.get('picture', instance.picture)
+    #     instance.audio = validated_data.get('audio', instance.audio)
+    #     instance.tags.clear()
+    #     for tag in tag_data:
+    #         tag_obj, _ = Tag.objects.get_or_create(tag=tag['tag'])
+    #         instance.tags.add(tag_obj)
+    #     instance.save()
+    #     return instance
 
 
 class PopulatedAtmosSerializer(AtmosSerializer):

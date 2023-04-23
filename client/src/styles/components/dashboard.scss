@@ -23,12 +23,36 @@
       .username,
       .create-atmo-button {
         width: 33%;
+        // font-family: 'Rubik 80s Fade', cursive;
+      }
 
+      .logout-button {
+        font-family: 'Source Code Pro', monospace;
+        border: none;
+        cursor: pointer;
+        color: white;
+        font-weight: 500;
+        &:hover {
+          color: black ;
+        }
       }
 
       .create-atmo-button {
-        display: flex;
-        align-items: flex-end;
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          button {
+            border: none;
+            font-family: 'Raleway Dots', cursive;
+            font-size: 23px;
+            padding: 8px;
+            border-radius: 4px;
+            &:hover{
+              background-color: rgba(72, 207, 146, 0.768);
+              font-size: 25px;
+              transition: 0.5s ease-in-out;
+            }
+          }
       }
 
       .profile-pic-box {
@@ -47,6 +71,7 @@
         .picture-buttons {
           display: flex;
           margin: 4px -20px 0 42px;
+          
 
           input {
             width: 100px;
@@ -82,7 +107,7 @@
 .tile-display {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: 85%;
   height: 50%;
   margin: 0 auto;
@@ -90,17 +115,16 @@
 
   .atmo-tile {
     .library-buttons{
-      // background-image: linear-gradient(to bottom, #6b6a6a47, #60606037 50%),linear-gradient(to right, #53525264, #ffffff00 50%) ;
       display: inline;
       min-height: 30%;
       width: 20%;
       div{
         margin: 5px;
         min-width: 80%;
-        min-height: 50%;
+        height: 50%;
       }
     }
-    height: 30vh;
+    height: 25vh;
     width: 30%;
     margin: 10px ;
     padding: 10px;
@@ -128,6 +152,13 @@
   @include hover-effect-tile( '../assets/remv-bw.png', '../assets/rmv-cl.png')
 }
 
+.to-daw-button{
+  @include hover-effect-tile( '../assets/to-daw-bw.png','../assets/to-daw-cl.png');
+  background-color: transparent;
+  border: none;   
+  width: 100%;
+}
+
 .play-button{
   cursor: pointer;
   height: 100%;
@@ -137,4 +168,5 @@
 .below-pic{
   display: flex;
   justify-content: space-between;
+  font-size: 12px;
 }

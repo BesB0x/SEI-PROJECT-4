@@ -1,29 +1,39 @@
 
 .library{
+  background-color: rgba(194, 247, 251, 0.29);;
   display: flex;
   flex-direction: column;
   @extend %flex-center;
   h1 {
     margin: 50px;
     padding: 50px;
+    font-family: 'Major Mono Display', monospace;
+    font-size: 80px;
   }
-
-  
-
     .tags {
       margin: 10px 10px 10px 0;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       width: 85%;
+      font-family: 'Major Mono Display', monospace;
+      font-size: 15px;
       button {
-        // background-color: rgba(48, 197, 180, 0.568);
         @extend %form-button;
       }
     }
 
     
     .tile-display{
+      margin: 50px;
+      background-color: rgba(185, 221, 224, 0.63);
+      .tile-display{
+
+        .atmo-tile{
+          height: 26vh;
+          margin: 20px 10px;
+        }
+      }
 
     .library-buttons{
       max-height: 25% ;
@@ -33,8 +43,6 @@
       display: flex;
       margin: 40px 0 0 6%;
     }
-    margin: 50px;
-    background-color: $bg ;
     
     .add-button {
       @include hover-effect-tile( '../assets/addbw-nobg.png', '../assets/add-nobg.png')
@@ -55,7 +63,9 @@
       margin: 40px 0 ;
       p {
         margin: 0;
-        font-size: 12px;
+        font-size: 11px;
+        // font-family: 'Source Code Pro', monospace;
+        margin: 1px;
       }
       .info-block{
         display: flex;
@@ -66,6 +76,14 @@
           text-align: right;
         }
       }
+    }
+  }
+  .tile-box {
+
+    .no-atmos{
+      margin: 100px;
+      background-color: rgba(245, 245, 220, 0.539);
+      padding: 5px;
     }
   }
   

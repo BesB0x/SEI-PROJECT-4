@@ -1,10 +1,8 @@
-// import ViewAtmos from '../../common/ViewAtmos'
 import ViewAtmos from './ViewAtmos'
 import Error from '../../common/Error'
 import { authenticated, loggedInUser } from '../../../helpers/auth'
-import { useEffect } from 'react'
 
-const LibraryDisplay = ({ getUser, user, getAtmos, displayedAtmos, atmosError, setDisplayedAtmos }) => {
+const LibraryDisplay = ({ searchTags, getUser, user, getAtmos, displayedAtmos, atmosError, setDisplayedAtmos }) => {
 
   const addToLibrary = async (atmos) => {
     const data = { user_library: [atmos.id] }
@@ -12,6 +10,7 @@ const LibraryDisplay = ({ getUser, user, getAtmos, displayedAtmos, atmosError, s
       await authenticated.put(`/api/users/${loggedInUser()}/user_library/`, data)
       getAtmos()
       getUser()
+      console.log(searchTags)
     } catch (error) {
       console.log(error)
     }
@@ -43,31 +42,36 @@ const LibraryDisplay = ({ getUser, user, getAtmos, displayedAtmos, atmosError, s
             <option > Most Popular</option>
           </select>
         </div>
-        {displayedAtmos.map(atmos => {
-          return (
-            <div key={atmos.id} className='atmo-tile'>
-              <div className='tile-picture' style={{ backgroundImage: `url(${atmos.picture})` }}>
-                <div className='library-buttons'>
-                  {user &&
-                    <div className={user.user_library.find(userAtmo => userAtmo.id === atmos.id) ?
-                      'tick'
-                      :
-                      'add-button'} onClick={() => addToLibrary(atmos)}></div>
-                  }
+        <div className='tile-display'>
+          {displayedAtmos.length > 0 ?
+            displayedAtmos.map(atmos => {
+              return (
+                <div key={atmos.id} className='atmo-tile'>
+                  <div className='tile-picture' style={{ backgroundImage: `url(${atmos.picture})` }}>
+                    <div className='library-buttons'>
+                      {user &&
+                        <div className={user.user_library.find(userAtmo => userAtmo.id === atmos.id) ?
+                          'tick'
+                          :
+                          'add-button'} onClick={() => addToLibrary(atmos)}></div>
+                      }
+                    </div>
+                    < ViewAtmos atmos={atmos} />
+                  </div>
+                  <p> name: {atmos.name} </p>
+                  <div className='info-block'>
+                    <p> creator: {atmos.owner.username}</p>
+                    <p className='added-to'> added to {atmos.put_in_library.length} {atmos.put_in_library.length === 1 ? 'collection' : 'collections'} </p>
+                  </div>
+                  {/* <p> Tags: {atmos.tags.length} </p> */}
                 </div>
-                < ViewAtmos atmos={atmos} />
-              </div>
-              <p> name: {atmos.name} </p>
-              <div className='info-block'>
-                <p> creator: {atmos.owner.username}</p>
-                <p className='added-to'> added to {atmos.put_in_library.length} {atmos.put_in_library.length === 1 ? 'collection' : 'collections'} </p>
-              </div>
-              {/* <p> Tags: {atmos.tags.length} </p> */}
-            </div>
-          )
-        })
-        }
-        {atmosError && <Error error={atmosError} />}
+              )
+            })
+            :
+            <h6 className="no-atmos display-3"> No Atmospheres </h6>
+          }
+          {atmosError && <Error error={atmosError} />}
+        </div>
 
       </section>
 

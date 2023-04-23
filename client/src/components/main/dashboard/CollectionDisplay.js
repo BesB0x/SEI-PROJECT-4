@@ -45,7 +45,7 @@ const CollectionDisplay = ({ customStyles, handleCloudinary, userId, getUser, au
                   {userIsOwner(atmo) &&
                     <ModalEditComponent isModelOpen={isModalOpen} customStyles={customStyles} atmo={atmo} userId={userId} handleCloudinary={handleCloudinary} getUser={getUser}/>
                   }
-                  <button onClick={() => sendToDaw(atmo)}> DAW </button>
+                  <button className='to-daw-button'onClick={() => sendToDaw(atmo)}> </button>
                 </div>
                 < ViewAtmos atmos={atmo} />
               </div>

@@ -64,7 +64,8 @@ class AtmosSingleView(APIView):
         atmos = Atmosphere.objects.get(pk=pk)
         if atmos.owner != request.user and not request.user.is_staff:
             raise PermissionDenied()
-        serialized_atmos = PutAtmosSerializer(
+        print(request.data)
+        serialized_atmos = AtmosSerializer(
             atmos, request.data, partial=True)
         serialized_atmos.is_valid(raise_exception=True)
         serialized_atmos.save()

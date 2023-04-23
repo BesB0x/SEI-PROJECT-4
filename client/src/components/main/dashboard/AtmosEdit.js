@@ -39,12 +39,13 @@ const AtmosEdit = ({ userId, openEdit, atmo, handleCloseModal, handleCloudinary,
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await authenticated.put(`/api/atmospheres/${atmo.id}/`, formFields)
+      const formatted = { ...formFields, owner: formFields.owner.id, tags: formFields.tags.map( tag => tag.id ) } 
+      await authenticated.put(`/api/atmospheres/${atmo.id}/`, formatted)
       getUser()
       handleCloseModal()
     } catch (error) {
-      console.log(error.response.data.detail)
-      setAtmosError(error.response.data.detail.tags.tag)
+      console.log(error.response.data.detail.tags[0].tag)
+      setAtmosError(error.response.data.detail.tags[0].tag)
     }
   }
 

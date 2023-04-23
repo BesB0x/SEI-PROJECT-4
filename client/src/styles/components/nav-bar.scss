@@ -1,8 +1,27 @@
 .collection-icon {
   @include hover-effect-navbar( '../assets/cltn-bw.png','../assets/cltn-cl.png' ) ;
+  margin-bottom: 8px;
 }
 
 .navbar-brand {
   @include hover-effect-navbar( '../assets/logo-bw.png','../assets/logo-cl.png' ) ;
+  // width: 3.8%;
+
 }
 
+
+.atmos-name {
+  margin: 0 0 0 32vw;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 30px;
+  width: 300px;
+}
+
+.logout-button {
+  margin: 10px 0 0 20vw ;
+  min-width: 5%;
+}
+
+.container {
+  max-width: 90;
+}

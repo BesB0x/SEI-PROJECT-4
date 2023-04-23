@@ -58,7 +58,7 @@
           justify-content: center;
 
           // justify-content: space-evenly;
-          div {
+          button {
             @extend %form-button;
           }
         }
@@ -85,9 +85,11 @@
 }
 
 .tag-green {
-  background-color: rgba(46, 155, 46, 0.725);
+  background-color: rgba(77, 210, 135, 0.767);
+
 }
 
 .tag-red {
   background-color: rgba(48, 197, 180, 0.568);
+
 }

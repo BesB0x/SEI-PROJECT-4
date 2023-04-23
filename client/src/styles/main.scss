@@ -1,9 +1,14 @@
 * {
   box-sizing: border-box;
 }
+// fonts
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;500&family=Major+Mono+Display&family=Raleway+Dots&family=Source+Code+Pro:wght@200&display=swap');
 
+
+// variables and mixins
 @import './variables.scss';
 @import './mixins.scss';
+// components
 @import './components/form-page.scss';
 @import './components/nav-bar.scss';
 @import './components/dashboard.scss';

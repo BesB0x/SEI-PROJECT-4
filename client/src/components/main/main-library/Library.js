@@ -1,8 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import axios from 'axios'
 
-import { isAuthenticated } from '../../../helpers/auth'
-
 import LibraryDisplay from './LibraryDisplay'
 import LibraryTags from './LibraryTags'
 
@@ -10,16 +8,17 @@ import LibraryTags from './LibraryTags'
 const Library = ( { getUser,user }) => {
 
   const [displayedAtmos, setDisplayedAtmos] = useState([])
+  const [ isMounted,setIsMounted ] = useState(false)
   const [tags, setTags] = useState([])
-  // const [ filtered, setFiltered ] = useState([])
   const [searchTags, setSearchTags] = useState([])
   const [atmosError, setAtmosError] = useState('')
 
   const getAtmos = useCallback(async () => {
     try {
       const { data } = await axios.get('/api/atmospheres')
-      setDisplayedAtmos(data)
-
+      if (!isMounted) {
+        setDisplayedAtmos(data)
+      }
     } catch (error) {
       console.log(error)
       setAtmosError(error)
@@ -38,14 +37,12 @@ const Library = ( { getUser,user }) => {
     getAtmos()
     getTags()
     getUser()
+    setIsMounted(true)
   }, [])
 
 
-  // useEffect(() => {
-  //   const filtered = searchTags.map(tag => tag.atmospheres  ).filter(atmos => atmos.length > 0 ). 
-  //   setDisplayedAtmos(filtered.flat())
-  //   console.log(filtered)
-  // }, [searchTags])
+
+  console.log(displayedAtmos)
   const removeDuplicates = (arr, prop) => {
     const map = new Map()
     return arr.filter((obj) => {
@@ -69,7 +66,7 @@ const Library = ( { getUser,user }) => {
       <div className='tags'>
         <LibraryTags tags={tags} setSearchTags={setSearchTags} searchTags={searchTags} />
       </div>
-      < LibraryDisplay getUser={getUser} user={user} getAtmos={getAtmos} displayedAtmos={displayedAtmos} atmosError={atmosError} setDisplayedAtmos={setDisplayedAtmos} />
+      < LibraryDisplay searchTags={searchTags} getUser={getUser} user={user} getAtmos={getAtmos} displayedAtmos={displayedAtmos} atmosError={atmosError} setDisplayedAtmos={setDisplayedAtmos} />
     </main>
   )
 }

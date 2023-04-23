@@ -14,7 +14,7 @@ const LibraryTags = ({ tags, setSearchTags, searchTags }) => {
   }
   return (
     tags.map(tag => {
-      return (<button className={ searchTags.some(t => t.tag === tag.tag) ? 'tag-green' : ''} onClick={(e) => handleAddTag(e.target.name)} name={tag.tag} key={tag.id}> {tag.tag} </button>)
+      return (<button className={ searchTags.some(t => t.tag === tag.tag) ? 'tag-green' : 'tag-red'} onClick={(e) => handleAddTag(e.target.name)} name={tag.tag} key={tag.id}> {tag.tag} </button>)
     })
   )
 }

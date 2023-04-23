@@ -1,6 +1,6 @@
 
 .daw-picture {
-  background-position:initial;
+  background-position:bottom;
   background-size: cover;
   background-repeat: no-repeat;
   width: 100vw;
@@ -13,6 +13,38 @@
     width: 80%;
     height: 20%;
     margin-bottom: 5%;
+    
+    .volume-play-stop{
+      @extend %flex-center;
+      margin: 5px auto;
+      padding: 5px;
+      border: 1px solid black;
+      width: 50%;
+    
+    }
   }
   
+}
+.slider {
+  height: 5px;
+  width: 30%;
+  background-color: #ddd;
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+.thumb {
+  border-radius: 10px;
+  height: 15px;
+  width: 15px;
+  background-color: black;
+}
+
+.daw-play-button{
+@include daw-button-hover( '../assets/playdawbw.png','../assets/playdawcl.png' ) ;
+
+}
+.stop-button{
+@include daw-button-hover( '../assets/stopbw.png','../assets/stopcl.png' ) ;
+
 }
