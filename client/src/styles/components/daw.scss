@@ -13,6 +13,8 @@
     width: 80%;
     height: 20%;
     margin-bottom: 5%;
+    display: flex;
+    flex-direction: column;
     
     .volume-play-stop{
       @extend %flex-center;
@@ -20,7 +22,13 @@
       padding: 5px;
       border: 1px solid black;
       width: 50%;
-    
+    }
+    .effects{
+      width: 100%;
+      display: flex;
+    }
+    .harmonizer,.delay {
+      width: 100%;
     }
   }
   

@@ -12,13 +12,13 @@ const Daw = () => {
   const [delayGain, setDelayGain] = useState(null)
 
   // Delay State
-  const [clicked, setClicked] = useState(false)
-  const [harmony, setHarmony] = useState([])
   const [initialDelay, setInitialDelay] = useState(null)
   const [leftDelay, setLeftDelay] = useState(null)
   const [rightDelay, setRightDelay] = useState(null)
   const [delayLFO, setDelayLFO] = useState(null)
-  const [feedback,setFeedback] = useState('')
+  const [feedback, setFeedback] = useState('')
+
+
 
   // CHECKS
   const [isPlaying, setIsPlaying] = useState(false)
@@ -27,43 +27,52 @@ const Daw = () => {
   // SLIDER VALUES
   const [volume, setVolume] = useState(0)
   const [delayWet, setDelayWet] = useState(0)
-  const [movement,setMovemement] = useState(0)
+  const [movement, setMovemement] = useState(0)
 
 
 
   useEffect(() => {
 
     const gain = new Tone.Gain({
-      gain: 0,
+      gain: 6,
     }).toDestination()
 
     const delayGain = new Tone.Gain({
       gain: 0,
     }).toDestination()
 
-    const delay = (player) => {
-      const time = 1
+    // ! Reverb
+
+    const reverb = new Tone.Reverb().toDestination()
+
+    // ! Delay
+
+    const delay = (channel) => {
 
       const firstDelay = new Tone.FeedbackDelay({
         feedback: 0.1,
-        delayTime: time,
+        delayTime: 0.1,
+        maxDelayTime: 10 ,
       }
       )
       setInitialDelay(firstDelay)
 
       const secondDelay = new Tone.FeedbackDelay({
         feedback: 0.1,
-        delayTime: time * 2 ,
+        delayTime: 0.3,
+        maxDelayTime: 10 ,
       }
       )
       const thirdDelay = new Tone.FeedbackDelay({
         feedback: 0.1,
-        delayTime: time * 2,
+        delayTime: 0.3,
+        maxDelayTime: 10 ,
       }
       )
 
       // PATCH BAY
-      player.connect(firstDelay)
+      channel.connect(firstDelay)
+
 
       firstDelay.connect(secondDelay)
       firstDelay.connect(thirdDelay)
@@ -71,7 +80,7 @@ const Daw = () => {
 
       // CREATE TREE
       let count = 0
-      const startTime = time * 2
+      const startTime = 0.3 * 2
       let repeatTime
       const lfo = new Tone.LFO({
         frequency: 0, // set the frequency of the LFO
@@ -98,13 +107,14 @@ const Daw = () => {
           })
           repeatTime = startTime + 2
           roomSize < 1 ? roomSize = roomSize + 0.2 : roomSize = 0
-          const additionalDelay = new Tone.FeedbackDelay({
+          const additionalDelay = new Tone.PingPongDelay({
             feedback: 0.1,
-            delayTime: 0.2,
+            delayTime: 0.8,
+            maxDelayTime: 10 ,
           })
           setLeftDelay(additionalDelay)
           count++
-          leftBranch.chain(additionalDelay, pan, reverb, delayGain)
+          leftBranch.chain(additionalDelay, pan, delayGain)
           // lfo.connect(pan.positionX)
           leftBranch = additionalDelay // update the reference to the latest delay node
         }
@@ -118,9 +128,10 @@ const Daw = () => {
             positionZ: -1,
           })
 
-          const additionalDelay = new Tone.FeedbackDelay({
+          const additionalDelay = new Tone.PingPongDelay({
             feedback: 0.1,
-            delayTime: 0.3,
+            delayTime: 0.8,
+            maxDelayTime: 10 ,
           })
           setRightDelay(additionalDelay)
           console.log(additionalDelay.delayTime.value)
@@ -130,6 +141,9 @@ const Daw = () => {
         }
       }
     }
+
+
+
 
 
     const player = new Tone.Player({
@@ -145,14 +159,26 @@ const Daw = () => {
       onerror: () => {
         console.error('Error loading audio file')
       },
-    }).connect(gain)
+    })
+
+    // ! PATCH BAY
+
+    player.connect(gain)
+    delay(player)
+    // harmPitch.connect(gain)
 
     setGain(gain)
     setDelayGain(delayGain)
-    delay(player)
     setPlayer(player)
+
+
   }, [atmosphere.audio])
 
+
+
+
+
+  // UI
 
   const handlePlay = () => {
     if (isLoaded) {
@@ -183,7 +209,7 @@ const Daw = () => {
   }
 
 
-  // Delay
+  // Delay Sliders
   const handleDelayWet = (newValue) => {
     setDelayWet(newValue)
     delayGain.gain.value = delayWet
@@ -196,9 +222,11 @@ const Daw = () => {
   const handleFeedback = (newValue) => {
     setFeedback(newValue)
     initialDelay.feedback.value = feedback
-    rightDelay.feedback.value = feedback 
+    rightDelay.feedback.value = feedback
     leftDelay.feedback.value = feedback
-
+    initialDelay.maxDelayTime = feedback
+    rightDelay.maxDelayTime = feedback
+    leftDelay.maxDelayTime = feedback
   }
 
   const harmonyOne = () => {
@@ -209,15 +237,20 @@ const Daw = () => {
 
   const harmonyTwo = () => {
     console.log(leftDelay.delayTime.value, rightDelay.delayTime.value)
-    leftDelay.delayTime.value = 0.1
-    rightDelay.delayTime.value = 0.9
+    leftDelay.delayTime.value = 0.8
+    rightDelay.delayTime.value = 0.2
   }
 
   const harmonyThree = () => {
     console.log(leftDelay.delayTime.value, rightDelay.delayTime.value)
-    leftDelay.delayTime.setValueAtTime = (0.6, Tone.now())
-    rightDelay.delayTime.value = (0.4, Tone.now())
+    leftDelay.delayTime.setValueAtTime = (2.5, Tone.now())
+    rightDelay.delayTime.value = (1, Tone.now())
   }
+
+  //  Harmonizer Sliders
+
+
+
 
   return (
     <main>
@@ -234,63 +267,54 @@ const Daw = () => {
               trackClassName="example-track"
               value={volume}
               onChange={handleVolume}
-              // onAfterChange={handleGainAfterChange}
               max={5}
               step={0.1}
+              min={0}
             />
           </div>
-          <div className='sliders'>
-            <label id="slider-label">Delay</label>
-            <ReactSlider
-              ariaLabelledby="slider-label"
-              className="slider"
-              thumbClassName="thumb"
-              trackClassName="example-track"
-              value={delayWet}
-              onChange={handleDelayWet}
-              min={0}
-              max={5}
-              step={0.1}
-            />
-            <label id="slider-label">Movement</label>
-            <ReactSlider
-              ariaLabelledby="slider-label"
-              className="slider"
-              thumbClassName="thumb"
-              trackClassName="example-track"
-              value={movement}
-              onChange={handleMovement}
-              max={50}
-              min={0}
-              step={0.1}
-            />
-            <button onClick={harmonyOne}> 1 </button>
-            <button onClick={harmonyTwo}> 2 </button>
-            <button onClick={harmonyThree}> 3 </button>
-            <label id="slider-label">Intensity</label>
-            <ReactSlider
-              ariaLabelledby="slider-label"
-              className="slider"
-              thumbClassName="thumb"
-              trackClassName="example-track"
-              value={feedback}
-              onChange={handleFeedback}
-              max={1}
-              min={0}
-              step={0.01}
-            />
-            {/* <label id="slider-label">Time</label>
-            <ReactSlider
-              ariaLabelledby="slider-label"
-              className="slider"
-              thumbClassName="thumb"
-              trackClassName="example-track"
-              renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
-              value={volume}
-              onChange={handleVolume}
-              onAfterChange={handleSliderAfterChange}
-            /> */}
+          <div className='effects'>
+            <div className='delay'>
+              <label id="slider-label">Delay</label>
+              <ReactSlider
+                ariaLabelledby="slider-label"
+                className="slider"
+                thumbClassName="thumb"
+                trackClassName="example-track"
+                value={delayWet}
+                onChange={handleDelayWet}
+                min={0}
+                max={5}
+                step={0.1}
+              />
+              <label id="slider-label">Movement</label>
+              <ReactSlider
+                ariaLabelledby="slider-label"
+                className="slider"
+                thumbClassName="thumb"
+                trackClassName="example-track"
+                value={movement}
+                onChange={handleMovement}
+                max={50}
+                min={0}
+                step={0.1}
+              />
+              <button onClick={harmonyOne}> 1 </button>
+              <button onClick={harmonyTwo}> 2 </button>
+              <button onClick={harmonyThree}> 3 </button>
+              <label id="slider-label">Intensity</label>
+              <ReactSlider
+                ariaLabelledby="slider-label"
+                className="slider"
+                thumbClassName="thumb"
+                trackClassName="example-track"
+                value={feedback}
+                onChange={handleFeedback}
+                max={1}
+                min={0}
+                step={0.01}
+              />
 
+            </div>
           </div>
         </section>
 
