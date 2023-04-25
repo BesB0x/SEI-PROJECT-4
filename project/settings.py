@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 from pathlib import Path
+import django_on_heroku
 import environ
 import os
 env = environ.Env()
@@ -62,7 +63,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'client')
-                  ]  
+                ]  #Look, we have added the root folder of frontend here
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -144,3 +145,5 @@ REST_FRAMEWORK = {
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'client', "build", "static"),
 )
+
+django_on_heroku.settings(locals())

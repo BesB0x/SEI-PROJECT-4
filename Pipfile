@@ -8,6 +8,7 @@ django = "*"
 psycopg2-binary = "*"
 djangorestframework = "*"
 django-environ = "*"
+django-on-heroku = "*"
 
 [dev-packages]
 autopep8 = "*"

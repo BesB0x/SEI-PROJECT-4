@@ -1,0 +1,25 @@
+[
+{
+  "model": "users.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$5EczPMRDtSDnmimAVDTn4v$aOVntClU06bQKEuRg7+6k1M3Mw6HBTQHa5xYdjeI7TI=",
+    "last_login": "2023-04-15T09:27:49Z",
+    "is_superuser": true,
+    "username": "jiminycricket",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2023-04-15T09:27:36Z",
+    "email": "jiminy@cricket.com",
+    "profile_image": "https://res.cloudinary.com/detjuq0lu/image/upload/v1682358036/ATMOS%20-%20PROFILE%20PIC/rfx8duudxmmbnavmtvgb.jpg",
+    "cover_photo": "https://res.cloudinary.com/detjuq0lu/image/upload/v1682358057/ATMOS%20-%20COVER%20PHOTO/y8bpwapu1isl6exnttfj.jpg",
+    "groups": [],
+    "user_permissions": [],
+    "user_library": [
+      66
+    ]
+  }
+}
+]

@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.41be6bf1.css",
+    "main.js": "/static/js/main.e6a66320.js",
+    "static/media/remv-bw.png": "/static/media/remv-bw.128ccc46acefff877428.png",
+    "static/media/rmv-cl.png": "/static/media/rmv-cl.4e8476d423efe87c883a.png",
+    "static/media/logo-cl.png": "/static/media/logo-cl.0976c8d0c96b6a0fdfe8.png",
+    "static/media/logo-bw.png": "/static/media/logo-bw.6529d9181642fa4ff78d.png",
+    "static/media/add-nobg.png": "/static/media/add-nobg.12656cb602cd7a2a3149.png",
+    "static/media/addbw-nobg.png": "/static/media/addbw-nobg.af054ac559256330cbb7.png",
+    "static/media/cltn-cl.png": "/static/media/cltn-cl.ee55759a11abd0c6eb84.png",
+    "static/media/flip-flop.gif": "/static/media/flip-flop.6c1faba190c394abc283.gif",
+    "static/media/tick.png": "/static/media/tick.e45ec23363be5db96769.png",
+    "static/media/playdawbw.png": "/static/media/playdawbw.feb19f676899bb95fb0b.png",
+    "static/media/playdawcl.png": "/static/media/playdawcl.87cee491d96f5156d1c9.png",
+    "static/media/cltn-bw.png": "/static/media/cltn-bw.ee845c22c6f4931ef65c.png",
+    "static/media/edit-bw.png": "/static/media/edit-bw.ac085f61d7cb780ea345.png",
+    "static/media/edit-cl.png": "/static/media/edit-cl.e9fb90bf7aa0767aa927.png",
+    "static/media/to-daw-bw.png": "/static/media/to-daw-bw.bf9bdf4f034122546e81.png",
+    "static/media/to-daw-cl.png": "/static/media/to-daw-cl.8ce5a358b7b9a16baf9c.png",
+    "index.html": "/index.html",
+    "main.41be6bf1.css.map": "/static/css/main.41be6bf1.css.map",
+    "main.e6a66320.js.map": "/static/js/main.e6a66320.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.41be6bf1.css",
+    "static/js/main.e6a66320.js"
+  ]
+}
