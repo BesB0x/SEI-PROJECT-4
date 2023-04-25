@@ -15,7 +15,7 @@ const Library = ({ getUser, user }) => {
 
   const getAtmos = useCallback(async () => {
     try {
-      const { data } = await axios.get('/api/atmospheres')
+      const { data } = await axios.get('/api/atmospheres/')
       if (searchTags.length === 0 ) {
         setDisplayedAtmos(data)
         setAllAtmos(data)
