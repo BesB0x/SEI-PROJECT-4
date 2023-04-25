@@ -2,7 +2,7 @@ import ViewAtmos from './ViewAtmos'
 import Error from '../../common/Error'
 import { authenticated, loggedInUser } from '../../../helpers/auth'
 
-const LibraryDisplay = ({ searchTags, getUser, user, getAtmos, displayedAtmos, atmosError, setDisplayedAtmos }) => {
+const LibraryDisplay = ({ allAtmos, getUser, user, getAtmos, displayedAtmos, atmosError, setDisplayedAtmos }) => {
 
   const addToLibrary = async (atmos) => {
     const data = { user_library: [atmos.id] }
@@ -10,12 +10,10 @@ const LibraryDisplay = ({ searchTags, getUser, user, getAtmos, displayedAtmos, a
       await authenticated.put(`/api/users/${loggedInUser()}/user_library/`, data)
       getAtmos()
       getUser()
-      console.log(searchTags)
     } catch (error) {
       console.log(error)
     }
   }
-
 
 
   const sortAtmos = (e) => {
@@ -68,7 +66,8 @@ const LibraryDisplay = ({ searchTags, getUser, user, getAtmos, displayedAtmos, a
               )
             })
             :
-            <h6 className="no-atmos display-3"> No Atmospheres </h6>
+            
+            <h6 className="no-atmos display-6"> No Atmospheres </h6>
           }
           {atmosError && <Error error={atmosError} />}
         </div>

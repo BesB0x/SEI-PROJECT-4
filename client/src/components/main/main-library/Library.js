@@ -7,6 +7,7 @@ import LibraryTags from './LibraryTags'
 
 const Library = ({ getUser, user }) => {
 
+  const [allAtmos, setAllAtmos] = useState([])
   const [displayedAtmos, setDisplayedAtmos] = useState([])
   const [tags, setTags] = useState([])
   const [searchTags, setSearchTags] = useState([])
@@ -17,6 +18,7 @@ const Library = ({ getUser, user }) => {
       const { data } = await axios.get('/api/atmospheres')
       if (searchTags.length === 0 ) {
         setDisplayedAtmos(data)
+        setAllAtmos(data)
       } else {
         const filteredList = data.map( atmos => {
           if ( atmos.tags.map( tags => searchTags.map( search => search.tag === tags.tag ? true : false)).flat().includes(true)) {
@@ -49,8 +51,6 @@ const Library = ({ getUser, user }) => {
   }, [])
 
 
-
-  console.log(displayedAtmos)
   const removeDuplicates = (arr, prop) => {
     const map = new Map()
     return arr.filter((obj) => {
@@ -72,9 +72,9 @@ const Library = ({ getUser, user }) => {
     <main className='library'>
       <h1> Library</h1>
       <div className='tags'>
-        <LibraryTags tags={tags} setSearchTags={setSearchTags} searchTags={searchTags} />
+        <LibraryTags setDisplayedAtmos={setDisplayedAtmos} allAtmos={allAtmos} tags={tags} setSearchTags={setSearchTags} searchTags={searchTags} />
       </div>
-      < LibraryDisplay searchTags={searchTags} getUser={getUser} user={user} getAtmos={getAtmos} displayedAtmos={displayedAtmos} atmosError={atmosError} setDisplayedAtmos={setDisplayedAtmos} />
+      < LibraryDisplay allAtmos={allAtmos} searchTags={searchTags} getUser={getUser} user={user} getAtmos={getAtmos} displayedAtmos={displayedAtmos} atmosError={atmosError} setDisplayedAtmos={setDisplayedAtmos} />
     </main>
   )
 }

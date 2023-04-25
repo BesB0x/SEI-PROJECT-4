@@ -1,6 +1,6 @@
 
 .library{
-  background-color: rgba(194, 247, 251, 0.29);;
+  background-color: rgba(194, 247, 251, 0.29);
   display: flex;
   flex-direction: column;
   @extend %flex-center;
@@ -36,7 +36,9 @@
       }
 
     .library-buttons{
-      max-height: 25% ;
+      margin-top: 5px;
+      min-height: 10px;
+      min-width: 10px;
     }
     .filters{
       width: 100%;
@@ -45,7 +47,9 @@
     }
     
     .add-button {
-      @include hover-effect-tile( '../assets/addbw-nobg.png', '../assets/add-nobg.png')
+      @include hover-effect-tile( '../assets/addbw-nobg.png', '../assets/add-nobg.png');
+      height: 20px;
+      width: 40px
     }
 
     .tick{
@@ -55,8 +59,8 @@
       background-position: center;
       background-repeat: no-repeat;
       cursor: pointer;
-      height: 10%;
-      width: 20%;
+      height: 20px;
+      width: 40px;
       transition: 0.1s ease-in-out;
     }
     .atmo-tile {

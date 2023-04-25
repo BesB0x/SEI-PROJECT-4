@@ -9,16 +9,22 @@
 
 }
 
+.login-register-navbar{
+  margin-top: 10px;
+}
+.navbar-nav{
+  width: 100%;
+}
 
 .atmos-name {
-  margin: 0 0 0 32vw;
+  margin: 0 auto;
   font-family: 'Chakra Petch', sans-serif;
   font-size: 30px;
   width: 300px;
 }
 
 .logout-button {
-  margin: 10px 0 0 20vw ;
+  margin: 10px 0 0 0;
   min-width: 5%;
 }
 

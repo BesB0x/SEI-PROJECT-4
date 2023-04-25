@@ -1,13 +1,18 @@
 import * as Tone from 'tone'
 import { useState, useEffect } from 'react'
 import ReactSlider from 'react-slider'
+import { useNavigate } from 'react-router-dom'
+
+import { isAuthenticated } from '../../../helpers/auth'
 
 
-const Daw = () => {
+const Daw = ({ audio, setAudio }) => {
   const atmosphere = JSON.parse(localStorage.getItem('DAW-ITEM'))
 
+  // Minimizing State
+  const [isVisible, setIsVisible] = useState(true)
+
   // NODES
-  const [player, setPlayer] = useState(null)
   const [gain, setGain] = useState(null)
   const [delayGain, setDelayGain] = useState(null)
 
@@ -22,7 +27,11 @@ const Daw = () => {
 
   // Filter State
   const [filter, setFilter] = useState(null)
-  const [ cutoff, setCutoff] = useState(20000)
+  const [filterOne, setFilterOne] = useState(null)
+  const [cutoff, setCutoff] = useState(20000)
+  const [cutoffOne, setCutoffOne] = useState(2000)
+  const [filterLFO, setFilterLFO] = useState(null)
+  const [filterMovement, setFilterMovement] = useState(0)
 
   // Reverb state
   const [reverb, setReverb] = useState(null)
@@ -38,25 +47,44 @@ const Daw = () => {
   const [delayWet, setDelayWet] = useState(0)
   const [movement, setMovemement] = useState(0)
 
-
+  const navigate = useNavigate()
 
   useEffect(() => {
+
+    (!isAuthenticated() || !atmosphere.audio) && navigate('/')
+
     const reverb = new Tone.Reverb({ wet: 0, decay: 10 }).toDestination()
+    // ! Lowpass Filter
+    const lowpassOne = new Tone.Filter({
+      type: 'lowpass',
+      frequency: 200, // set initial frequency to maximum
+      rolloff: -12,// 12dB/octave rolloff
+    }).toDestination()
+
     // ! Lowpass Filter
     const lowpass = new Tone.Filter({
       type: 'lowpass',
-      frequency: 100, // set initial frequency to maximum
-      rolloff: -12,// 12dB/octave rolloff
+      frequency: 200, // set initial frequency to maximum
+      rolloff: -24,// 24dB/octave rolloff
     }).toDestination()
+
+    const filterLfo = new Tone.LFO({
+      frequency: 0, // set the frequency of the LFO
+      type: 'sine', // set the waveform of the LFO
+      min: 8000, // set the minimum value for the modulation
+      max: 15000, // set the maximum value for the modulation
+    }).start()
+    filterLfo.connect(lowpass.frequency)
+    setFilterLFO(filterLfo)
 
 
     const gain = new Tone.Gain({
       gain: 6,
-    }).chain(lowpass)
+    }).chain(lowpassOne, lowpass)
 
     const delayGain = new Tone.Gain({
       gain: 0,
-    }).chain(reverb, lowpass)
+    }).chain(reverb, lowpassOne, lowpass)
 
 
 
@@ -103,7 +131,6 @@ const Daw = () => {
         min: -1, // set the minimum value for the modulation
         max: 1, // set the maximum value for the modulation
       }).start()
-      console.log('lfo', lfo.frequency.value)
       setDelayLFO(lfo)
 
       if (count < 4) {
@@ -181,18 +208,15 @@ const Daw = () => {
 
     setGain(gain)
     setDelayGain(delayGain)
-    setPlayer(player)
+    setAudio(player)
+    setFilterOne(lowpassOne)
     setFilter(lowpass)
     setReverb(reverb)
-
 
   }, [atmosphere.audio])
 
 
 
-
-
-  // UI
 
   const handlePlay = () => {
     if (isLoaded) {
@@ -200,7 +224,7 @@ const Daw = () => {
       gain.gain.value = 0.5
       setVolume(0.5)
       Tone.start()
-      player.start()
+      audio.start()
     } else {
       console.warn('Audio file not loaded')
     }
@@ -208,12 +232,14 @@ const Daw = () => {
 
   const handleStop = () => {
     setIsPlaying(false)
-    if (player) {
+    if (audio) {
       gain.gain.rampTo(0, 3)
-      player.stop()
+      delayGain.gain.rampTo(0, 4)
+      audio.stop()
       setVolume(0)
     }
   }
+
 
   // ! SLIDERS
   // Main Gain
@@ -257,18 +283,18 @@ const Daw = () => {
   }
 
   const rhythmFour = () => {
-    leftDelay.delayTime.setValueAtTime = 0.9
-    rightDelay.delayTime.value = 0.1
+    leftDelay.delayTime.setValueAtTime = 0.8
+    rightDelay.delayTime.value = 0.2
   }
 
   const rhythmFive = () => {
-    leftDelay.delayTime.setValueAtTime = 0.9
-    rightDelay.delayTime.value = 0.1
+    leftDelay.delayTime.setValueAtTime = 0.7
+    rightDelay.delayTime.value = 0.3
   }
 
   const rhythmSix = () => {
-    leftDelay.delayTime.setValueAtTime = 0.9
-    rightDelay.delayTime.value = 0.1
+    leftDelay.delayTime.setValueAtTime = 0.6
+    rightDelay.delayTime.value = 0.4
   }
 
   //  Reverb Sliders
@@ -286,21 +312,29 @@ const Daw = () => {
   // Filter Sliders
 
   const handleFilter = (newValue) => {
-    setCutoff(newValue)
-    filter.frequency.value = cutoff
+    setCutoffOne(newValue)
+    filterOne.frequency.value = newValue
   }
 
+  const handleFilterMovement = (newValue) => {
+    setFilterMovement(newValue)
+    filterLFO.frequency.value = newValue
+  }
 
+  const handleMinimise = () => {
+    setIsVisible(!isVisible)
+  }
 
   return (
     <main>
       <div className="daw-picture" style={{ backgroundImage: `url(${atmosphere.picture})` }}>
-        <section className="controls">
+        <button className='minimise-button' onClick={handleMinimise}> - </button>
+        <section className={ isVisible ? 'controls visible' : 'controls hidden'}>
 
           {/* Play Stop Volume  */}
           <div className='volume-play-stop'>
-            <button className='daw-play-button' onClick={handlePlay} disabled={isPlaying || !isLoaded}></button>
-            <button className='stop-button' onClick={handleStop} disabled={!isPlaying}></button>
+            <button className={isPlaying ? 'daw-play-button playing' : 'daw-play-button'} onClick={handlePlay} disabled={isPlaying || !isLoaded}></button>
+            <button className={!isPlaying ? 'stop-button stopped' : 'stop-button'} onClick={handleStop} disabled={!isPlaying}></button>
             <label id="slider-label">volume</label>
             <ReactSlider
               ariaLabelledby="slider-label"
@@ -310,7 +344,7 @@ const Daw = () => {
               value={volume}
               onChange={handleVolume}
               max={2}
-              step={0.1}
+              step={0.01}
               min={0}
             />
           </div>
@@ -320,7 +354,7 @@ const Daw = () => {
 
             {/* DELAY */}
             <div className='delay'>
-              <label id="slider-label">Delay</label>
+              {/* <label id="slider-label">Delay</label> */}
               <ReactSlider
                 ariaLabelledby="slider-label"
                 className="slider"
@@ -332,7 +366,7 @@ const Daw = () => {
                 max={1}
                 step={0.01}
               />
-              <label id="slider-label">Movement</label>
+              {/* <label id="slider-label">Movement</label> */}
               <ReactSlider
                 ariaLabelledby="slider-label"
                 className="slider"
@@ -344,13 +378,7 @@ const Daw = () => {
                 min={0}
                 step={0.01}
               />
-              <button onClick={rhythmOne}> 1 </button>
-              <button onClick={rhythmTwo}> 2 </button>
-              <button onClick={rhythmThree}> 3 </button>
-              <button onClick={rhythmFour}> 4 </button>
-              <button onClick={rhythmFive}> 5 </button>
-              <button onClick={rhythmSix}> 6 </button>
-              <label id="slider-label">Intensity</label>
+              {/* <label id="slider-label">Intensity</label> */}
               <ReactSlider
                 ariaLabelledby="slider-label"
                 className="slider"
@@ -363,9 +391,14 @@ const Daw = () => {
                 step={0.01}
               />
             </div>
+            <div className='buttons-first'>
+              <button className='rhythm-button' onClick={rhythmOne}> </button>
+              <button className='rhythm-button' onClick={rhythmTwo}> </button>
+              <button className='rhythm-button' onClick={rhythmThree}> </button>
+            </div>
             {/* REVERB */}
             <div className='reverb'>
-              <label id="slider-label">Amount</label>
+              {/* <label id="slider-label">Amount</label> */}
               <ReactSlider
                 ariaLabelledby="slider-label"
                 className="slider"
@@ -377,7 +410,7 @@ const Daw = () => {
                 min={0}
                 step={0.01}
               />
-              <label id="slider-label">Size</label>
+              {/* <label id="slider-label">Size</label> */}
               <ReactSlider
                 ariaLabelledby="slider-label"
                 className="slider"
@@ -390,6 +423,11 @@ const Daw = () => {
                 step={1}
               />
             </div>
+            <div className='buttons-second'>
+              <button className='rhythm-button' onClick={rhythmFour}> </button>
+              <button className='rhythm-button' onClick={rhythmFive}> </button>
+              <button className='rhythm-button' onClick={rhythmSix}> </button>
+            </div>
             {/* Filters */}
             <div className='filter'>
               <ReactSlider
@@ -397,11 +435,22 @@ const Daw = () => {
                 className="slider"
                 thumbClassName="thumb"
                 trackClassName="example-track"
-                value={cutoff}
+                value={cutoffOne}
                 onChange={handleFilter}
                 max={20000}
                 min={0}
                 step={1}
+              />
+              <ReactSlider
+                ariaLabelledby="slider-label"
+                className="slider"
+                thumbClassName="thumb"
+                trackClassName="example-track"
+                value={filterMovement}
+                onChange={handleFilterMovement}
+                max={1}
+                min={0}
+                step={0.01}
               />
             </div>
           </div>
@@ -410,6 +459,7 @@ const Daw = () => {
       </div>
     </main>
   )
+
 }
 
 export default Daw

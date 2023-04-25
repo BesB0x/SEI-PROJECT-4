@@ -4,7 +4,7 @@ from django.core.validators import URLValidator
 
 # Create your models here.
 class Atmosphere(models.Model):
-    name= models.CharField(max_length=50 )
+    name= models.CharField(max_length=50 ,unique=True)
     picture= models.URLField(validators=[URLValidator()])
     audio= models.URLField(validators=[URLValidator()])
     tags= models.ManyToManyField('tags.Tag', related_name='atmospheres')

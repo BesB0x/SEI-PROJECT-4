@@ -1,8 +1,14 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-const LibraryTags = ({ tags, setSearchTags, searchTags }) => {
+const LibraryTags = ({ setDisplayedAtmos, allAtmos, tags, setSearchTags, searchTags }) => {
 
   const [ tagClicked,setTagClicked ] = useState(false)
+
+  useEffect(() => {
+    if ( searchTags.length < 1){
+      setDisplayedAtmos(allAtmos)
+    }
+  }, [searchTags])
 
   const handleAddTag = (name) => {
     setTagClicked(!tagClicked)

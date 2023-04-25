@@ -93,3 +93,14 @@
   background-color: rgba(48, 197, 180, 0.568);
 
 }
+
+.login-register{
+  width: 50%;
+  margin-top: 10% ;
+  .login-register-button {
+    margin: 0 auto;
+    @extend %form-button;
+    width: 20%;
+    background-color: rgba(84, 199, 212, 0.392);
+  }
+}

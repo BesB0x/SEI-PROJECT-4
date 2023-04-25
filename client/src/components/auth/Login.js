@@ -27,7 +27,7 @@ const Login = () => {
     try {
       const { data } = await axios.post('/api/users/login/', formFields)
       localStorage.setItem('ATMOS-USER-TOKEN', data.token)
-      navigate('/')
+      navigate('/library')
     } catch (error) {
       setLoginError(error.response.data.detail)
       console.log(error.response)
@@ -36,7 +36,7 @@ const Login = () => {
 
 
   return (
-    <main className='form-page'>
+    <main className='form-page login-register'>
       <Container >
         <Row>
           <Col as='form' xs='10' md='6' lg='4' onSubmit={handleSubmit}>
@@ -47,7 +47,7 @@ const Login = () => {
             {/* Password */}
             <label htmlFor='password'>Password</label>
             <input placeholder='Password' type='password' name='password' onChange={handleChange} value={formFields.password} />
-            <button>Login</button>
+            <button className='login-register-button'>Login</button>
             { loginError && <h6 className='error-message'> {loginError} </h6>}
           </Col>
         </Row>

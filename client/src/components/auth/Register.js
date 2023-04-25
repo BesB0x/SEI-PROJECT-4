@@ -37,7 +37,7 @@ const Register = () => {
 
   }
   return (
-    <main className='form-page'>
+    <main className='form-page login-register'>
       <Container >
         <Row>
           <Col as='form' xs='10' md='6' lg='4' onSubmit={handleSubmit}>
@@ -58,7 +58,7 @@ const Register = () => {
             <label htmlFor='passwordConfirmation'>Password Confirmation</label>
             <input placeholder='Password Confirmation' type='password' name='password_confirmation' onChange={handleChange}value={formFields.password_confirmation} />
             { error && <h6 className='error-message'> {error.data.detail.password} </h6>}
-            <button>Register</button>
+            <button className='login-register-button'>Register</button>
             { error.status === 500 && <h6 className='error-message'> Please try again later! </h6>}
           </Col>
         </Row>

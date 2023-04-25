@@ -1,0 +1,90 @@
+.splash {
+  @extend %flex-center ;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  font-family: 'Major Mono Display', monospace; 
+  background-color: rgba(194, 247, 251, 0.29);
+  h1{
+    margin-bottom: 50px;
+  }
+  div {
+    @extend %flex-center ;
+    width: 100vw;
+  }
+  img {
+    height: 60px;
+    margin: 0 10px 30px 0;
+  }
+
+  .appear-first{
+    opacity: 0;
+    animation: fadeIn 1s ease 1s forwards;
+  }
+  .appear-second{
+    opacity: 0;
+    animation: fadeInOne 1s ease 4s forwards;
+  }
+  .appear-third{
+    opacity: 0;
+    animation: fadeInTwo 1s ease 6s forwards;
+    width: 90vw
+  }
+  .appear-fourth{
+    opacity: 0;
+    animation: fadeInThree 1s ease 8s forwards;
+  }
+  .appear-fifth{
+    opacity: 0;
+    animation: fadeInFour 1s ease 10s forwards;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes fadeInOne {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes fadeInTwo {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes fadeInThree {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes fadeInFour {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  button {
+    border: none;
+    cursor: pointer;
+    background-color: rgb(113, 188, 242);
+    height: 50px;
+    width: 100px;
+  }
+
+}

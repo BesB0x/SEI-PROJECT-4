@@ -43,10 +43,10 @@ const AtmosNew = ({ userId, handleCloseModal, handleCloudinary, getUser }) => {
       console.log(formFields.tags)
       const formatted = { ...formFields, tags: formFields.tags.map( tag => tag.id ) } 
       await authenticated.post('/api/atmospheres/', formatted)
-      handleCloseModal()
+      handleCloseModal(e)
       getUser()
     } catch (error) {
-      console.log('error->',error.response.data.detail)
+      console.log('error->',error)
       // setAtmosError(error.response.data.detail.tags.tag[0])
     }
   }

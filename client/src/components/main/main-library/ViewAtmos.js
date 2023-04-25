@@ -26,8 +26,6 @@ function ViewAtmos({ atmos }) {
         toggler={toggler}
         sources={[
           atmos.picture
-          // 'https://res.cloudinary.com/detjuq0lu/image/upload/v1681894761/ATMOS%20-%20PROFILE%20PIC/hnh8opf581ughzf0gfgo.jpg',
-          // 'https://i.imgur.com/fsyrScY.jpg'
         ]}
         onOpen={playAudio}
         onClose={stopAudio}

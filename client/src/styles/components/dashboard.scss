@@ -1,29 +1,33 @@
 .collection {
-  height: 1080px;
+  min-height: 1080px;
   width: 100vw;
+  background-position: center bottom;
+  // background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
   @extend %flex-center;
+  position: relative;
+
 
   .user-dashboard {
-    background-color:$bg;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-color: $bg;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
     width: 80vw;
-    height: 80%;
+    display: flex;
+    flex-direction: column;
+    margin: 80px 0 100px 0;
 
 
     .dashboard-top {
       display: flex;
       border-bottom: 30px solid rgba(183, 181, 181, 0.545);
       padding-bottom: 50px;
-      height: 45%;
+      height: 100%;
 
       .profile-pic-box,
       .username,
       .create-atmo-button {
         width: 33%;
-        // font-family: 'Rubik 80s Fade', cursive;
       }
 
       .logout-button {
@@ -32,31 +36,33 @@
         cursor: pointer;
         color: white;
         font-weight: 500;
+
         &:hover {
-          color: black ;
+          color: black;
         }
       }
 
       .create-atmo-button {
-          display: flex;
-          align-items: flex-end;
-          justify-content: center;
-          button {
-            border: none;
-            font-family: 'Raleway Dots', cursive;
-            font-size: 23px;
-            padding: 8px;
-            border-radius: 4px;
-            &:hover{
-              background-color: rgba(72, 207, 146, 0.768);
-              font-size: 25px;
-              transition: 0.5s ease-in-out;
-            }
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+
+        button {
+          border: none;
+          font-family: 'Raleway Dots', cursive;
+          font-size: 23px;
+          padding: 8px;
+          border-radius: 4px;
+
+          &:hover {
+            background-color: rgba(72, 207, 146, 0.768);
+            font-size: 25px;
+            transition: 0.5s ease-in-out;
           }
+        }
       }
 
       .profile-pic-box {
-
         .profile-pic {
           background-repeat: no-repeat;
           background-position: center;
@@ -65,13 +71,14 @@
           display: flex;
           flex-direction: column;
           justify-content: flex-end;
-          height: 100%;
+          height: 250px;
 
         }
+
         .picture-buttons {
           display: flex;
           margin: 4px -20px 0 42px;
-          
+
 
           input {
             width: 100px;
@@ -85,15 +92,21 @@
         }
       }
     }
+
+    .tile-display {
+      flex-grow: 2;
+    }
   }
 
 
 }
+
 .username {
   border-left: 10px solid black;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+
   .logout-button {
     background-color: rgba(214, 63, 63, 0.557);
     width: 40%;
@@ -114,58 +127,63 @@
 
 
   .atmo-tile {
-    .library-buttons{
+    .library-buttons {
       display: inline;
       min-height: 30%;
       width: 20%;
-      div{
-        margin: 5px;
-        min-width: 80%;
-        height: 50%;
+      .edit-button {
+        @include hover-effect-tile('../assets/edit-bw.png', '../assets/edit-cl.png');
+        width: 50px;
+        margin: 5px 15px 5px 0;
+      }
+      .to-daw-button {
+        @include hover-effect-tile('../assets/to-daw-bw.png', '../assets/to-daw-cl.png');
+        background-color: transparent;
+        border: none;
+        width: 50px;
+        height: 30px;
+
       }
     }
+
     height: 25vh;
     width: 30%;
-    margin: 10px ;
+    margin: 10px;
     padding: 10px;
-    .tile-picture{
+
+    .tile-picture {
       background-repeat: no-repeat;
-      background-position:center;
-      background-size:cover;
+      background-position: center;
+      background-size: cover;
       display: flex;
       justify-content: space-between;
       flex-direction: column;
       width: 100%;
       height: 90%;
     }
+
     button {
       background-color: rgba(255, 255, 255, 0);
     }
   }
 }
 
-.edit-button{
-  @include hover-effect-tile( '../assets/edit-bw.png', '../assets/edit-cl.png')
+
+
+.remove-button {
+  @include hover-effect-tile('../assets/remv-bw.png', '../assets/rmv-cl.png');
+  margin-top: 5px;
 }
 
-.remove-button{
-  @include hover-effect-tile( '../assets/remv-bw.png', '../assets/rmv-cl.png')
-}
 
-.to-daw-button{
-  @include hover-effect-tile( '../assets/to-daw-bw.png','../assets/to-daw-cl.png');
-  background-color: transparent;
-  border: none;   
-  width: 100%;
-}
 
-.play-button{
+.play-button {
   cursor: pointer;
   height: 100%;
   width: 100%;
 }
 
-.below-pic{
+.below-pic {
   display: flex;
   justify-content: space-between;
   font-size: 12px;

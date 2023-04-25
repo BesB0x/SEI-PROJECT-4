@@ -86,7 +86,7 @@ const AtmosForm = ({ getUser, handleCloseModal, handleDelete, openEdit, title, s
     <main className='form-page'>
       <Container >
         <Row>
-          <Col as='form' xs='10' md='6' lg='4' onSubmit={handleSubmit}>
+          <Col as='form' xs='10' md='6' lg='4' onSubmit={(e) => handleSubmit(e)}>
             <h1> {title} </h1>
             {/* name */}
             <label htmlFor='name'>Name</label>
