@@ -20,7 +20,7 @@ const Splash = () => {
       </div>
       <div className='appear-third'>
         <img src={collection} />
-        <p> Create your own atmospheres, access your collection, and start experimenting with your atmospheres in you dashboard</p>
+        <p> Create your own atmospheres, access your collection, and start experimenting with your atmospheres in your dashboard</p>
       </div>
       <div className='appear-fourth'>
         <img src={daw} />
