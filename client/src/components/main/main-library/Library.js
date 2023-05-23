@@ -35,6 +35,12 @@ const Library = ({ getUser, user }) => {
     }
   })
 
+  useEffect(() => {
+    if ( searchTags.length < 1){
+      setDisplayedAtmos(allAtmos)
+    }
+  }, [searchTags])
+
 
   useEffect(() => {
     const getTags = async () => {
@@ -49,6 +55,7 @@ const Library = ({ getUser, user }) => {
     getTags()
     getUser()
   }, [])
+
 
 
   const removeDuplicates = (arr, prop) => {

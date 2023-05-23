@@ -22,6 +22,7 @@ const LibraryDisplay = ({ allAtmos, getUser, user, getAtmos, displayedAtmos, atm
       const timeModified = openedUp.map(atmo => {
         return { ...atmo, date_created: atmo.date_created.replace('T', ('_')).replace('Z', ('')) }
       })
+
       const dateSorted = timeModified.sort((a, b) => b.date_created.localeCompare(a.date_created))
       setDisplayedAtmos(dateSorted)
     } else if (e === 'Most Popular') {
@@ -29,7 +30,7 @@ const LibraryDisplay = ({ allAtmos, getUser, user, getAtmos, displayedAtmos, atm
       setDisplayedAtmos(popSorted)
     }
   }
-
+  
   return (
     <>
       <section className='tile-display'>

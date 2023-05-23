@@ -82,6 +82,7 @@ const AtmosForm = ({ getUser, handleCloseModal, handleDelete, openEdit, title, s
     handleCloudinary(e, uploadPreset, keyName)
     spinner()
   }
+
   return (
     <main className='form-page'>
       <Container >
@@ -102,7 +103,7 @@ const AtmosForm = ({ getUser, handleCloseModal, handleDelete, openEdit, title, s
             <div className='tags-display'>
               {tags && tags.map((tag, i) => {
                 return (
-                  <TagsOnForm userTag={userTag} formFields={formFields} key={i} i={i} tag={tag} handleAddTag={handleAddTag} />
+                  <TagsOnForm formFields={formFields} key={i} i={i} tag={tag} handleAddTag={handleAddTag} />
                 )
               })}
             </div>

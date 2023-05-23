@@ -1,17 +1,6 @@
-import { useEffect, useState } from 'react'
-
-const LibraryTags = ({ setDisplayedAtmos, allAtmos, tags, setSearchTags, searchTags }) => {
-
-  const [ tagClicked,setTagClicked ] = useState(false)
-
-  useEffect(() => {
-    if ( searchTags.length < 1){
-      setDisplayedAtmos(allAtmos)
-    }
-  }, [searchTags])
+const LibraryTags = ({ tags, setSearchTags, searchTags }) => {
 
   const handleAddTag = (name) => {
-    setTagClicked(!tagClicked)
     if (!searchTags.includes(tags.find(tag => tag.tag === name))) {
       setSearchTags([...searchTags, tags.find(tag => tag.tag === name)])
     } else {

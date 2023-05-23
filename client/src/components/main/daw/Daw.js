@@ -16,7 +16,7 @@ const Daw = ({ audio, setAudio }) => {
   const [gain, setGain] = useState(null)
   const [delayGain, setDelayGain] = useState(null)
 
-  // Delay State
+  // Delay State - some state kept for future development
   const [initialDelay, setInitialDelay] = useState(null)
   const [delayDos, setDelayDos] = useState(null)
   const [delayTres, setDelayTres] = useState(null)
@@ -25,7 +25,7 @@ const Daw = ({ audio, setAudio }) => {
   const [delayLFO, setDelayLFO] = useState(null)
   const [feedback, setFeedback] = useState('')
 
-  // Filter State
+  // Filter State - some state kept for future development
   const [filter, setFilter] = useState(null)
   const [filterOne, setFilterOne] = useState(null)
   const [cutoff, setCutoff] = useState(20000)
@@ -135,6 +135,7 @@ const Daw = ({ audio, setAudio }) => {
 
       if (count < 4) {
 
+        // Left Branch
         let leftBranch = secondDelay
         let roomSize = 0.2
         const reverb = new Tone.Freeverb({
@@ -162,7 +163,7 @@ const Daw = ({ audio, setAudio }) => {
           leftBranch = additionalDelay // update the reference to the latest delay node
         }
 
-        // create two more delays and connect them to the thirdDelay
+        // Righ Branch
         let rightBranch = thirdDelay
         for (let i = 0; i < 2; i++) {
           const pan = new Tone.Panner3D({
