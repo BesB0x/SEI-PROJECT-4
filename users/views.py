@@ -77,6 +77,7 @@ class UserLibraryView(APIView):
         user_library = serialized_user.data['user_library']
         print('data->',request.data)
         for atmos in request.data['user_library']:
+            print('atmos id',atmos)
             if atmos in user_library:
                 user_library.remove(atmos)
             else:

@@ -20,7 +20,7 @@
     "name": "Leyton",
     "picture": "https://res.cloudinary.com/detjuq0lu/image/upload/v1682341262/ATMOS%20PIC/pe5bzbloj4xlnn2rpypp.jpg",
     "audio": "https://res.cloudinary.com/detjuq0lu/video/upload/v1682341243/ATMOS%20-%20AUDIO/k6n6lp0hjtqd1ob2dbfi.mp4",
-    "owner": 4,
+    "owner": 1,
     "date_created": "2023-04-24T13:01:05.243Z",
     "tags": [
       83
@@ -34,7 +34,7 @@
     "name": "Under The Bridge",
     "picture": "https://res.cloudinary.com/detjuq0lu/image/upload/v1682341357/ATMOS%20PIC/qkzutefrak3ykp9weo23.jpg",
     "audio": "https://res.cloudinary.com/detjuq0lu/video/upload/v1682341348/ATMOS%20-%20AUDIO/bcfucrxazqpnhycvgevc.wav",
-    "owner": 4,
+    "owner": 1,
     "date_created": "2023-04-24T13:02:38.900Z",
     "tags": [
       84
@@ -48,7 +48,7 @@
     "name": "StrangeMix",
     "picture": "https://res.cloudinary.com/detjuq0lu/image/upload/v1682341640/ATMOS%20PIC/qqtuae1iqzeorhngwsal.jpg",
     "audio": "https://res.cloudinary.com/detjuq0lu/video/upload/v1682341625/ATMOS%20-%20AUDIO/lnchageixkegwb5v6ako.wav",
-    "owner": 4,
+    "owner": 1,
     "date_created": "2023-04-24T13:07:23.502Z",
     "tags": [
       85
@@ -62,7 +62,7 @@
     "name": "FIRE",
     "picture": "https://res.cloudinary.com/detjuq0lu/image/upload/v1682341740/ATMOS%20PIC/sdrxen54to94ksjnez2i.jpg",
     "audio": "https://res.cloudinary.com/detjuq0lu/video/upload/v1682341731/ATMOS%20-%20AUDIO/r7pbbawszzbygsya9mhq.wav",
-    "owner": 4,
+    "owner": 1,
     "date_created": "2023-04-24T13:09:02.397Z",
     "tags": [
       85
