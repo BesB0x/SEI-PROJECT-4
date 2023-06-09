@@ -4,8 +4,8 @@
   "pk": 66,
   "fields": {
     "name": "Sunday Morning",
-    "picture": "https://res.cloudinary.com/detjuq0lu/image/upload/v1682338755/ATMOS%20PIC/qlifvh4yfwz9q4frqn1p.jpg",
-    "audio": "https://res.cloudinary.com/detjuq0lu/video/upload/v1682338675/ATMOS%20-%20AUDIO/dhvn2zklndxobo593q85.wav",
+    "picture": "https://res.cloudinary.com/detjuq0lu/image/upload/v1682435851/ATMOS%20PIC/ncl1zaf16diuir1jn5ko.jpg",
+    "audio": "https://res.cloudinary.com/detjuq0lu/video/upload/v1682436227/ATMOS%20-%20AUDIO/kq0jhtnmexpwc3qki117.wav",
     "owner": 1,
     "date_created": "2023-04-24T12:18:05.926Z",
     "tags": [
@@ -18,8 +18,8 @@
   "pk": 68,
   "fields": {
     "name": "Leyton",
-    "picture": "https://res.cloudinary.com/detjuq0lu/image/upload/v1682341262/ATMOS%20PIC/pe5bzbloj4xlnn2rpypp.jpg",
-    "audio": "https://res.cloudinary.com/detjuq0lu/video/upload/v1682341243/ATMOS%20-%20AUDIO/k6n6lp0hjtqd1ob2dbfi.mp4",
+    "picture": "https://res.cloudinary.com/detjuq0lu/image/upload/v1683729500/ATMOS%20PIC/mfuknqswxqyrthwtex6r.jpg",
+    "audio": "https://res.cloudinary.com/detjuq0lu/video/upload/v1683729570/ATMOS%20-%20AUDIO/ubee5qsyai9lhggwdsdx.wav",
     "owner": 1,
     "date_created": "2023-04-24T13:01:05.243Z",
     "tags": [
@@ -32,8 +32,8 @@
   "pk": 69,
   "fields": {
     "name": "Under The Bridge",
-    "picture": "https://res.cloudinary.com/detjuq0lu/image/upload/v1682341357/ATMOS%20PIC/qkzutefrak3ykp9weo23.jpg",
-    "audio": "https://res.cloudinary.com/detjuq0lu/video/upload/v1682341348/ATMOS%20-%20AUDIO/bcfucrxazqpnhycvgevc.wav",
+    "picture": "https://res.cloudinary.com/detjuq0lu/image/upload/v1682436168/ATMOS%20PIC/ibwgcwtir8e2z9zyetks.jpg",
+    "audio": "https://res.cloudinary.com/detjuq0lu/video/upload/v1682436053/ATMOS%20-%20AUDIO/qxq0sjnt93ry5n4lid87.wav",
     "owner": 1,
     "date_created": "2023-04-24T13:02:38.900Z",
     "tags": [
@@ -46,8 +46,8 @@
   "pk": 70,
   "fields": {
     "name": "StrangeMix",
-    "picture": "https://res.cloudinary.com/detjuq0lu/image/upload/v1682341640/ATMOS%20PIC/qqtuae1iqzeorhngwsal.jpg",
-    "audio": "https://res.cloudinary.com/detjuq0lu/video/upload/v1682341625/ATMOS%20-%20AUDIO/lnchageixkegwb5v6ako.wav",
+    "picture": "https://res.cloudinary.com/detjuq0lu/image/upload/v1682435889/ATMOS%20PIC/crlj7v2juoqrnub6pyaz.jpg",
+    "audio": "https://res.cloudinary.com/detjuq0lu/video/upload/v1682435838/ATMOS%20-%20AUDIO/jwnlvvkcdvqivlzoyx47.wav",
     "owner": 1,
     "date_created": "2023-04-24T13:07:23.502Z",
     "tags": [
@@ -60,8 +60,8 @@
   "pk": 71,
   "fields": {
     "name": "FIRE",
-    "picture": "https://res.cloudinary.com/detjuq0lu/image/upload/v1682341740/ATMOS%20PIC/sdrxen54to94ksjnez2i.jpg",
-    "audio": "https://res.cloudinary.com/detjuq0lu/video/upload/v1682341731/ATMOS%20-%20AUDIO/r7pbbawszzbygsya9mhq.wav",
+    "picture": "https://res.cloudinary.com/detjuq0lu/image/upload/v1682436083/ATMOS%20PIC/wqyr8tayxcqr1ptmi1j9.jpg",
+    "audio": "https://res.cloudinary.com/detjuq0lu/video/upload/v1682436117/ATMOS%20-%20AUDIO/h3vsggnwh2rx3piyi5yj.wav",
     "owner": 1,
     "date_created": "2023-04-24T13:09:02.397Z",
     "tags": [
