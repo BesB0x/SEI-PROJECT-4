@@ -1,8 +1,11 @@
 import ViewAtmos from './ViewAtmos'
+import { useNavigate } from 'react-router'
 import Error from '../../common/Error'
 import { authenticated, loggedInUser } from '../../../helpers/auth'
 
-const LibraryDisplay = ({ allAtmos, getUser, user, getAtmos, displayedAtmos, atmosError, setDisplayedAtmos }) => {
+const LibraryDisplay = ({ getUser, user, getAtmos, displayedAtmos, atmosError, setDisplayedAtmos }) => {
+
+  const navigate = useNavigate()
 
   const addToLibrary = async (atmos) => {
     const data = { user_library: [atmos.id] }
@@ -31,6 +34,10 @@ const LibraryDisplay = ({ allAtmos, getUser, user, getAtmos, displayedAtmos, atm
       setDisplayedAtmos(popSorted)
     }
   }
+  const sendToDaw = (atmos) => {
+    localStorage.setItem('DAW-ITEM', JSON.stringify(atmos))
+    navigate('/daw')
+  }
   
   return (
     <>
@@ -55,6 +62,7 @@ const LibraryDisplay = ({ allAtmos, getUser, user, getAtmos, displayedAtmos, atm
                           :
                           'add-button'} onClick={() => addToLibrary(atmos)}></div>
                       }
+                      <button className='to-daw-button'onClick={() => sendToDaw(atmos)}> </button>
                     </div>
                     < ViewAtmos atmos={atmos} />
                   </div>

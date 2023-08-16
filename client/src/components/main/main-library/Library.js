@@ -5,7 +5,7 @@ import LibraryDisplay from './LibraryDisplay'
 import LibraryTags from './LibraryTags'
 
 
-const Library = ({ getUser, user }) => {
+const Library = ({ getUser, user, sendToDaw }) => {
 
   const [allAtmos, setAllAtmos] = useState([])
   const [displayedAtmos, setDisplayedAtmos] = useState([])

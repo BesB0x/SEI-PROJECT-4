@@ -15,11 +15,10 @@ import { loggedInUser,authenticated } from './helpers/auth'
 const App = () => {
 
   const [audio, setAudio ] = useState(null)
-
   const [ user, setUser] = useState('')
   const [ userError, setUserError ] = useState('')
 
-
+  // const navigate = useNavigate()
 
   const getUser = useCallback(async () => {
     try {
@@ -35,6 +34,12 @@ const App = () => {
       setUserError(error.message)
     }
   })
+
+
+  // const sendToDaw = (atmos) => {
+  //   localStorage.setItem('DAW-ITEM', JSON.stringify(atmos))
+  //   navigate('/daw')
+  // }
 
   return (
     <BrowserRouter>

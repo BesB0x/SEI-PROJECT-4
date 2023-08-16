@@ -129,8 +129,9 @@
   .atmo-tile {
     .library-buttons {
       display: inline;
-      min-height: 30%;
+      height: 45%;
       width: 20%;
+
       .edit-button {
         @include hover-effect-tile('../assets/edit-bw.png', '../assets/edit-cl.png');
         width: 50px;

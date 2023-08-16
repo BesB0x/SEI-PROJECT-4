@@ -36,9 +36,12 @@
       }
 
     .library-buttons{
+      background-color: rgba(166, 164, 164, 0.544);
       margin-top: 5px;
-      min-height: 10px;
+      height: 25%;
       min-width: 10px;
+      margin: 0;
+      padding: 4px;
     }
     .filters{
       width: 100%;
@@ -49,7 +52,8 @@
     .add-button {
       @include hover-effect-tile( '../assets/addbw-nobg.png', '../assets/add-nobg.png');
       height: 20px;
-      width: 40px
+      width: 40px;
+      margin: 0px 4px;
     }
 
     .tick{
@@ -62,6 +66,7 @@
       height: 20px;
       width: 40px;
       transition: 0.1s ease-in-out;
+      margin: 0px 6px;
     }
     .atmo-tile {
       margin: 40px 0 ;

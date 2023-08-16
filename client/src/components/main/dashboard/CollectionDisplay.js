@@ -1,22 +1,14 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
-
 import { userIsOwner } from '../../../helpers/auth'
 import ViewAtmos from '../../common/ViewAtmos'
 import ModalEditComponent from './ModalEditComponent'
 
 const CollectionDisplay = ({ customStyles, handleCloudinary, userId, getUser, authenticated, loggedInUser, user }) => {
 
-
   const [isModalOpen, setIsModalOpen] = useState(false)
-
   const navigate = useNavigate()
-
-  const sendToDaw = (atmos) => {
-    localStorage.setItem('DAW-ITEM', JSON.stringify(atmos))
-    navigate('/daw')
-  }
 
   const handleDeleteFromLibrary = async (atmos) => {
     const data = { user_library: [atmos.id] }
@@ -28,6 +20,10 @@ const CollectionDisplay = ({ customStyles, handleCloudinary, userId, getUser, au
     }
   }
 
+  const sendToDaw = (atmos) => {
+    localStorage.setItem('DAW-ITEM', JSON.stringify(atmos))
+    navigate('/daw')
+  }
   return (
     <section className="tile-display">
       {user &&

@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 
-const Collection = ({ getUser,user }) => {
+const Collection = ({ getUser,user, sendToDaw }) => {
 
   const [userError, setUserError] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -100,7 +100,7 @@ const Collection = ({ getUser,user }) => {
             </div>
           </div>
         </section>
-        <CollectionDisplay  customStyles={customStyles }userId={userId} handleCloudinary={handleCloudinary} getUser={getUser} authenticated={authenticated} loggedInUser={loggedInUser} user={user} />
+        <CollectionDisplay customStyles={customStyles}userId={userId} handleCloudinary={handleCloudinary} getUser={getUser} authenticated={authenticated} loggedInUser={loggedInUser} user={user} />
       </div>
     </main>
 
