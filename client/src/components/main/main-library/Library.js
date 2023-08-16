@@ -13,6 +13,8 @@ const Library = ({ getUser, user }) => {
   const [searchTags, setSearchTags] = useState([])
   const [atmosError, setAtmosError] = useState('')
 
+
+
   const getAtmos = useCallback(async () => {
     try {
       const { data } = await axios.get('/api/atmospheres/')
@@ -34,6 +36,8 @@ const Library = ({ getUser, user }) => {
       setAtmosError(error)
     }
   })
+
+
 
   useEffect(() => {
     if ( searchTags.length < 1){

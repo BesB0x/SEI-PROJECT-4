@@ -16,6 +16,7 @@ const LibraryDisplay = ({ allAtmos, getUser, user, getAtmos, displayedAtmos, atm
   }
 
 
+  console.log(user)
   const sortAtmos = (e) => {
     const openedUp = displayedAtmos.flat()
     if (e === 'Most Recent') {

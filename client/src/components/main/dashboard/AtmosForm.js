@@ -53,7 +53,7 @@ const AtmosForm = ({ getUser, handleCloseModal, handleDelete, openEdit, title, s
     }
   }
 
-  const handleCloudinary = async (e, uploadPreset, keyName) => {
+  const handleCloudinary = async (e, uploadPreset, keyName, setUploadingState) => {
     e.preventDefault()
     const cloudName = 'detjuq0lu'
     const image = e.target.files[0]
@@ -62,6 +62,7 @@ const AtmosForm = ({ getUser, handleCloseModal, handleDelete, openEdit, title, s
     formData.append('upload_preset', uploadPreset)
 
     try {
+      setUploadingState(true)
       const { data } = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, formData)
       console.log(data)
       setFormFields({ ...formFields, [keyName]: data.secure_url })
@@ -69,20 +70,13 @@ const AtmosForm = ({ getUser, handleCloseModal, handleDelete, openEdit, title, s
     } catch (err) {
       console.log(err)
       setAtmosError(err.response.data)
+    } finally {
+      setUploadingState(false) // Stop the spinner
     }
   }
-  const spinner = () => {
-    // formFields.audio ?
-    //   <Spinner />
-    //   :
-    //   <Spinner />
-    console.log('success')
 
-  }
-  const execute = (e, uploadPreset, keyName) => {
-    handleCloudinary(e, uploadPreset, keyName)
-    spinner()
-  }
+  const [uploadingAudio, setUploadingAudio] = useState(false)
+  const [uploadingPicture, setUploadingPicture] = useState(false)
 
   return (
     <main className='form-page'>
@@ -111,12 +105,14 @@ const AtmosForm = ({ getUser, handleCloseModal, handleDelete, openEdit, title, s
             <div>
               {/* Audio */}
               <label htmlFor='audio'>Audio</label>
-              <input type='file' onChange={(e) => handleCloudinary(e, audioPreset, 'audio')} onClick={spinner()}/>
-
+              <input type='file' onChange={(e) => handleCloudinary(e, audioPreset, 'audio', setUploadingAudio)} />
+              {uploadingAudio &&
+                  <p className='spinner'> uploading...</p>}
               {/* Picture */}
               <label htmlFor='passwordConfirmation'>Picture</label>
-              <input type='file' onChange={(e) => execute(e, picturePreset, 'picture')} onClick={spinner()} />
-
+              <input type='file' onChange={(e) => handleCloudinary(e, picturePreset, 'picture', setUploadingPicture)} />
+              {uploadingPicture &&
+                  <p className='spinner'> uploading...</p>}
             </div>
             <div className='bottom-form-buttons'>
               {openEdit && <button className='form-button' onClick={handleDelete}> Delete </button>}

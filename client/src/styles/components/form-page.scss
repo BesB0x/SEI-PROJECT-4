@@ -104,3 +104,20 @@
     background-color: rgba(84, 199, 212, 0.392);
   }
 }
+
+
+.spinner{
+  
+    animation: fade 2s infinite;
+    opacity: 0; /* Start with 0 opacity (hidden) */
+  }
+  
+  @keyframes fade {
+    0%, 100% {
+      opacity: 0; /* Fully transparent at the start and end */
+    }
+    50% {
+      opacity: 1; /* Fully opaque in the middle of the animation */
+    }
+  
+}

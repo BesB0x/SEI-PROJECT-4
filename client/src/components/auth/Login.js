@@ -48,7 +48,7 @@ const Login = () => {
             <label htmlFor='password'>Password</label>
             <input placeholder='Password' type='password' name='password' onChange={handleChange} value={formFields.password} />
             <button className='login-register-button'>Login</button>
-            { loginError && <h6 className='error-message'> {loginError} </h6>}
+            { loginError && <h6 className='text-danger error-message'> {loginError} </h6>}
           </Col>
         </Row>
       </Container>

@@ -45,21 +45,21 @@ const Register = () => {
             {/* Username */}
             <label htmlFor='username'>Username</label>
             <input placeholder='Username' type='text' name='username' onChange={handleChange} value={formFields.username} />
-            { error && <h6 className='error-message'> {error.data.detail.username} </h6>}
+            { error && <h6 className='error-message text-danger'> {error.data.detail.username} </h6>}
             {/* Email */}
             <label htmlFor='email'>Email</label>
             <input placeholder='Email' type='email' name='email' onChange={handleChange} value={formFields.email}/>
-            { error && <h6 className='error-message'> {error.data.detail.email} </h6>}
+            { error && <h6 className='error-message text-danger'> {error.data.detail.email} </h6>}
             {/* Password */}
             <label htmlFor='password'>Password</label>
             <input placeholder='Password' type='password' name='password' onChange={handleChange} value={formFields.password}/>
-            { error && <h6 className='error-message'> {error.data.detail.password} </h6>}
+            { error && <h6 className='error-message text-danger'> {error.data.detail.non_field_errors.map((error,i) => <p key={i}> {error} </p>)} </h6>}
             {/* Password Confirmation */}
             <label htmlFor='passwordConfirmation'>Password Confirmation</label>
             <input placeholder='Password Confirmation' type='password' name='password_confirmation' onChange={handleChange}value={formFields.password_confirmation} />
-            { error && <h6 className='error-message'> {error.data.detail.password} </h6>}
+            { error && <h6 className='error-message text-danger'> {error.data.detail.password_confirmation === 'Does not match password' ? 'These passwords do not match!' : error.data.detail.password_confirmation} </h6>}
             <button className='login-register-button'>Register</button>
-            { error.status === 500 && <h6 className='error-message'> Please try again later! </h6>}
+            { error.status === 500 && <h6 className='error-message text-danger'> Please try again later! </h6>}
           </Col>
         </Row>
       </Container>

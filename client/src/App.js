@@ -24,7 +24,12 @@ const App = () => {
   const getUser = useCallback(async () => {
     try {
       const { data } = await authenticated.get(`api/users/${loggedInUser()}/`)
-      setUser({ ...data })
+      
+      if (typeof data === 'object'){
+        setUser({ ...data })
+      } else {
+        setUser('')
+      }
     } catch (error) {
       console.log(error)
       setUserError(error.message)
