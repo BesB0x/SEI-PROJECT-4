@@ -72,10 +72,11 @@ const AtmosForm = ({ getUser, handleCloseModal, handleDelete, openEdit, title, s
     }
   }
   const spinner = () => {
-    formFields.audio ?
-      <Spinner />
-      :
-      <Spinner />
+    // formFields.audio ?
+    //   <Spinner />
+    //   :
+    //   <Spinner />
+    console.log('success')
 
   }
   const execute = (e, uploadPreset, keyName) => {
@@ -110,11 +111,11 @@ const AtmosForm = ({ getUser, handleCloseModal, handleDelete, openEdit, title, s
             <div>
               {/* Audio */}
               <label htmlFor='audio'>Audio</label>
-              <input type='file' onChange={(e) => execute(e, audioPreset, 'audio')} />
+              <input type='file' onChange={(e) => handleCloudinary(e, audioPreset, 'audio')} onClick={spinner()}/>
 
               {/* Picture */}
               <label htmlFor='passwordConfirmation'>Picture</label>
-              <input type='file' onChange={(e) => execute(e, picturePreset, 'picture')} />
+              <input type='file' onChange={(e) => execute(e, picturePreset, 'picture')} onClick={spinner()} />
 
             </div>
             <div className='bottom-form-buttons'>
