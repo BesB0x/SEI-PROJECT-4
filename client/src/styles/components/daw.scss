@@ -1,6 +1,5 @@
-
 .daw-picture {
-  background-position:center;
+  background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   width: 100vw;
@@ -8,6 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
+
   .controls {
     background-color: rgba(151, 149, 149, 0.831);
     width: 80%;
@@ -17,36 +17,45 @@
     flex-direction: column;
     justify-content: space-between;
     padding: -10px;
-    
-    .volume-play-stop{
+
+    .volume-play-stop {
       @extend %flex-center;
       margin: 5px auto;
       padding: 5px;
       // border: 1px solid black;
       width: 50%;
     }
-    .effects{
+
+    .effects {
       width: 100%;
-      display: flex; 
+      display: flex;
     }
-    .reverb,.delay,.filter{
+
+    .reverb,
+    .delay,
+    .filter {
       width: 30%;
 
     }
-    .reverb,.filter{
-      .slider{
+
+    .reverb,
+    .filter {
+      .slider {
         margin: 30px 0 0 0;
       }
     }
-    .buttons-first, .buttons-second{
+
+    .buttons-first,
+    .buttons-second {
       cursor: pointer;
       margin: 5px auto;
       padding: 5px;
       width: 30%;
       display: flex;
       justify-content: space-between;
-      button{
-        box-shadow:2px 2px 2px grey ;
+
+      button {
+        box-shadow: 2px 2px 2px grey;
         background-color: rgb(96, 96, 96);
         border: 10px solid rgb(112, 112, 112);
         width: 33%;
@@ -56,17 +65,19 @@
 
     }
   }
-  
+
 }
+
 .slider {
   height: 5px;
-  margin: 20px 0 ;
+  margin: 20px 0;
   width: 85%;
   background-color: #ddd;
   display: flex;
   align-items: center;
   margin-left: 20px;
 }
+
 .thumb {
   border-radius: 10px;
   height: 15px;
@@ -74,16 +85,19 @@
   background-color: black;
 }
 
-.daw-play-button{
-@include daw-button-hover( '../assets/playdawbw.png','../assets/playdawcl.png' ) ;
+.daw-play-button {
+  @include daw-button-hover('../assets/playdawbw.png', '../assets/playdawcl.png');
 }
-.playing{
+
+.playing {
   background-image: url('../../assets/playdawcl.png')
 }
-.stop-button{
-@include daw-button-hover( '../assets/stopbw.png','../assets/stopcl.png' ) ;
+
+.stop-button {
+  @include daw-button-hover('../assets/stopbw.png', '../assets/stopcl.png');
 }
-.stopped{
+
+.stopped {
   background-image: url('../../assets/stopcl.png');
 }
 
